@@ -1,0 +1,3 @@
+type hi = {
+  id: number;
+};
