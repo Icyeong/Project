@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Input_Label = styled.label`
+export const InputLabel = styled.label`
   flex: 1;
   span {
     position: absolute;

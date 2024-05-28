@@ -1,5 +1,5 @@
 import React from "react";
-import { Input_Label } from "./Label.style";
+import { InputLabel } from "./Label.style";
 
 export default function Label(
   { label }: { label: string | undefined },
@@ -10,9 +10,9 @@ export default function Label(
   }>,
 ) {
   return (
-    <Input_Label>
+    <InputLabel>
       <span>{label}</span>
       {children}
-    </Input_Label>
+    </InputLabel>
   );
 }

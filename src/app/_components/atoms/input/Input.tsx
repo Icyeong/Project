@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { Basic_Input } from "./Input.style";
+import { BasicInput } from "./Input.style";
 
 type Props = {
   type: string;
@@ -24,7 +24,7 @@ export default function Input(
     }
   };
   return (
-    <Basic_Input
+    <BasicInput
       className={props.value ? "typing" : ""}
       type={props.type}
       placeholder={props.placeholder}
@@ -32,6 +32,6 @@ export default function Input(
       value={props.value}
     >
       {children}
-    </Basic_Input>
+    </BasicInput>
   );
 }

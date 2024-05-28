@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Basic_Input = styled.input`
+export const BasicInput = styled.input`
   &.typing {
     padding: 14px 8px 2px 8px;
     font-size: var(--system-12-font-size);

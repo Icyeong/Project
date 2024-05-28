@@ -1,8 +1,7 @@
 import React from "react";
-import { InputWrapper } from "./Labeled_Input.style";
+import { InputWrapper } from "./LabeledInput.style";
 import Input from "../../atoms/input/Input";
-import { Input_Label } from "../../atoms/input/Label.style";
-import InputButton from "../../atoms/button/InputButton";
+import { InputLabel } from "../../atoms/input/Label.style";
 type Props = {
   type: string;
   value?: string | number;
@@ -17,14 +16,13 @@ type Props = {
   };
 };
 
-export default function Labeled_Input(props: Props) {
+export default function LabeledInput(props: Props) {
   return (
     <InputWrapper className={props.value ? "typing" : ""}>
-      <Input_Label>
+      <InputLabel>
         <span>{props.label}</span>
         <Input {...props} />
-      </Input_Label>
-      {props.button && <InputButton {...props.button} />}
+      </InputLabel>
     </InputWrapper>
   );
 }
