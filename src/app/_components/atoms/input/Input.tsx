@@ -1,37 +1,21 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, HTMLAttributes } from "react";
 import { BasicInput } from "./Input.style";
 
-type Props = {
+export interface InputProps<T> extends Omit<HTMLAttributes<HTMLInputElement>, "onChange"> {
   type: string;
-  value?: string | number;
+  value: string | number;
   placeholder?: string;
-  rabel?: string;
-  onChange?: (value: any) => void;
-  onClick?: () => void;
-};
+  onChange: (value: string | number) => void;
+}
 
-export default function Input(
-  props: Props,
-  {
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>,
-) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
-      props.onChange(e.target.value);
-    }
-  };
+export default function Input<T>({ type, value, placeholder, onChange }: InputProps<T>) {
   return (
     <BasicInput
-      className={props.value ? "typing" : ""}
-      type={props.type}
-      placeholder={props.placeholder}
-      onChange={handleChange}
-      value={props.value}
-    >
-      {children}
-    </BasicInput>
+      className={value ? "typing" : ""}
+      type={type}
+      placeholder={placeholder}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+      value={value}
+    />
   );
 }

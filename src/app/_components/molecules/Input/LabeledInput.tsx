@@ -1,28 +1,19 @@
 import React from "react";
-import { InputWrapper } from "./LabeledInput.style";
-import Input from "../../atoms/input/Input";
-import { InputLabel } from "../../atoms/input/Label.style";
-type Props = {
-  type: string;
-  value?: string | number;
-  placeholder?: string;
-  label?: string;
-  onChange?: (value: any) => void;
-  onClick?: () => void;
-  button?: {
-    text: string;
-    toggled_text: string;
-    onClick: () => void;
-  };
-};
+import { Container } from "./LabeledInput.style";
+import Input, { InputProps } from "../../atoms/input/Input";
+import { InputLabel } from "../../atoms/label/Label.style";
 
-export default function LabeledInput(props: Props) {
+interface LabeledInputProps<T> extends Pick<InputProps<T>, "type" | "value" | "onChange"> {
+  label: string;
+}
+
+export default function LabeledInput<T>({ label, ...props }: LabeledInputProps<T>) {
   return (
-    <InputWrapper className={props.value ? "typing" : ""}>
+    <Container className={props.value ? "typing" : ""}>
       <InputLabel>
-        <span>{props.label}</span>
+        <span>{label}</span>
         <Input {...props} />
       </InputLabel>
-    </InputWrapper>
+    </Container>
   );
 }

@@ -8,15 +8,29 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [isActive, setIsActive] = useState(false);
 
-  const buttonHandler = () => {
+  const handleTextChange = (value: string | number) => {
+    setText(value as string);
+  };
+
+  const handlePasswordChange = (value: string | number) => {
+    setPassword(value as string);
+  };
+
+  const handleLoginClick = () => {
     alert("로그인");
   };
 
   return (
     <Form>
-      <LabeledInput label="전화번호, 사용자 이름 또는 이메일" type="text" value={text} onChange={setText} />
-      <LabeledInput label="비밀번호" type="password" value={password} onChange={setPassword} />
-      <Button value="로그인" onClick={buttonHandler} isActive={isActive} />
+      <LabeledInput label="전화번호, 사용자 이름 또는 이메일" type="text" value={text} onChange={handleTextChange} />
+      <LabeledInput label="비밀번호" type="password" value={password} onChange={handlePasswordChange} />
+      <Button value="로그인" onClick={handleLoginClick} isActive={isActive} />
+      {/* <LabeledInput
+        type="text"
+        value={text}
+        inputProps={{ type: "text", value: text, onChange: handleTextChange }}
+        label="전화번호, 사용자 이름 또는 이메일"
+      /> */}
     </Form>
   );
 }
