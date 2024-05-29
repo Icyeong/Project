@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
-import Button from "../../atoms/button/BlueButton";
 import { INPUT_TEXT } from "@/app/_constant/input";
+import BaseButton from "../../atoms/button/BaseButton";
 const { LOGINID, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
@@ -26,7 +26,7 @@ export default function LoginForm() {
     <Form>
       <LabeledInput label={LOGINID} type="text" value={text} onChange={handleTextChange} />
       <LabeledInput label={PASSWORD} type="password" value={password} onChange={handlePasswordChange} />
-      <Button value="로그인" onClick={handleLoginClick} isActive={isActive} />
+      <BaseButton value="로그인" onClick={handleLoginClick} isActive={isActive} blueButton={true} />
       {/* <LabeledInput
         type="text"
         value={text}
