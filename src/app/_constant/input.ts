@@ -1,4 +1,4 @@
 export const INPUT_TEXT = {
-  LOGINID: "전화번호, 사용자 이름 또는 이메일",
+  USERID: "아이디",
   PASSWORD: "비밀번호",
 };

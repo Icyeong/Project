@@ -22,7 +22,7 @@ export default function LoginCard() {
         <Link href={"/"}>비밀번호를 잊으셨나요?</Link>
       </CardWarpper>
       <CardWarpper className="btn-newAcount">
-        <BaseButton value="Google으로 로그인" fontSize="14px" color="#0095f6" onClick={test} />
+        <BaseButton value="새 계정 만들기" fontSize="14px" color="#0095f6" onClick={test} />
       </CardWarpper>
     </LoginWrapper>
   );
