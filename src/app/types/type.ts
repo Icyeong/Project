@@ -1,3 +1,0 @@
-type hi = {
-  id: number;
-};
