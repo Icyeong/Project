@@ -1,15 +1,14 @@
-import React from "react";
+import React, { AllHTMLAttributes } from "react";
 import { Container } from "./LabeledInput.style";
-import Input, { InputProps } from "../../atoms/input/Input";
+import Input from "../../atoms/input/Input";
 import { InputLabel } from "../../atoms/label/Label.style";
+import classNames from "classnames";
 
-interface LabeledInputProps<T> extends Pick<InputProps<T>, "type" | "value" | "onChange"> {
-  label: string;
-}
+interface LabeledInputProps extends AllHTMLAttributes<HTMLInputElement> {}
 
-export default function LabeledInput<T>({ label, ...props }: LabeledInputProps<T>) {
+export default function LabeledInput({ label, ...props }: LabeledInputProps) {
   return (
-    <Container className={props.value ? "typing" : ""}>
+    <Container className={classNames({ typing: props.value })}>
       <InputLabel>
         <span>{label}</span>
         <Input {...props} />

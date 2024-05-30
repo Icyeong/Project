@@ -1,21 +1,18 @@
-import React, { ChangeEvent, HTMLAttributes } from "react";
+import React, { AllHTMLAttributes } from "react";
 import { BasicInput } from "./Input.style";
+import classNames from "classnames";
 
-export interface InputProps<T> extends Omit<HTMLAttributes<HTMLInputElement>, "onChange"> {
-  type: string;
-  value: string | number;
-  placeholder?: string;
-  onChange: (value: string | number) => void;
-}
+export interface InputProps extends AllHTMLAttributes<HTMLInputElement> {}
 
-export default function Input<T>({ type, value, placeholder, onChange }: InputProps<T>) {
+export default function Input({ type, value, name, placeholder, onChange }: InputProps) {
   return (
     <BasicInput
-      className={value ? "typing" : ""}
+      className={classNames({ typing: value })}
       type={type}
       placeholder={placeholder}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+      onChange={onChange}
       value={value}
+      name={name}
     />
   );
 }

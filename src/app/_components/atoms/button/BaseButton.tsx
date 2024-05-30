@@ -1,9 +1,8 @@
-import React, { HTMLAttributes } from "react";
+import React, { AllHTMLAttributes } from "react";
 import { Button } from "./BaseButton.style";
+import classNames from "classnames";
 
-interface ButtonProps extends Omit<HTMLAttributes<HTMLButtonElement>, "onClick"> {
-  value: string;
-  onClick: () => void;
+interface ButtonProps extends AllHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
   fontSize?: string;
   color?: string;
@@ -14,11 +13,15 @@ interface ButtonProps extends Omit<HTMLAttributes<HTMLButtonElement>, "onClick">
 export default function BaseButton({ value, fontSize, color, img, isActive, blueButton, onClick }: ButtonProps) {
   return (
     <Button
-      className={blueButton ? (isActive ? "blue-button active" : "blue-button") : ""}
+      className={classNames({
+        "blue-button": blueButton,
+        active: blueButton && isActive,
+      })}
       fontSize={fontSize}
       color={color}
       fontWeight={600}
       onClick={onClick}
+      disabled={!isActive}
     >
       {img && <span></span>}
       {value}
