@@ -3,14 +3,21 @@ import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
 import { INPUT_TEXT } from "@/app/_constant/input";
 import BaseButton from "../../atoms/button/BaseButton";
+import { AuthService } from "@/app/_services/auth_service";
+import useAuthStore from "@/app/_stores/client/authStore";
+import { useRouter } from "next/navigation";
 const { USERID, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
+  const { access_token, setAuthTokens } = useAuthStore();
   const [isActive, setIsActive] = useState(false);
   const [loginForm, setLoginForm] = useState({
     userId: "",
     password: "",
   });
+  const { data, isLoading, error, refetch } = AuthService.useLogin(loginForm);
+
+  const router = useRouter();
 
   const handLoginFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -23,17 +30,23 @@ export default function LoginForm() {
     }
   };
 
-  const handleLoginClick = () => {
-    alert("로그인");
+  const handleLoginClick = async () => {
+    refetch();
   };
 
   useEffect(() => {
-    if (loginForm.userId && loginForm.password) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+    setIsActive(!!(loginForm.userId && loginForm.password));
   }, [loginForm]);
+
+  useEffect(() => {
+    if (data) {
+      setAuthTokens(data.data);
+    }
+
+    if (access_token) {
+      router.push("/");
+    }
+  }, [data, access_token]);
 
   return (
     <Form>
