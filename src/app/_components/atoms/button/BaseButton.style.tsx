@@ -8,7 +8,6 @@ interface ButtonProps {
 
 export const Button = styled.button<ButtonProps>`
   color: ${(props) => props.color || "black"};
-  cursor: pointer;
   font-size: ${(props) => props.fontSize || "16px"};
   font-weight: ${(props) => props.fontWeight || 500};
   border: none;
@@ -21,6 +20,9 @@ export const Button = styled.button<ButtonProps>`
     width: 16px;
     height: 16px;
     margin-right: 10px;
+  }
+  &.active {
+    cursor: pointer;
   }
   &.blue-button {
     border-radius: 8px;
