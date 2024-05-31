@@ -3,19 +3,19 @@ import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
 import { INPUT_TEXT } from "@/app/_constant/input";
 import BaseButton from "../../atoms/button/BaseButton";
-import { AuthService } from "@/app/_services/auth_service";
 import useAuthStore from "@/app/_stores/client/authStore";
 import { useRouter } from "next/navigation";
-const { USERID, PASSWORD } = INPUT_TEXT;
+import { setCookie } from "cookies-next";
+import { signInWithEmailPassword } from "@/app/_firebase/firebaseAuth";
+const { EMAIL, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
-  const { access_token, setAuthTokens } = useAuthStore();
+  const { setAuthState } = useAuthStore();
   const [isActive, setIsActive] = useState(false);
   const [loginForm, setLoginForm] = useState({
-    userId: "",
+    email: "",
     password: "",
   });
-  const { data, isLoading, error, refetch } = AuthService.useLogin(loginForm);
 
   const router = useRouter();
 
@@ -23,34 +23,34 @@ export default function LoginForm() {
     const name = e.target.name;
     const value = e.target.value.trim();
 
-    if (name === "userId") {
-      setLoginForm({ ...loginForm, userId: value });
+    if (name === "email") {
+      setLoginForm({ ...loginForm, email: value });
     } else if (name === "password") {
       setLoginForm({ ...loginForm, password: value });
     }
   };
 
   const handleLoginClick = async () => {
-    refetch();
+    try {
+      const { user } = await signInWithEmailPassword(loginForm);
+      console.log("login successful:", user);
+      const access_token = await user.getIdToken();
+      setCookie("access_token", access_token);
+      setAuthState(true);
+      router.push("/");
+    } catch (error) {
+      console.error("login failed:", error);
+      // 로그인 실패시 에러 처리하기
+    }
   };
 
   useEffect(() => {
-    setIsActive(!!(loginForm.userId && loginForm.password));
+    setIsActive(!!(loginForm.email && loginForm.password));
   }, [loginForm]);
-
-  useEffect(() => {
-    if (data) {
-      setAuthTokens(data.data);
-    }
-
-    if (access_token) {
-      router.push("/");
-    }
-  }, [data, access_token]);
 
   return (
     <Form>
-      <LabeledInput label={USERID} type="text" value={loginForm.userId} name="userId" onChange={handLoginFormChange} />
+      <LabeledInput label={EMAIL} type="text" value={loginForm.email} name="email" onChange={handLoginFormChange} />
       <LabeledInput
         label={PASSWORD}
         type="password"
