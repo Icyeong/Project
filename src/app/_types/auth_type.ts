@@ -1,5 +1,4 @@
 type AuthState = {
-  access_token: string;
-  refresh_token: string;
-  setAuthTokens: (tokens: { access_token: string; refresh_token: string }) => void;
+  isAuth: boolean;
+  setAuthState: (state: boolean) => void;
 };
