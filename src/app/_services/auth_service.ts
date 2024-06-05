@@ -1,23 +1,37 @@
-import { useQuery } from "@tanstack/react-query";
-import { AUTH_DOMAIN } from "../_env/env";
-const LOGIN = "LOGIN";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import app from "../_firebase/firebaseConfig";
 
-//현재 미사용
-const useLogin = (fetchData: { email: string; password: string }) => {
-  // return useQuery({
-  //   queryKey: [LOGIN],
-  //   queryFn: () => {
-  //     return fetch(`${AUTH_DOMAIN}/signin`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       // body: JSON.stringify(fetchData),
-  //       body: JSON.stringify({ memberId: "test123456", password: "test123456" }), //임시 테스트 가능 데이터
-  //       credentials: "include",
-  //     }).then((res) => res.json());
-  //   },
-  //   enabled: false,
-  // });
+const auth = getAuth(app);
+
+// 이메일/비밀번호 로그인
+const signInWithEmailPassword = async ({ email, password }: { email: string; password: string }) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const token = await user.getIdToken();
+    return { token, user };
+  } catch (error) {
+    console.error("Error signing in with email and password:", error);
+    throw error;
+  }
 };
+
+// 구글 로그인
+const signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const token = await user.getIdToken();
+    return { token, user };
+  } catch (error) {
+    console.error("Google Sign-In Error:", error);
+    throw error;
+  }
+};
+
 export const AuthService = {
-  useLogin,
+  signInWithGoogle,
+  signInWithEmailPassword,
 };
