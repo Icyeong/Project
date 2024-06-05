@@ -3,14 +3,12 @@ import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
 import { INPUT_TEXT } from "@/app/_constant/input";
 import BaseButton from "../../atoms/button/BaseButton";
-import useAuthStore from "@/app/_stores/client/authStore";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
-import { signInWithEmailPassword } from "@/app/_firebase/firebaseAuth";
+import useLogin from "@/app/_hooks/useLogin";
 const { EMAIL, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
-  const { setAuthState } = useAuthStore();
+  const { emailPasswordLogin } = useLogin();
   const [isActive, setIsActive] = useState(false);
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -25,28 +23,25 @@ export default function LoginForm() {
 
     if (name === "email") {
       setLoginForm({ ...loginForm, email: value });
-    } else if (name === "password") {
+    }
+    if (name === "password") {
       setLoginForm({ ...loginForm, password: value });
     }
   };
 
   const handleLoginClick = async () => {
-    try {
-      const { user } = await signInWithEmailPassword(loginForm);
-      console.log("login successful:", user);
-      const accessToken = await user.getIdToken();
-      setCookie("accessToken", accessToken);
-      setAuthState(true);
-      router.push("/");
-    } catch (error) {
-      console.error("login failed:", error);
-      // 로그인 실패시 에러 처리하기
-    }
+    emailPasswordLogin.mutate(loginForm);
   };
 
   useEffect(() => {
     setIsActive(!!(loginForm.email && loginForm.password));
   }, [loginForm]);
+
+  useEffect(() => {
+    if (emailPasswordLogin.isSuccess) {
+      router.push("/");
+    }
+  }, [emailPasswordLogin.isSuccess]);
 
   return (
     <Form>

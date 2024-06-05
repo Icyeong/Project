@@ -1,34 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LoginWrapper } from "./LoginCard.style";
 import Logo from "../../atoms/common/Logo";
 import LoginForm from "../form/LoginForm";
 import Link from "next/link";
 import { CardWarpper } from "@/app/_styles/cardWrapper.style";
 import BaseButton from "../../atoms/button/BaseButton";
-import { signInWithGoogle } from "@/app/_firebase/firebaseAuth";
-import useAuthStore from "@/app/_stores/client/authStore";
-import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import useLogin from "@/app/_hooks/useLogin";
 
 export default function LoginCard() {
-  const { setAuthState } = useAuthStore();
+  const { googleLogin } = useLogin();
 
   const router = useRouter();
 
   const test = () => {};
-  const handleGoogleLogin = async () => {
-    try {
-      const { user } = await signInWithGoogle();
-      console.log("Google login successful:", user);
-      const accessToken = await user.getIdToken();
-      setCookie("accessToken", accessToken);
-      setAuthState(true);
-      router.push("/");
-    } catch (error) {
-      console.error("Google login failed:", error);
-      // 로그인 실패시 에러 처리하기
-    }
+  const handleGoogleLogin = () => {
+    googleLogin.mutate();
   };
+
+  useEffect(() => {
+    if (googleLogin.isSuccess) {
+      router.push("/");
+    }
+  }, [googleLogin.isSuccess]);
 
   return (
     <LoginWrapper>
