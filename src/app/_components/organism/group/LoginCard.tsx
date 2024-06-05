@@ -20,8 +20,8 @@ export default function LoginCard() {
     try {
       const { user } = await signInWithGoogle();
       console.log("Google login successful:", user);
-      const access_token = await user.getIdToken();
-      setCookie("access_token", access_token);
+      const accessToken = await user.getIdToken();
+      setCookie("accessToken", accessToken);
       setAuthState(true);
       router.push("/");
     } catch (error) {
