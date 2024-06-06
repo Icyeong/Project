@@ -1,4 +1,4 @@
-type AuthState = {
+interface AuthState {
   isAuth: boolean;
   setAuthState: (state: boolean) => void;
-};
+}
