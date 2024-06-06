@@ -1,28 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LoginWrapper } from "./LoginCard.style";
 import Logo from "../../atoms/common/Logo";
 import LoginForm from "../form/LoginForm";
 import Link from "next/link";
 import { CardWarpper } from "@/app/_styles/cardWrapper.style";
 import BaseButton from "../../atoms/button/BaseButton";
-import { useRouter } from "next/navigation";
 import useLogin from "@/app/_hooks/useLogin";
 
 export default function LoginCard() {
   const { googleLogin } = useLogin();
 
-  const router = useRouter();
-
   const test = () => {};
   const handleGoogleLogin = () => {
     googleLogin.mutate();
   };
-
-  useEffect(() => {
-    if (googleLogin.isSuccess) {
-      router.push("/");
-    }
-  }, [googleLogin.isSuccess]);
 
   return (
     <LoginWrapper>

@@ -3,7 +3,6 @@ import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
 import { INPUT_TEXT } from "@/app/_constant/input";
 import BaseButton from "../../atoms/button/BaseButton";
-import { useRouter } from "next/navigation";
 import useLogin from "@/app/_hooks/useLogin";
 const { EMAIL, PASSWORD } = INPUT_TEXT;
 
@@ -14,8 +13,6 @@ export default function LoginForm() {
     email: "",
     password: "",
   });
-
-  const router = useRouter();
 
   const handLoginFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -36,12 +33,6 @@ export default function LoginForm() {
   useEffect(() => {
     setIsActive(!!(loginForm.email && loginForm.password));
   }, [loginForm]);
-
-  useEffect(() => {
-    if (emailPasswordLogin.isSuccess) {
-      router.push("/");
-    }
-  }, [emailPasswordLogin.isSuccess]);
 
   return (
     <Form>

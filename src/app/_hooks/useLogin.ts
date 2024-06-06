@@ -3,11 +3,13 @@ import { AuthService } from "../_services/auth_service";
 import { setCookie } from "cookies-next";
 import useAuthStore from "../_stores/client/authStore";
 import { authErrorHandler } from "../_utils/errorHandler";
+import { useRouter } from "next/navigation";
 
 const LOGIN = "AUTH LOGIN";
 const GOOGLE_LOGIN = "GOOGLE LOGIN";
 const useLogin = () => {
   const { setAuthState } = useAuthStore();
+  const router = useRouter();
 
   const emailPasswordLogin = useMutation({
     mutationKey: [LOGIN],
@@ -15,6 +17,7 @@ const useLogin = () => {
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
       setAuthState(true);
+      router.push("/");
     },
     onError: (error) => {
       const { message } = authErrorHandler(error);
@@ -28,6 +31,7 @@ const useLogin = () => {
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
       setAuthState(true);
+      router.push("/");
     },
 
     onError: (error) => {
