@@ -1,4 +1,4 @@
 export const INPUT_TEXT = {
-  USERID: "아이디",
+  EMAIL: "이메일",
   PASSWORD: "비밀번호",
 };

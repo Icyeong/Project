@@ -3,12 +3,14 @@ import { Form } from "./LoginForm.style";
 import LabeledInput from "../../molecules/Input/LabeledInput";
 import { INPUT_TEXT } from "@/app/_constant/input";
 import BaseButton from "../../atoms/button/BaseButton";
-const { USERID, PASSWORD } = INPUT_TEXT;
+import useLogin from "@/app/_hooks/useLogin";
+const { EMAIL, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
+  const { emailPasswordLogin } = useLogin();
   const [isActive, setIsActive] = useState(false);
   const [loginForm, setLoginForm] = useState({
-    userId: "",
+    email: "",
     password: "",
   });
 
@@ -16,28 +18,25 @@ export default function LoginForm() {
     const name = e.target.name;
     const value = e.target.value.trim();
 
-    if (name === "userId") {
-      setLoginForm({ ...loginForm, userId: value });
-    } else if (name === "password") {
+    if (name === "email") {
+      setLoginForm({ ...loginForm, email: value });
+    }
+    if (name === "password") {
       setLoginForm({ ...loginForm, password: value });
     }
   };
 
-  const handleLoginClick = () => {
-    alert("로그인");
+  const handleLoginClick = async () => {
+    emailPasswordLogin.mutate(loginForm);
   };
 
   useEffect(() => {
-    if (loginForm.userId && loginForm.password) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+    setIsActive(!!(loginForm.email && loginForm.password));
   }, [loginForm]);
 
   return (
     <Form>
-      <LabeledInput label={USERID} type="text" value={loginForm.userId} name="userId" onChange={handLoginFormChange} />
+      <LabeledInput label={EMAIL} type="text" value={loginForm.email} name="email" onChange={handLoginFormChange} />
       <LabeledInput
         label={PASSWORD}
         type="password"
