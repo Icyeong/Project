@@ -23,3 +23,15 @@ export const Form = styled.div`
     margin: 10px 0;
   }
 `;
+
+export const NotFoundStyle = styled.div`
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  button {
+    margin-top: 20px;
+  }
+`;
