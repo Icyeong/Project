@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ["cdn.dominos.co.kr"],
+  images: {},
+  compiler: {
+    styledComponents: true,
   },
   typescript: {
     ignoreBuildErrors: true,
