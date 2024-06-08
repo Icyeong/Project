@@ -10,7 +10,6 @@ import useLogin from "@/app/_hooks/useLogin";
 export default function LoginCard() {
   const { googleLogin } = useLogin();
 
-  const test = () => {};
   const handleGoogleLogin = () => {
     googleLogin.mutate();
   };
@@ -29,7 +28,7 @@ export default function LoginCard() {
         <Link href={"#"}>비밀번호를 잊으셨나요?</Link>
       </CardWarpper>
       <CardWarpper className="btn-newAcount">
-        <BaseButton value="새 계정 만들기" fontSize="14px" color="#0095f6" onClick={test} />
+        <Link href={"/signup"}>새 계정 만들기</Link>
       </CardWarpper>
     </LoginWrapper>
   );
