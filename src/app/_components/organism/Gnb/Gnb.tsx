@@ -11,12 +11,12 @@ export default function Gnb() {
       <Logo />
       <GnbStyle.Top>
         {GNB_NAV_LIST.TOP.map((nav) => (
-          <Nav name={nav.name} href={nav.href} icon={nav.icon} />
+          <Nav key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
       </GnbStyle.Top>
       <GnbStyle.Bottom>
         {GNB_NAV_LIST.BOTTOM.map((nav) => (
-          <Nav name={nav.name} href={nav.href} icon={nav.icon} />
+          <Nav key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
       </GnbStyle.Bottom>
     </GnbStyle.Wrapper>
