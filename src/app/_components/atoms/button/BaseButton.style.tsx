@@ -15,6 +15,7 @@ export const Button = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
   span {
     display: inline-block;
     width: 16px;
