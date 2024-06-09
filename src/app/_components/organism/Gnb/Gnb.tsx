@@ -11,7 +11,7 @@ export default function Gnb() {
       <Logo />
       <GnbStyle.Top>
         {GNB_NAV_LIST.TOP.map((nav) => (
-          <Nav key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
+          <Nav key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} img={nav.img} />
         ))}
       </GnbStyle.Top>
       <GnbStyle.Bottom>
