@@ -35,3 +35,30 @@ export const NotFoundStyle = styled.div`
     margin-top: 20px;
   }
 `;
+
+export const HomeLayoutStyle = {
+  Layout: styled.div`
+    display: flex;
+    justify-content: end;
+  `,
+  Container: styled.div`
+    width: calc(100% - 224px);
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  `,
+  Main: styled.main`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 630px;
+    max-width: 630px;
+  `,
+  SideSection: styled.section`
+    display: flex;
+    flex-direction: column;
+    min-width: 380px;
+    max-width: 380px;
+    padding-left: 64px;
+  `,
+};
