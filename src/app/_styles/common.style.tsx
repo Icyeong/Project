@@ -51,14 +51,12 @@ export const HomeLayoutStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 630px;
-    max-width: 630px;
+    width: 630px;
   `,
   SideSection: styled.section`
     display: flex;
     flex-direction: column;
-    min-width: 380px;
-    max-width: 380px;
+    width: 380px;
     padding-left: 64px;
   `,
 };
