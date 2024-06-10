@@ -22,11 +22,9 @@ export default function TextBox({ username, text }: TextBoxProps) {
           <button>{username}</button>
           {text}
         </Text.P>
-        {hydrated && (
-          <button className={classNames([{ hide: !hide }, "seeMore"])} onClick={() => setHide(!hide)}>
-            더보기
-          </button>
-        )}
+        <button className={classNames("seeMore", { hide: !hide })} onClick={() => setHide(!hide)}>
+          더보기
+        </button>
       </Text.Container>
     );
 }
