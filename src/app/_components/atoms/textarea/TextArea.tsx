@@ -3,7 +3,7 @@ import { Textarea } from "./TextArea.style";
 
 interface TextAreaPorps extends AllHTMLAttributes<HTMLTextAreaElement> {}
 
-export default function TextArea({ placeholder, value, onChange }: TextAreaPorps) {
+export default function TextArea({ placeholder, value, onChange, ...props }: TextAreaPorps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -16,5 +16,5 @@ export default function TextArea({ placeholder, value, onChange }: TextAreaPorps
     resizeTextArea();
   }, [value]);
 
-  return <Textarea ref={textAreaRef} rows={1} placeholder={placeholder} onChange={onChange} value={value} />;
+  return <Textarea ref={textAreaRef} rows={1} placeholder={placeholder} onChange={onChange} value={value} {...props} />;
 }

@@ -10,10 +10,14 @@ export default function CommentInputBar() {
     setText(e.target.value);
   };
 
+  const isTxtNotEmpty = (text: string) => {
+    return text.trim().length > 0;
+  };
+
   return (
     <Input.Container>
       <TextArea value={text} onChange={handleInputChange} placeholder="댓글 달기..." />
-      {text.trim() !== "" && <BaseButton fontSize="14" color="#0095f6" value="게시" />}
+      {isTxtNotEmpty(text) && <BaseButton fontSize="14" color="#0095f6" value="게시" />}
     </Input.Container>
   );
 }
