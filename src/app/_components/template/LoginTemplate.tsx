@@ -1,11 +1,11 @@
 import { PageWrapper } from "@/app/_styles/common.style";
 import React from "react";
-import SignupCard from "../organism/group/SingupCard";
+import LoginCard from "../organism/group/LoginCard";
 
-export default function SignupPage() {
+export default function LoginTemplate() {
   return (
     <PageWrapper>
-      <SignupCard />
+      <LoginCard />
     </PageWrapper>
   );
 }

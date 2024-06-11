@@ -10,7 +10,16 @@ interface ButtonProps extends AllHTMLAttributes<HTMLButtonElement> {
   img?: string;
   blueButton?: boolean;
 }
-export default function BaseButton({ value, fontSize, color, img, isActive = true, blueButton, onClick }: ButtonProps) {
+export default function BaseButton({
+  value,
+  fontSize,
+  fontWeight,
+  color,
+  img,
+  isActive = true,
+  blueButton,
+  onClick,
+}: ButtonProps) {
   return (
     <Button
       className={classNames({
@@ -19,7 +28,7 @@ export default function BaseButton({ value, fontSize, color, img, isActive = tru
       })}
       fontSize={fontSize}
       color={color}
-      fontWeight={600}
+      fontWeight={fontWeight || 600}
       onClick={onClick}
       disabled={!isActive}
     >
