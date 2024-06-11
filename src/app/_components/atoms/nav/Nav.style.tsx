@@ -8,7 +8,8 @@ export const NavStyle = {
     &.active a {
       font-weight: 600;
     }
-    a {
+    a,
+    button {
       display: flex;
       padding: 12px;
       font-size: 16px;

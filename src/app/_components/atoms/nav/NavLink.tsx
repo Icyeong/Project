@@ -15,7 +15,7 @@ interface NavProps {
   img?: string;
 }
 
-export default function Nav({ name, href, icon, img }: NavProps) {
+export default function NavLink({ name, href, icon, img }: NavProps) {
   const pathname = usePathname();
   return (
     <NavStyle.Li className={classNames({ active: pathname === href })}>
