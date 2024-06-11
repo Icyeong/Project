@@ -11,7 +11,7 @@ const useLogin = () => {
   const router = useRouter();
 
   const emailPasswordLogin = useMutation({
-    mutationKey: [QUERY_KEYS.LOGIN],
+    mutationKey: [QUERY_KEYS.AUTH.LOGIN],
     mutationFn: (fetchData: { email: string; password: string }) => AuthService.signInWithEmailPassword(fetchData),
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
@@ -25,7 +25,7 @@ const useLogin = () => {
   });
 
   const googleLogin = useMutation({
-    mutationKey: [QUERY_KEYS.GOOGLE_LOGIN],
+    mutationKey: [QUERY_KEYS.AUTH.GOOGLE_LOGIN],
     mutationFn: AuthService.signInWithGoogle,
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);

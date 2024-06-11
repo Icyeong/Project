@@ -45,7 +45,7 @@ export default function SignupForm() {
   };
 
   const signupMutation = useMutation({
-    mutationKey: [QUERY_KEYS.SIGNUP, signupForm.email, signupForm.password],
+    mutationKey: [QUERY_KEYS.AUTH.SIGNUP, signupForm.email, signupForm.password],
     mutationFn: () => signupWithEmail(signupForm),
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
