@@ -13,6 +13,8 @@ import useSignOut from "@/app/_hooks/useSingOut";
 export default function Gnb() {
   const { signOutService } = useSignOut();
 
+  const handleTestClick = () => {};
+
   const handleModeChangeClick = () => {};
 
   const handleSignOutClick = async () => {
@@ -25,8 +27,8 @@ export default function Gnb() {
         {GNB_NAV_LIST.TOP.map((nav) => (
           <NavLink key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
-        <NavButton name="만들기" icon={faSquarePlus} onClick={handleSignOutClick} />
-        <NavButton name="프로필" img={faker.image.avatar()} onClick={handleSignOutClick} />
+        <NavButton name="만들기" icon={faSquarePlus} onClick={handleTestClick} />
+        <NavButton name="프로필" img={faker.image.avatar()} onClick={handleTestClick} />
       </GnbStyle.Top>
       <GnbStyle.Bottom>
         <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
