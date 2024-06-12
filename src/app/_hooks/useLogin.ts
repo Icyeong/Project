@@ -16,7 +16,7 @@ const useLogin = () => {
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
       setAuthState(true);
-      router.push("/");
+      window.location.href = "/";
     },
     onError: (error) => {
       const { message } = authErrorHandler(error);
@@ -30,7 +30,7 @@ const useLogin = () => {
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
       setAuthState(true);
-      router.push("/");
+      window.location.href = "/";
     },
 
     onError: (error) => {
