@@ -1,7 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["avatars.githubusercontent.com", "cloudflare-ipfs.com", "loremflickr.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cloudflare-ipfs.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "loremflickr.com",
+        pathname: "/**",
+      },
+    ],
   },
   compiler: {
     styledComponents: true,
