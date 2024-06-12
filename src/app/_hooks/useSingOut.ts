@@ -17,7 +17,7 @@ const useSignOut = () => {
     mutationFn: () => signOut(auth),
     onSuccess: async () => {
       deleteCookie("accessToken");
-      setAuthState(true);
+      setAuthState(false);
       router.push("/login");
     },
 
