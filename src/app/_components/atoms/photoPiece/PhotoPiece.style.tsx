@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
 export const Piece = {
-  Button: styled.button`
+  Button: styled.button<{ img: string }>`
     width: 310px;
     height: 310px;
     position: relative;
+    background: url(${({ img }) => img}) no-repeat center center;
+    background-size: cover;
+    background-color: lavender;
+    &:hover > div {
+      display: flex;
+    }
   `,
 
   Cover: styled.div`
@@ -13,7 +19,8 @@ export const Piece = {
     position: absolute;
     top: 0;
     left: 0;
-    display: flex;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
     justify-content: center;
     align-items: center;
   `,
@@ -23,5 +30,9 @@ export const Piece = {
     color: white;
     font-size: 16px;
     font-weight: 600;
+    padding: 0 17px;
+    svg {
+      margin-right: 5px;
+    }
   `,
 };

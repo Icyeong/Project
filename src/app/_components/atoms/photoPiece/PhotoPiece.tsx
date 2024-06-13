@@ -3,17 +3,25 @@ import { Piece } from "./PhotoPiece.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 
-export default function PhotoPiece() {
+interface PhotoPieceProps {
+  id: number;
+  likes: number;
+  comments: number;
+  img: string;
+}
+
+export default function PhotoPiece({ id, likes, comments, img }: PhotoPieceProps) {
+  const handleOpenClick = () => {};
   return (
-    <Piece.Button>
+    <Piece.Button value={id} img={img} onClick={handleOpenClick}>
       <Piece.Cover>
         <Piece.Count>
           <FontAwesomeIcon icon={faHeart} />
-          2134
+          {likes}
         </Piece.Count>
         <Piece.Count>
           <FontAwesomeIcon icon={faComment} />
-          345
+          {comments}
         </Piece.Count>
       </Piece.Cover>
     </Piece.Button>

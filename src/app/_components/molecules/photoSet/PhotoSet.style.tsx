@@ -2,5 +2,5 @@ import styled from "styled-components";
 
 export const Container = styled.li`
   display: flex;
-  gap: 10;
+  gap: 5px;
 `;
