@@ -39,10 +39,10 @@ export const NotFoundStyle = styled.div`
 export const HomeLayoutStyle = {
   Layout: styled.div`
     display: flex;
-    justify-content: end;
   `,
   Container: styled.div`
     width: calc(100% - 224px);
+    margin-left: 224px;
     display: flex;
     justify-content: center;
     padding-top: 20px;
@@ -51,7 +51,6 @@ export const HomeLayoutStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 630px;
   `,
   SideSection: styled.section`
     display: flex;

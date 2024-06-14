@@ -22,7 +22,7 @@ export default function Feed({ feedId, username, createdAt, following, content, 
     <FeedStyle.Container>
       <FeedHeader username={username} createdAt={createdAt} following={following} />
       <FeedStyle.ContentBox>
-        <Image src={content} width={470} height={580} alt="" />
+        <Image src={content} width={470} height={580} alt="content" />
       </FeedStyle.ContentBox>
       <FeedStyle.InfoBox>
         <ControlBar />

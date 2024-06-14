@@ -1,1 +1,7 @@
-export const QUERY_KEYS = { LOGIN: "AUTH LOGIN", GOOGLE_LOGIN: "GOOGLE LOGIN", SIGNUP: "EMAIL SIGNUP" };
+export const QUERY_KEYS = {
+  AUTH: {
+    LOGIN: "auth/login",
+    GOOGLE_LOGIN: "auth/googleLogin",
+    SIGNUP: "auth/signup",
+  },
+};
