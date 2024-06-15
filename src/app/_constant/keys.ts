@@ -4,4 +4,7 @@ export const QUERY_KEYS = {
     GOOGLE_LOGIN: "auth/googleLogin",
     SIGNUP: "auth/signup",
   },
+  FEED: {
+    LIST: "feed/list",
+  },
 };
