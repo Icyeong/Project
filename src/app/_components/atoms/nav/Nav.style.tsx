@@ -11,6 +11,7 @@ export const NavStyle = {
     a,
     button {
       display: flex;
+      width: 100%;
       padding: 12px;
       font-size: 16px;
       border-radius: 5px;

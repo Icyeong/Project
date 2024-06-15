@@ -9,7 +9,7 @@ export const GnbStyle = {
     position: fixed;
     top: 0;
     left: 0;
-    border-right: 1px solid #a0a0a0;
+    border-right: 1px solid #dedede;
     background-color: white;
     padding: 8px 12px 20px;
     display: flex;
