@@ -7,7 +7,7 @@ import TextBox from "./feedInfo/TextBox";
 import CommentInputBar from "../commentInputBar/CommentInputBar";
 import BaseButton from "../../atoms/button/BaseButton";
 
-interface FeedProps {
+export interface FeedProps {
   feedId: number;
   username: string;
   createdAt: string;

@@ -1,18 +1,24 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export const useCustomQuery = (key: string, fn: any, gcTime?: number, staleTime?: number, initialData?: any) => {
+export const useCustomQuery = (
+  key: readonly string[],
+  fn: any,
+  gcTime?: number,
+  staleTime?: number,
+  initialData?: any,
+) => {
   return useQuery({
-    queryKey: [key],
+    queryKey: key,
     queryFn: fn,
-    gcTime: gcTime && gcTime,
-    staleTime: staleTime && staleTime,
-    initialData: initialData && initialData,
+    gcTime,
+    staleTime,
+    initialData,
   });
 };
 
-export const useCustomMutation = async (key: string, fn: any) => {
+export const useCustomMutation = async (key: readonly string[], fn: any) => {
   return useMutation({
-    mutationKey: [key],
+    mutationKey: key,
     mutationFn: fn,
   });
 };
