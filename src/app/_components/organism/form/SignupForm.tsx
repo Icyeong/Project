@@ -10,7 +10,7 @@ import useAuthStore from "@/app/_stores/client/authStore";
 import { authErrorHandler } from "@/app/_utils/authErrorHandler";
 import { Form } from "@/app/_styles/common.style";
 import { useMutation } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/app/_constant/keys";
+import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
 const { EMAIL, NAME, USERNAME, PASSWORD } = INPUT_TEXT;
 
 export default function SignupForm() {
@@ -45,7 +45,7 @@ export default function SignupForm() {
   };
 
   const signupMutation = useMutation({
-    mutationKey: [QUERY_KEYS.AUTH.SIGNUP, signupForm.email, signupForm.password],
+    mutationKey: [QUERY_KEYS.AUTH.SIGNUP.queryKey, signupForm.email, signupForm.password],
     mutationFn: () => signupWithEmail(signupForm),
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
