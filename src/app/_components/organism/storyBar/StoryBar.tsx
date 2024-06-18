@@ -1,14 +1,14 @@
 import React from "react";
 import { StoryStyle } from "./StoryBar.style";
-import User from "../../molecules/user/User";
-import { STORY_USERS } from "@/app/_dummyData/userDummy";
+import User, { UserPorps } from "../../molecules/user/User";
+import { useCustomQuery } from "@/app/_hooks/useFetch";
+import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
 
 export default function StoryBar() {
+  const { data } = useCustomQuery(QUERY_KEYS.STORY.LIST.queryKey, QUERY_KEYS.STORY.LIST.queryFn);
   return (
     <StoryStyle.Container>
-      {STORY_USERS.map((user) => (
-        <User key={user.username} {...user} />
-      ))}
+      {data && data.map((user: UserPorps) => <User key={user.username} {...user} />)}
     </StoryStyle.Container>
   );
 }

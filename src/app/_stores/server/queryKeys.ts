@@ -1,5 +1,6 @@
 import { AuthService } from "@/app/_services/auth_service";
 import { FeedService } from "@/app/_services/feed_service";
+import { StoryService } from "@/app/_services/story_service";
 import { createQueryKeyStore } from "@lukemorales/query-key-factory";
 
 export const QUERY_KEYS = createQueryKeyStore({
@@ -12,7 +13,7 @@ export const QUERY_KEYS = createQueryKeyStore({
       queryKey: null,
       queryFn: AuthService.signInWithGoogle,
     },
-    signup: {
+    SIGNUP: {
       queryKey: null,
       queryFn: AuthService.signupWithEmail,
     },
@@ -21,6 +22,12 @@ export const QUERY_KEYS = createQueryKeyStore({
     LIST: {
       queryKey: null,
       queryFn: FeedService.getFeedsList,
+    },
+  },
+  STORY: {
+    LIST: {
+      queryKey: null,
+      queryFn: StoryService.getStoryList,
     },
   },
 });

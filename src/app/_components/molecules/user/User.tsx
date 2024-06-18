@@ -2,7 +2,7 @@ import React from "react";
 import { UserStyle } from "./User.style";
 import Avatar from "../../atoms/avatar/Avatar";
 
-interface UserPorps {
+export interface UserPorps {
   username: string;
   img: string;
 }
