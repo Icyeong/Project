@@ -9,10 +9,16 @@ import { faArrowRightFromBracket, faCircleHalfStroke } from "@fortawesome/free-s
 import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useSignOut from "@/app/_hooks/useSingOut";
+import useModalStore from "@/app/_stores/client/modalStore";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
   const { signOutService } = useSignOut();
+  const { setIsActive } = useModalStore();
+
+  const handlePostClick = () => {
+    setIsActive(true);
+  };
 
   const handleTestClick = () => {};
 
@@ -33,7 +39,7 @@ export default function Gnb() {
         {GNB_NAV_LIST.TOP.map((nav) => (
           <NavLink key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
-        <NavButton name="만들기" icon={faSquarePlus} onClick={handleTestClick} />
+        <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
         <NavButton name="프로필" img={avatar} onClick={handleTestClick} />
       </GnbStyle.Top>
       <GnbStyle.Bottom>

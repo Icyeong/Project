@@ -9,9 +9,26 @@ export const ModalStyle = {
     left: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    &.isActive {
+      display: flex;
+    }
+  `,
+  CloseBtn: styled.div`
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    svg {
+      font-size: 25px;
+      color: white;
+    }
   `,
   Card: styled.div`
     display: flex;
