@@ -24,6 +24,12 @@ export const Form = styled.div`
   }
 `;
 
+export const LoadingBox = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+`;
+
 export const NotFoundStyle = styled.div`
   font-weight: 600;
   display: flex;

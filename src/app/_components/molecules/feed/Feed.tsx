@@ -7,7 +7,7 @@ import TextBox from "./feedInfo/TextBox";
 import CommentInputBar from "../commentInputBar/CommentInputBar";
 import BaseButton from "../../atoms/button/BaseButton";
 
-interface FeedProps {
+export interface FeedProps {
   feedId: number;
   username: string;
   createdAt: string;
@@ -22,7 +22,7 @@ export default function Feed({ feedId, username, createdAt, following, content, 
     <FeedStyle.Container>
       <FeedHeader username={username} createdAt={createdAt} following={following} />
       <FeedStyle.ContentBox>
-        <Image src={content} width={470} height={580} alt="content" />
+        <Image src={content} width={470} height={580} alt="content" priority />
       </FeedStyle.ContentBox>
       <FeedStyle.InfoBox>
         <ControlBar />
