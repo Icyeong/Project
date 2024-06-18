@@ -7,9 +7,9 @@ const getFeedsList = async () => {
     return data;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error(error.message);
+      return console.error(error.message);
     } else {
-      console.error("unexpected error");
+      return console.error("unexpected error");
     }
   }
 };

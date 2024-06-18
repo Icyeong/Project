@@ -4,7 +4,7 @@ import { http, HttpResponse } from "msw";
 
 export const handlers = [
   http.get("/feeds", () => {
-    return HttpResponse.json(createFeeds(15));
+    return HttpResponse.json(createFeeds(1));
   }),
   http.get("/stories", () => {
     return HttpResponse.json(createStory(16));
