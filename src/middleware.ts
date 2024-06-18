@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
 
   if (!accessToken) {
     const loginUrl = new URL("/login", req.url);
-    return NextResponse.rewrite(loginUrl);
+    // return NextResponse.rewrite(loginUrl);
   }
 
   return NextResponse.next();
