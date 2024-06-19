@@ -35,7 +35,8 @@ export const ModalStyle = {
     flex-direction: column;
     background-color: white;
     border-radius: 10px;
-    min-width: 730px;
+    min-width: 500px;
+    height: 70vh;
   `,
   Header: styled.div`
     display: flex;
@@ -49,6 +50,6 @@ export const ModalStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    /* padding: 20px; */
   `,
 };
