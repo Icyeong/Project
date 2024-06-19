@@ -5,6 +5,9 @@ import StyledComponentsRegistry from "../_styles/registry";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Modal from "../_components/atoms/modal/Modal";
 import useModalStore from "../_stores/client/modalStore";
+import TestModal from "../_components/molecules/ModalContent/TestModal";
+import PostModal from "../_components/molecules/ModalContent/PostModal";
+import { MODAL_NAME } from "../_constant/modal";
 
 export default function App({
   children,
@@ -12,12 +15,18 @@ export default function App({
   children: React.ReactNode;
 }>) {
   const queryClient = new QueryClient();
-  const { isActive } = useModalStore();
+  const { isActive, modalName } = useModalStore();
+
+  const getModal = () => {
+    if (modalName === MODAL_NAME.POST_FEED) return <PostModal />;
+    if (modalName === MODAL_NAME.TEST) return <TestModal />;
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <StyledComponentsRegistry>
         {children}
-        <Modal isActive={isActive} />
+        <Modal isActive={isActive}>{getModal()}</Modal>
         <ReactQueryDevtools initialIsOpen={false} />
       </StyledComponentsRegistry>
     </QueryClientProvider>

@@ -10,17 +10,22 @@ import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useSignOut from "@/app/_hooks/useSingOut";
 import useModalStore from "@/app/_stores/client/modalStore";
+import { MODAL_NAME } from "@/app/_constant/modal";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
   const { signOutService } = useSignOut();
-  const { setIsActive } = useModalStore();
+  const { setIsActive, setModal } = useModalStore();
 
   const handlePostClick = () => {
+    setModal(MODAL_NAME.POST_FEED);
     setIsActive(true);
   };
 
-  const handleTestClick = () => {};
+  const handleTestClick = () => {
+    setModal(MODAL_NAME.TEST);
+    setIsActive(true);
+  };
 
   const handleModeChangeClick = () => {};
 
