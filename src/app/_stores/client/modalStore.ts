@@ -6,8 +6,10 @@ const useModalStore = create(
     (set) => ({
       isActive: false,
       modalName: "",
+      selectedImage: "",
       setIsActive: (state) => set(() => ({ isActive: state })),
       setModal: (state) => set(() => ({ modalName: state })),
+      setSelectedImage: (state) => set(() => ({ selectedImage: state })),
     }),
     { name: "modal-storage" },
   ),
