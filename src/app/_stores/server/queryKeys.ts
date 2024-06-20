@@ -17,6 +17,10 @@ export const QUERY_KEYS = createQueryKeyStore({
       queryKey: null,
       queryFn: AuthService.signupWithEmail,
     },
+    SIGNOUT: {
+      queryKey: null,
+      queryFn: AuthService.LogOut,
+    },
   },
   FEED: {
     LIST: {
