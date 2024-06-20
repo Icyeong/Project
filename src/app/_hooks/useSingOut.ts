@@ -8,7 +8,7 @@ import { authErrorHandler } from "../_utils/authErrorHandler";
 
 const useSignOut = () => {
   const auth = getAuth(app);
-  const { setAuthState } = useAuthStore();
+  const { resetAuthState } = useAuthStore();
 
   const router = useRouter();
 
@@ -17,7 +17,7 @@ const useSignOut = () => {
     mutationFn: () => signOut(auth),
     onSuccess: async () => {
       deleteCookie("accessToken");
-      setAuthState(false);
+      resetAuthState();
       router.push("/login");
     },
 

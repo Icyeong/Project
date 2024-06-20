@@ -5,4 +5,5 @@ interface ModalState {
   setIsActive: (state: boolean) => void;
   setModal: (state: string) => void;
   setSelectedImage: (state: string) => void;
+  resetModalState: () => void;
 }
