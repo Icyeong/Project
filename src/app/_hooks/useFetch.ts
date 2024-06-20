@@ -16,9 +16,11 @@ export const useCustomQuery = (
   });
 };
 
-export const useCustomMutation = async (key: readonly string[], fn: any) => {
+export const useCustomMutation = (key: readonly string[], fn: any, onSuccess: any, onError: any) => {
   return useMutation({
     mutationKey: key,
     mutationFn: fn,
+    onSuccess,
+    onError,
   });
 };

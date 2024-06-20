@@ -8,14 +8,21 @@ import NavButton from "../../atoms/nav/NavButton";
 import { faArrowRightFromBracket, faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import useSignOut from "@/app/_hooks/useSingOut";
 import useModalStore from "@/app/_stores/client/modalStore";
 import { MODAL_NAME } from "@/app/_constant/modal";
+import { useCustomMutation } from "@/app/_hooks/useFetch";
+import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
+import { deleteCookie } from "cookies-next";
+import useAuthStore from "@/app/_stores/client/authStore";
+import { useRouter } from "next/navigation";
+import { authErrorHandler } from "@/app/_utils/authErrorHandler";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
-  const { signOutService } = useSignOut();
+  const { resetAuthState } = useAuthStore();
   const { setIsActive, setModal } = useModalStore();
+
+  const router = useRouter();
 
   const handlePostClick = () => {
     setModal(MODAL_NAME.POST_FEED);
@@ -28,6 +35,21 @@ export default function Gnb() {
   };
 
   const handleModeChangeClick = () => {};
+
+  const signOutService = useCustomMutation(
+    QUERY_KEYS.AUTH.SIGNOUT.queryKey,
+    QUERY_KEYS.AUTH.SIGNOUT.queryFn,
+    () => {
+      console.log("logout querykey : ", QUERY_KEYS.AUTH.SIGNOUT.queryKey);
+      deleteCookie("accessToken");
+      resetAuthState();
+      router.push("/login");
+    },
+    (error: any) => {
+      const { message } = authErrorHandler(error);
+      alert(message);
+    },
+  );
 
   const handleSignOutClick = async () => {
     signOutService.mutate();
