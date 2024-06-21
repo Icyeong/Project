@@ -9,7 +9,7 @@ export default function StoryBar() {
   return (
     <>
       {isLoading && <StorySkeleton />}
-      {data && (
+      {data && !isLoading && (
         <StoryStyle.Container>
           {data.map((user: UserPorps) => (
             <User key={user.username} {...user} />
