@@ -16,6 +16,7 @@ export const QUERY_KEYS = createQueryKeyStore({
     SIGNUP: {
       queryKey: null,
       queryFn: AuthService.signupWithEmail,
+      // queryFn: (variables: { email: string; password: string }) => AuthService.signupWithEmail(variables),
     },
     SIGNOUT: {
       queryKey: null,
