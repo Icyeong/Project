@@ -36,23 +36,20 @@ export default function Gnb() {
 
   const handleModeChangeClick = () => {};
 
-  const signOutService = useCustomMutation(
-    QUERY_KEYS.AUTH.SIGNOUT.queryKey,
-    QUERY_KEYS.AUTH.SIGNOUT.queryFn,
-    () => {
+  const { mutate: logOutMutation } = useCustomMutation(async () => QUERY_KEYS.AUTH.SIGNOUT.queryFn, {
+    onSuccess: () => {
       console.log("logout querykey : ", QUERY_KEYS.AUTH.SIGNOUT.queryKey);
       deleteCookie("accessToken");
       resetAuthState();
       router.push("/login");
     },
-    (error: any) => {
-      const { message } = authErrorHandler(error);
-      alert(message);
+    onError: (error) => {
+      console.log("signout error : ", error);
     },
-  );
+  });
 
-  const handleSignOutClick = async () => {
-    signOutService.mutate();
+  const handleLogOutClick = async () => {
+    logOutMutation(null);
   };
 
   useEffect(() => {
@@ -71,7 +68,7 @@ export default function Gnb() {
       </GnbStyle.Top>
       <GnbStyle.Bottom>
         <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
-        <NavButton name="로그아웃" icon={faArrowRightFromBracket} onClick={handleSignOutClick} />
+        <NavButton name="로그아웃" icon={faArrowRightFromBracket} onClick={handleLogOutClick} />
       </GnbStyle.Bottom>
     </GnbStyle.Wrapper>
   );
