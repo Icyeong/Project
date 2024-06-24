@@ -11,11 +11,10 @@ import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/app/_stores/client/modalStore";
 import { MODAL_NAME } from "@/app/_constant/modal";
 import { useCustomMutation } from "@/app/_hooks/useFetch";
-import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
 import { deleteCookie } from "cookies-next";
 import useAuthStore from "@/app/_stores/client/authStore";
 import { useRouter } from "next/navigation";
-import { authErrorHandler } from "@/app/_utils/authErrorHandler";
+import { AuthService } from "@/app/_services/auth_service";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
@@ -36,9 +35,8 @@ export default function Gnb() {
 
   const handleModeChangeClick = () => {};
 
-  const { mutate: logOutMutation } = useCustomMutation(async () => QUERY_KEYS.AUTH.SIGNOUT.queryFn, {
+  const { mutate: logOutMutation } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
-      console.log("logout querykey : ", QUERY_KEYS.AUTH.SIGNOUT.queryKey);
       deleteCookie("accessToken");
       resetAuthState();
       router.push("/login");
