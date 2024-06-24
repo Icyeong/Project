@@ -20,18 +20,18 @@ import { authErrorHandler } from "@/app/_utils/authErrorHandler";
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
   const { resetAuthState } = useAuthStore();
-  const { setIsActive, setModal } = useModalStore();
+  const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
 
   const handlePostClick = () => {
     setModal(MODAL_NAME.POST_FEED);
-    setIsActive(true);
+    openModal();
   };
 
   const handleTestClick = () => {
     setModal(MODAL_NAME.TEST);
-    setIsActive(true);
+    openModal();
   };
 
   const handleModeChangeClick = () => {};
