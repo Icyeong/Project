@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const PageWrapper = styled.main`
   display: flex;
@@ -30,6 +30,15 @@ export const LoadingBox = styled.div`
   padding-top: 100px;
 `;
 
+export const SkeletonAni = keyframes`
+ 0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 export const NotFoundStyle = styled.div`
   font-weight: 600;
   display: flex;
@@ -54,6 +63,7 @@ export const HomeLayoutStyle = {
     padding-top: 20px;
   `,
   Main: styled.main`
+    width: 630px;
     display: flex;
     flex-direction: column;
     align-items: center;

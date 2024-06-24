@@ -4,14 +4,14 @@ import { setCookie } from "cookies-next";
 import useAuthStore from "../_stores/client/authStore";
 import { authErrorHandler } from "../_utils/authErrorHandler";
 import { useRouter } from "next/navigation";
-import { QUERY_KEYS } from "../_constant/keys";
+import { QUERY_KEYS } from "../_stores/server/queryKeys";
 
 const useLogin = () => {
   const { setAuthState } = useAuthStore();
   const router = useRouter();
 
   const emailPasswordLogin = useMutation({
-    mutationKey: [QUERY_KEYS.AUTH.LOGIN],
+    mutationKey: [QUERY_KEYS.AUTH.LOGIN.queryKey],
     mutationFn: (fetchData: { email: string; password: string }) => AuthService.signInWithEmailPassword(fetchData),
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
@@ -25,7 +25,7 @@ const useLogin = () => {
   });
 
   const googleLogin = useMutation({
-    mutationKey: [QUERY_KEYS.AUTH.GOOGLE_LOGIN],
+    mutationKey: [QUERY_KEYS.AUTH.GOOGLOGIN.queryKey],
     mutationFn: AuthService.signInWithGoogle,
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);

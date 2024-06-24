@@ -1,8 +1,8 @@
 import { BASE_DOMAIN } from "../_env/env";
 
-const getFeedsList = async () => {
+const getStoryList = async () => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feeds`);
+    const res = await fetch(`${BASE_DOMAIN}/stories`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -14,6 +14,6 @@ const getFeedsList = async () => {
   }
 };
 
-export const FeedService = {
-  getFeedsList,
+export const StoryService = {
+  getStoryList,
 };

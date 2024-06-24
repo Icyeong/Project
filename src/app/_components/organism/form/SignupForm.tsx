@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/app/_stores/client/authStore";
 import { authErrorHandler } from "@/app/_utils/authErrorHandler";
 import { Form } from "@/app/_styles/common.style";
-import { useMutation } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/app/_constant/keys";
+import { useCustomMutation } from "@/app/_hooks/useFetch";
+import { User } from "firebase/auth";
 const { EMAIL, NAME, USERNAME, PASSWORD } = INPUT_TEXT;
 
 export default function SignupForm() {
@@ -44,9 +44,12 @@ export default function SignupForm() {
     }
   };
 
-  const signupMutation = useMutation({
-    mutationKey: [QUERY_KEYS.AUTH.SIGNUP, signupForm.email, signupForm.password],
-    mutationFn: () => signupWithEmail(signupForm),
+  const { mutate: signupMutation } = useCustomMutation<
+    { token: string; user: User },
+    Error,
+    { email: string; password: string },
+    undefined
+  >(async (variables) => AuthService.signupWithEmail(variables), {
     onSuccess: async ({ token, user }) => {
       setCookie("accessToken", token);
       setAuthState(true);
@@ -57,8 +60,9 @@ export default function SignupForm() {
       alert(message);
     },
   });
+
   const handleSignupClick = () => {
-    signupMutation.mutate();
+    signupMutation(signupForm);
   };
 
   useEffect(() => {
