@@ -13,9 +13,3 @@ export const StoryStyle = {
     }
   `,
 };
-
-export const StorySkeleton = styled(StoryStyle.Container)`
-  background-color: #cccccc;
-  height: 127px;
-  animation: ${SkeletonAni} infinite alternate 1s;
-`;
