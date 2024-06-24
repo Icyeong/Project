@@ -1,8 +1,9 @@
 interface ModalState {
-  isActive: boolean;
+  isOpen: boolean;
   modalName: string;
   selectedImage: string;
-  setIsActive: (state: boolean) => void;
+  openModal: () => void;
+  closeModal: () => void;
   setModal: (state: string) => void;
   setSelectedImage: (state: string) => void;
   resetModalState: () => void;
