@@ -1,13 +1,14 @@
 import React from "react";
-import PhotoList from "../organism/photolist/PhotoList";
 import { HomeLayoutStyle } from "@/app/_styles/common.style";
+import { Template } from "./Template.style";
+import PhotoList from "../../organism/photolist/PhotoList";
 
 export default function ExploreTemplate() {
   return (
     <HomeLayoutStyle.Container>
-      <HomeLayoutStyle.Main>
+      <Template.Main>
         <PhotoList />;
-      </HomeLayoutStyle.Main>
+      </Template.Main>
     </HomeLayoutStyle.Container>
   );
 }
