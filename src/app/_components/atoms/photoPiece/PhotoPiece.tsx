@@ -3,7 +3,7 @@ import { Piece } from "./PhotoPiece.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 
-interface PhotoPieceProps {
+export interface PhotoPieceProps {
   id: number;
   likes: number;
   comments: number;

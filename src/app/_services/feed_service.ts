@@ -14,6 +14,21 @@ const getFeedsList = async () => {
   }
 };
 
+const getPhotoPieces = async () => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/explore`);
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return console.error(error.message);
+    } else {
+      return console.error("unexpected error");
+    }
+  }
+};
+
 export const FeedService = {
   getFeedsList,
+  getPhotoPieces,
 };

@@ -19,6 +19,9 @@ export const QUERY_KEYS = createQueryKeyStore({
     LIST: {
       queryKey: null,
     },
+    PHOTO_PIECES: {
+      queryKey: null,
+    },
   },
   STORY: {
     LIST: {
