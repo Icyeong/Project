@@ -1,17 +1,17 @@
 import React from "react";
 import { LoginWrapper } from "./LoginCard.style";
-import Logo from "../../atoms/common/Logo";
-import LoginForm from "../form/LoginForm";
+import Logo from "@components/atoms/common/Logo";
+import LoginForm from "@components/organism/form/LoginForm";
 import Link from "next/link";
-import { CardWarpper } from "@/app/_styles/cardWrapper.style";
-import BaseButton from "../../atoms/button/BaseButton";
-import useLogin from "@/app/_hooks/useLogin";
+import { CardWarpper } from "@/_styles/cardWrapper.style";
+import BaseButton from "@components/atoms/button/BaseButton";
+import useLogin from "@/_hooks/useLogin";
 
 export default function LoginCard() {
   const { googleLogin } = useLogin();
 
   const handleGoogleLogin = () => {
-    googleLogin.mutate();
+    googleLogin.mutate(null);
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "./commentInputBar.style";
-import TextArea from "../../atoms/textarea/TextArea";
-import BaseButton from "../../atoms/button/BaseButton";
+import TextArea from "@components/atoms/textarea/TextArea";
+import BaseButton from "@components/atoms/button/BaseButton";
 
 export default function CommentInputBar() {
   const [text, setText] = useState("");

@@ -1,7 +1,7 @@
 "use client";
 
-import { NotFoundStyle } from "./_styles/common.style";
-import BaseButton from "./_components/atoms/button/BaseButton";
+import { NotFoundStyle } from "@/_styles/common.style";
+import BaseButton from "@components/atoms/button/BaseButton";
 import { useRouter } from "next/navigation";
 
 export default function NotFound() {

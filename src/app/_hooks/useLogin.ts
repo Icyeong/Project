@@ -1,7 +1,7 @@
-import { AuthService } from "../_services/auth_service";
+import { AuthService } from "@/_services/auth_service";
 import { setCookie } from "cookies-next";
-import useAuthStore from "../_stores/client/authStore";
-import { authErrorHandler } from "../_utils/authErrorHandler";
+import useAuthStore from "@/_stores/client/authStore";
+import { authErrorHandler } from "@/_utils/authErrorHandler";
 import { useCustomMutation } from "./useFetch";
 
 const useLogin = () => {

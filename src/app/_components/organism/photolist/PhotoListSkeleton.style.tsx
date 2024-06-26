@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { List } from "./PhotoList.style";
-import { Container } from "../../molecules/photoSet/PhotoSet.style";
-import { Piece } from "../../atoms/photoPiece/PhotoPiece.style";
-import { SkeletonAni } from "@/app/_styles/common.style";
+import { Container } from "@components/molecules/photoSet/PhotoSet.style";
+import { Piece } from "@components/atoms/photoPiece/PhotoPiece.style";
+import { SkeletonAni } from "@/_styles/common.style";
 
 export const Skeleton = {
   Container: styled(List.Container)``,

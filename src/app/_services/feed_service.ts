@@ -1,4 +1,4 @@
-import { BASE_DOMAIN } from "../_env/env";
+import { BASE_DOMAIN } from "@/_env/env";
 
 const getFeedsList = async () => {
   try {

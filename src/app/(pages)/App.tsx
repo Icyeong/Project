@@ -1,11 +1,11 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import StyledComponentsRegistry from "../_styles/registry";
+import StyledComponentsRegistry from "@/_styles/registry";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Modal from "../_components/atoms/modal/Modal";
-import useModalStore from "../_stores/client/modalStore";
-import { getModal } from "../_utils/utils";
+import Modal from "@components/atoms/modal/Modal";
+import useModalStore from "@/_stores/client/modalStore";
+import { getModal } from "@/_utils/utils";
 
 export default function App({
   children,

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { v4 } from "uuid";
-import { getRandomNumber } from "../_utils/utils";
+import { getRandomNumber } from "@/_utils/utils";
 
 export const createPhotoPiesces = (number: number) => {
   const pieceList = [];

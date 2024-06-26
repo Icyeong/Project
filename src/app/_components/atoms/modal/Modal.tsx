@@ -4,7 +4,7 @@ import { ModalStyle } from "./Modal.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames";
-import useModalStore from "@/app/_stores/client/modalStore";
+import useModalStore from "@/_stores/client/modalStore";
 import { createPortal } from "react-dom";
 
 interface ModalProps {

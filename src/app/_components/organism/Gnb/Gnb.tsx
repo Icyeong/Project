@@ -1,20 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { GnbStyle } from "./Gnb.style";
-import Logo from "../../atoms/common/Logo";
-import { GNB_NAV_LIST } from "@/app/_constant/gnb";
-import NavLink from "../../atoms/nav/NavLink";
-import NavButton from "../../atoms/nav/NavButton";
+import Logo from "@components/atoms/common/Logo";
+import { GNB_NAV_LIST } from "@/_constant/gnb";
+import NavLink from "@components/atoms/nav/NavLink";
+import NavButton from "@components/atoms/nav/NavButton";
 import { faArrowRightFromBracket, faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import useModalStore from "@/app/_stores/client/modalStore";
-import { MODAL_NAME } from "@/app/_constant/modal";
-import { useCustomMutation } from "@/app/_hooks/useFetch";
+import useModalStore from "@/_stores/client/modalStore";
+import { MODAL_NAME } from "@/_constant/modal";
+import { useCustomMutation } from "@/_hooks/useFetch";
 import { deleteCookie } from "cookies-next";
-import useAuthStore from "@/app/_stores/client/authStore";
+import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
-import { AuthService } from "@/app/_services/auth_service";
+import { AuthService } from "@/_services/auth_service";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");

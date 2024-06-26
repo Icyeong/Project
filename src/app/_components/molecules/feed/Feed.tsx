@@ -4,8 +4,8 @@ import FeedHeader from "./feedHeader/FeedHeader";
 import Image from "next/image";
 import ControlBar from "./feedInfo/ControlBar";
 import TextBox from "./feedInfo/TextBox";
-import CommentInputBar from "../commentInputBar/CommentInputBar";
-import BaseButton from "../../atoms/button/BaseButton";
+import CommentInputBar from "@components/molecules/commentInputBar/CommentInputBar";
+import BaseButton from "@components/atoms/button/BaseButton";
 
 export interface FeedProps {
   feedId: number;

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Container } from "./FeedList.style";
-import { FeedStyle } from "../../molecules/feed/Feed.style";
-import { Header } from "../../molecules/feed/feedHeader/FeedHeader.style";
-import { SkeletonAni } from "@/app/_styles/common.style";
-import { AvatarStyle } from "../../atoms/avatar/Avatar.style";
+import { FeedStyle } from "@components/molecules/feed/Feed.style";
+import { Header } from "@components/molecules/feed/feedHeader/FeedHeader.style";
+import { SkeletonAni } from "@/_styles/common.style";
+import { AvatarStyle } from "@components/atoms/avatar/Avatar.style";
 
 export const Skeleton = {
   Container: styled(Container)``,

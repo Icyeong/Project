@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller } from "./ControlBar.style";
 import { faBookmark, faComment, faHeart, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import IconButton from "@/app/_components/atoms/button/IconButton";
+import IconButton from "@components/atoms/button/IconButton";
 
 export default function ControlBar() {
   return (

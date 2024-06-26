@@ -1,6 +1,6 @@
-import { createPhotoPiesces } from "@/app/_dummyData/explorDummy";
-import { createFeeds } from "@/app/_dummyData/feedDummy";
-import { createStory } from "@/app/_dummyData/userDummy";
+import { createPhotoPiesces } from "@/_dummyData/explorDummy";
+import { createFeeds } from "@/_dummyData/feedDummy";
+import { createStory } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 
 export const handlers = [

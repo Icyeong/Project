@@ -1,7 +1,7 @@
-import { HomeLayoutStyle } from "@/app/_styles/common.style";
+import { HomeLayoutStyle } from "@/_styles/common.style";
 import React from "react";
-import StoryBar from "../../organism/storyBar/StoryBar";
-import FeedList from "../../organism/feedlist/FeedList";
+import StoryBar from "@components/organism/storyBar/StoryBar";
+import FeedList from "@components/organism/feedlist/FeedList";
 
 export default function HomeTemplate() {
   return (

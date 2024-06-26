@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useRef } from "react";
-import { ModalStyle } from "../../../atoms/modal/Modal.style";
-import BaseButton from "../../../atoms/button/BaseButton";
+import { ModalStyle } from "@components/atoms/modal/Modal.style";
+import BaseButton from "@components/atoms/button/BaseButton";
 import { Content } from "./PostModal.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import useModalStore from "@/app/_stores/client/modalStore";
-import { MODAL_NAME } from "@/app/_constant/modal";
+import useModalStore from "@/_stores/client/modalStore";
+import { MODAL_NAME } from "@/_constant/modal";
 
 export default function PostModal() {
   const { setSelectedImage, setModal } = useModalStore();

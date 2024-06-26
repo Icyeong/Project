@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalStyle } from "../../atoms/modal/Modal.style";
+import { ModalStyle } from "@components/atoms/modal/Modal.style";
 
 export default function TestModal() {
   return (

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { List } from "./PhotoList.style";
-import PhotoSet from "../../molecules/photoSet/PhotoSet";
-import { useCustomQuery } from "@/app/_hooks/useFetch";
-import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
-import { FeedService } from "@/app/_services/feed_service";
-import { PhotoPieceProps } from "../../atoms/photoPiece/PhotoPiece";
+import PhotoSet from "@components/molecules/photoSet/PhotoSet";
+import { useCustomQuery } from "@/_hooks/useFetch";
+import { QUERY_KEYS } from "@/_stores/server/queryKeys";
+import { FeedService } from "@/_services/feed_service";
+import { PhotoPieceProps } from "@components/atoms/photoPiece/PhotoPiece";
 import PhotoListSkeleton from "./PhotoListSkeleton";
 
 export default function PhotoList() {

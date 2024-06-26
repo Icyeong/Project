@@ -1,6 +1,6 @@
 import React from "react";
 import { Skeleton } from "./FeedSkeleton.style";
-import { Header } from "../../molecules/feed/feedHeader/FeedHeader.style";
+import { Header } from "@components/molecules/feed/feedHeader/FeedHeader.style";
 
 export default function FeedSkeleton() {
   const skeletonFeeds = Array.from({ length: 2 }).map((_, idx) => (

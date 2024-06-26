@@ -1,6 +1,6 @@
 import React from "react";
 import { UserStyle } from "./User.style";
-import Avatar from "../../atoms/avatar/Avatar";
+import Avatar from "@components/atoms/avatar/Avatar";
 
 export interface UserPorps {
   username: string;

@@ -1,4 +1,4 @@
-import { CDN_DOMAIN } from "@/app/_env/env";
+import { CDN_DOMAIN } from "@/_env/env";
 import styled from "styled-components";
 
 export const LogoBox = styled.div`
