@@ -1,4 +1,4 @@
-import { AUTH_TEXT } from "../_constant/errors";
+import { AUTH_TEXT } from "@/_constant/errors";
 
 export interface authFirebaseError extends Error {
   code?: string;

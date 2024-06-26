@@ -12,7 +12,7 @@ export const ModalStyle = {
     display: none;
     justify-content: center;
     align-items: center;
-    &.isActive {
+    &.isOpen {
       display: flex;
     }
   `,

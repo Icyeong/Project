@@ -7,7 +7,6 @@ export const Piece = {
     position: relative;
     background: url(${({ img }) => img}) no-repeat center center;
     background-size: cover;
-    background-color: lavender;
     &:hover > div {
       display: flex;
     }

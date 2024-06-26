@@ -1,44 +1,42 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { GnbStyle } from "./Gnb.style";
-import Logo from "../../atoms/common/Logo";
-import { GNB_NAV_LIST } from "@/app/_constant/gnb";
-import NavLink from "../../atoms/nav/NavLink";
-import NavButton from "../../atoms/nav/NavButton";
+import Logo from "@components/atoms/common/Logo";
+import { GNB_NAV_LIST } from "@/_constant/gnb";
+import NavLink from "@components/atoms/nav/NavLink";
+import NavButton from "@components/atoms/nav/NavButton";
 import { faArrowRightFromBracket, faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import useModalStore from "@/app/_stores/client/modalStore";
-import { MODAL_NAME } from "@/app/_constant/modal";
-import { useCustomMutation } from "@/app/_hooks/useFetch";
-import { QUERY_KEYS } from "@/app/_stores/server/queryKeys";
+import useModalStore from "@/_stores/client/modalStore";
+import { MODAL_NAME } from "@/_constant/modal";
+import { useCustomMutation } from "@/_hooks/useFetch";
 import { deleteCookie } from "cookies-next";
-import useAuthStore from "@/app/_stores/client/authStore";
+import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
-import { authErrorHandler } from "@/app/_utils/authErrorHandler";
+import { AuthService } from "@/_services/auth_service";
 
 export default function Gnb() {
   const [avatar, setAvater] = useState("");
   const { resetAuthState } = useAuthStore();
-  const { setIsActive, setModal } = useModalStore();
+  const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
 
   const handlePostClick = () => {
     setModal(MODAL_NAME.POST_FEED);
-    setIsActive(true);
+    openModal();
   };
 
   const handleTestClick = () => {
     setModal(MODAL_NAME.TEST);
-    setIsActive(true);
+    openModal();
   };
 
   const handleModeChangeClick = () => {};
 
-  const { mutate: logOutMutation } = useCustomMutation(async () => QUERY_KEYS.AUTH.SIGNOUT.queryFn, {
+  const { mutate: logOutMutation } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
-      console.log("logout querykey : ", QUERY_KEYS.AUTH.SIGNOUT.queryKey);
       deleteCookie("accessToken");
       resetAuthState();
       router.push("/login");

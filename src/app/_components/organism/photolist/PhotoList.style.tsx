@@ -7,7 +7,6 @@ export const List = {
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: lightgray;
     gap: 5px;
   `,
 };

@@ -1,6 +1,6 @@
-import { PageWrapper } from "@/app/_styles/common.style";
+import { PageWrapper } from "@/_styles/common.style";
 import React from "react";
-import LoginCard from "../organism/group/LoginCard";
+import LoginCard from "@components/organism/group/LoginCard";
 
 export default function LoginTemplate() {
   return (

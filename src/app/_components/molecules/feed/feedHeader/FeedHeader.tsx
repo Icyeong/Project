@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "./FeedHeader.style";
-import Avatar from "@/app/_components/atoms/avatar/Avatar";
+import Avatar from "@components/atoms/avatar/Avatar";
 import { faker } from "@faker-js/faker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";

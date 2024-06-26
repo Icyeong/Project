@@ -1,5 +1,6 @@
-import { createFeeds } from "@/app/_dummyData/feedDummy";
-import { createStory } from "@/app/_dummyData/userDummy";
+import { createPhotoPiesces } from "@/_dummyData/explorDummy";
+import { createFeeds } from "@/_dummyData/feedDummy";
+import { createStory } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
@@ -8,5 +9,8 @@ export const handlers = [
   }),
   http.get("/stories", () => {
     return HttpResponse.json(createStory(16));
+  }),
+  http.get("/explore", () => {
+    return HttpResponse.json(createPhotoPiesces(45));
   }),
 ];

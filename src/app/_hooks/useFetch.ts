@@ -1,26 +1,22 @@
-import { MutationOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { MutationOptions, QueryFunction, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
 
-export const useCustomQuery = (
-  key: readonly string[],
-  fn: any,
-  gcTime?: number,
-  staleTime?: number,
-  initialData?: any,
+interface CustomQueryOptions<TQueryFnData, TError, TData = TQueryFnData>
+  extends Omit<UseQueryOptions<TQueryFnData, TError, TData>, "queryFn"> {}
+
+export const useCustomQuery = <TQueryFnData, TError, TData = TQueryFnData>(
+  queryKey: readonly string[],
+  queryFn: QueryFunction<TQueryFnData>,
+  options?: CustomQueryOptions<TQueryFnData, TError, TData>,
 ) => {
-  return useQuery({
-    queryKey: key,
-    queryFn: fn,
-    gcTime,
-    staleTime,
-    initialData,
+  return useQuery<TQueryFnData, TError, TData>({
+    queryKey,
+    queryFn,
+    ...options,
   });
 };
 
 interface CustomMutationOptions<TData, TError, TVariables, TContext = unknown>
-  extends Omit<MutationOptions<TData, TError, TVariables, TContext>, "mutationFn"> {
-  onSuccess?: (data: TData, variables: TVariables, context: TContext) => void;
-  onError?: (error: TError, variables: TVariables, context: TContext | undefined) => void;
-}
+  extends Omit<MutationOptions<TData, TError, TVariables, TContext>, "mutationFn"> {}
 
 export const useCustomMutation = <TData, TError, TVariables, TContext = unknown>(
   mutationFn: (variables: TVariables) => Promise<TData>,
@@ -28,8 +24,6 @@ export const useCustomMutation = <TData, TError, TVariables, TContext = unknown>
 ) => {
   return useMutation<TData, TError, TVariables, TContext>({
     mutationFn,
-    onSuccess: options?.onSuccess,
-    onError: options?.onError,
     ...options,
   });
 };

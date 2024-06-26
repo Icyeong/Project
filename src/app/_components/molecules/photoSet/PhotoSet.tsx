@@ -1,12 +1,11 @@
 import React from "react";
 import { Container } from "./PhotoSet.style";
-import PhotoPiece from "../../atoms/photoPiece/PhotoPiece";
-import { PHOTO_PIECES } from "@/app/_dummyData/explorDummy";
+import PhotoPiece, { PhotoPieceProps } from "@components/atoms/photoPiece/PhotoPiece";
 
-export default function PhotoSet() {
+export default function PhotoSet({ pieces }: { pieces: PhotoPieceProps[] }) {
   return (
     <Container>
-      {PHOTO_PIECES.map((piece) => (
+      {pieces.map((piece: PhotoPieceProps) => (
         <PhotoPiece key={piece.id} {...piece} />
       ))}
     </Container>

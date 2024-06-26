@@ -1,4 +1,4 @@
-import { SkeletonAni } from "@/app/_styles/common.style";
+import { SkeletonAni } from "@/_styles/common.style";
 import styled from "styled-components";
 
 export const StoryStyle = {
@@ -13,9 +13,3 @@ export const StoryStyle = {
     }
   `,
 };
-
-export const StorySkeleton = styled(StoryStyle.Container)`
-  background-color: #cccccc;
-  height: 127px;
-  animation: ${SkeletonAni} infinite alternate 1s;
-`;

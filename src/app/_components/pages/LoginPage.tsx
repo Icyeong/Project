@@ -1,5 +1,5 @@
 import React from "react";
-import LoginTemplate from "../template/LoginTemplate";
+import LoginTemplate from "@components/template/login/LoginTemplate";
 
 export default function LoginPage() {
   return <LoginTemplate />;
