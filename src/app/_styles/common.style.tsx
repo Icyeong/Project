@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const PageWrapper = styled.main`
   display: flex;
@@ -24,6 +24,21 @@ export const Form = styled.div`
   }
 `;
 
+export const LoadingBox = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+`;
+
+export const SkeletonAni = keyframes`
+ 0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 export const NotFoundStyle = styled.div`
   font-weight: 600;
   display: flex;
@@ -35,3 +50,28 @@ export const NotFoundStyle = styled.div`
     margin-top: 20px;
   }
 `;
+
+export const HomeLayoutStyle = {
+  Layout: styled.div`
+    display: flex;
+  `,
+  Container: styled.div`
+    width: calc(100% - 224px);
+    margin-left: 224px;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  `,
+  Main: styled.main`
+    width: 630px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  SideSection: styled.section`
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    padding-left: 64px;
+  `,
+};

@@ -6,11 +6,24 @@ interface ButtonProps extends AllHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
   fontSize?: string;
   color?: string;
+  bgColor?: string;
   fontWeight?: number;
+  radius?: number;
   img?: string;
   blueButton?: boolean;
 }
-export default function BaseButton({ value, fontSize, color, img, isActive = true, blueButton, onClick }: ButtonProps) {
+export default function BaseButton({
+  value,
+  fontSize,
+  fontWeight,
+  color,
+  bgColor,
+  radius,
+  img,
+  isActive = true,
+  blueButton,
+  onClick,
+}: ButtonProps) {
   return (
     <Button
       className={classNames({
@@ -19,7 +32,9 @@ export default function BaseButton({ value, fontSize, color, img, isActive = tru
       })}
       fontSize={fontSize}
       color={color}
-      fontWeight={600}
+      bgColor={bgColor}
+      fontWeight={fontWeight || 600}
+      radius={radius}
       onClick={onClick}
       disabled={!isActive}
     >

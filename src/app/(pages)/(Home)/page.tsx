@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import HomePage from "@components/pages/HomePage";
 
 export default function Home() {
-  return <div>{/* <Link href="/login">로그인</Link> */}</div>;
+  return <HomePage />;
 }

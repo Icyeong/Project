@@ -1,7 +1,7 @@
 import React, { AllHTMLAttributes } from "react";
 import { Container } from "./LabeledInput.style";
-import Input from "../../atoms/input/Input";
-import { InputLabel } from "../../atoms/label/Label.style";
+import Input from "@components/atoms/input/Input";
+import { InputLabel } from "@components/atoms/label/Label.style";
 import classNames from "classnames";
 
 interface LabeledInputProps extends AllHTMLAttributes<HTMLInputElement> {}

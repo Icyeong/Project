@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import LabeledInput from "../../molecules/Input/LabeledInput";
-import { INPUT_TEXT } from "@/app/_constant/input";
-import BaseButton from "../../atoms/button/BaseButton";
-import useLogin from "@/app/_hooks/useLogin";
-import { Form } from "@/app/_styles/common.style";
+import LabeledInput from "@components/molecules/Input/LabeledInput";
+import { INPUT_TEXT } from "@/_constant/input";
+import BaseButton from "@components/atoms/button/BaseButton";
+import useLogin from "@/_hooks/useLogin";
+import { Form } from "@/_styles/common.style";
 const { EMAIL, PASSWORD } = INPUT_TEXT;
 
 export default function LoginForm() {
