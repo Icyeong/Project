@@ -7,10 +7,13 @@ import useModalStore from "@/_stores/client/modalStore";
 import Image from "next/image";
 import IconButton from "@components/atoms/button/IconButton";
 import { MODAL_NAME } from "@/_constant/modal";
+import WritingBox from "../../writingBox/WritingBox";
 
 export default function EditImageModal() {
-  const { selectedImage, setModal } = useModalStore();
-  const handleNextClick = () => {};
+  const { modalName, selectedImage, setModal } = useModalStore();
+  const handleNextClick = () => {
+    setModal(MODAL_NAME.WRITE_POST);
+  };
   const handleBackClick = () => {
     const res = confirm("게시물을 삭제하시겠어요?").valueOf();
     if (res) {
@@ -23,14 +26,17 @@ export default function EditImageModal() {
       <ModalStyle.Header>
         <Content.Header>
           <IconButton awesomeIcon={faArrowLeft} color="gray" onClick={handleBackClick} />
-          미리보기
+          {modalName === MODAL_NAME.WRITE_POST ? "새 게시물 만들기" : "미리보기"}
           <BaseButton value="다음" color="#0095F6" onClick={handleNextClick} />
         </Content.Header>
       </ModalStyle.Header>
       <ModalStyle.Body>
-        <Content.ImgBox>
-          {selectedImage && <Image src={selectedImage} width={300} height={400} alt="preview" />}
-        </Content.ImgBox>
+        <Content.Flex>
+          <Content.ImgBox>
+            {selectedImage && <Image src={selectedImage} width={300} height={400} alt="preview" />}
+          </Content.ImgBox>
+          {modalName === MODAL_NAME.WRITE_POST && <WritingBox />}
+        </Content.Flex>
       </ModalStyle.Body>
     </>
   );

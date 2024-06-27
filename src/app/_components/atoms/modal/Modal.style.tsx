@@ -50,6 +50,7 @@ export const ModalStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
     /* padding: 20px; */
   `,
 };

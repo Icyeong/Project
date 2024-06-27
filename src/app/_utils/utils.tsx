@@ -17,6 +17,8 @@ export function getModal(modalName: string) {
       return <PostModal />;
     case MODAL_NAME.EDIT_IMAGE:
       return <EditImageModal />;
+    case MODAL_NAME.WRITE_POST:
+      return <EditImageModal />;
     case MODAL_NAME.TEST:
       return <TestModal />;
     default:
