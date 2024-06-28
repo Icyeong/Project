@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useRef } from "react";
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
+import { Content } from "./UploadModal.style";
 import BaseButton from "@components/atoms/button/BaseButton";
-import { Content } from "./PostModal.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
 import { MODAL_NAME } from "@/_constant/modal";
 
-export default function PostModal() {
+export default function UploadModal() {
   const { setSelectedImage, setModal } = useModalStore();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleSelectClick = () => {
