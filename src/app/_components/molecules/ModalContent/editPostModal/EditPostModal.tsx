@@ -8,21 +8,59 @@ import Image from "next/image";
 import IconButton from "@components/atoms/button/IconButton";
 import { MODAL_NAME } from "@/_constant/modal";
 import WritingBox from "../../writingBox/WritingBox";
+import { useCustomMutation } from "@/_hooks/useFetch";
+import { FeedService } from "@/_services/feed_service";
+import { v4 as uuidv4 } from "uuid";
+import useAuthStore from "@/_stores/client/authStore";
+import { FeedProps } from "../../feed/Feed";
+import useFeedStore from "@/_stores/client/feedStore";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 
 export default function EditPostModal() {
-  const { selectedImage, setModal } = useModalStore();
-  const [text, setText] = useState("");
+  const { selectedImage, setModal, closeModal } = useModalStore();
+  const { feedList, setFeedsState } = useFeedStore();
   const [textSize, setTextSize] = useState(0);
+  const [newFeedData, setFeedData] = useState<FeedProps>({
+    feedId: uuidv4(),
+    username: useAuthStore().userName,
+    createdAt: "",
+    following: false,
+    content: "",
+    // content: selectedImage,
+    // image 크기가 커서 그런지 413 오류발생..
+    text: "",
+    likes: 0,
+  });
+
+  // const queryClient = useQueryClient();
+
   const handleBackClick = () => {
     setModal(MODAL_NAME.EDIT_IMAGE);
   };
-  const handleNextClick = () => {
-    // 피드 공유하기 로직 추가
+  const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
+    onSuccess: (data) => {
+      // queryClient.setQueryData(QUERY_KEYS.FEED.LIST.queryKey, (oldData: FeedProps[]) => {
+      //   console.log("oldData : ", oldData);
+      //   return [...feedList, data];
+      // });
+      // 작동안함
+
+      const addedData: FeedProps[] = feedList;
+      addedData.unshift(data);
+      setFeedsState(addedData);
+      closeModal();
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    },
+  });
+
+  const handleNextClick = async () => {
+    createFeed(newFeedData);
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (textSize > 1199) return;
-    setText(e.target.value);
+    setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
     setTextSize(e.target.value.length);
   };
   return (
@@ -39,7 +77,7 @@ export default function EditPostModal() {
           <Content.ImgBox>
             {selectedImage && <Image src={selectedImage} width={300} height={400} alt="preview" />}
           </Content.ImgBox>
-          <WritingBox text={text} textSize={textSize} onChange={handleTextChange}>
+          <WritingBox text={newFeedData.text} textSize={textSize} onChange={handleTextChange}>
             hello~
           </WritingBox>
         </Content.Flex>
