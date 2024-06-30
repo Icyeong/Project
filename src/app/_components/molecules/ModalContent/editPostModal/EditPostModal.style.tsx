@@ -16,8 +16,8 @@ export const Content = {
     min-width: 35vw;
     overflow: hidden;
     img {
-      width: auto;
-      height: 100%;
+      /* width: auto; */
+      /* height: 100%; */
     }
   `,
   Flex: styled.div`

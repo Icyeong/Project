@@ -17,7 +17,7 @@ export const Content = {
     overflow: hidden;
     img {
       width: auto;
-      height: 100%;
+      /* height: 100%; */
     }
   `,
   Flex: styled.div`

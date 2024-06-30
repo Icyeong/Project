@@ -37,6 +37,7 @@ export const ModalStyle = {
     border-radius: 10px;
     min-width: 500px;
     height: 70vh;
+    overflow: hidden;
   `,
   Header: styled.div`
     display: flex;
