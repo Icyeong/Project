@@ -1,7 +1,6 @@
 import { FeedProps } from "@/_components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
-import { getFetchOptions } from "@/_utils/utils";
-import { getCookie } from "cookies-next";
+import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
 const getFeedsList = async () => {
   try {
@@ -9,11 +8,7 @@ const getFeedsList = async () => {
     const data = await res.json();
     return data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      return console.error(error.message);
-    } else {
-      return console.error("unexpected error");
-    }
+    getErrorHandler(error);
   }
 };
 
@@ -23,11 +18,7 @@ const getPhotoPieces = async () => {
     const data = await res.json();
     return data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      return console.error(error.message);
-    } else {
-      return console.error("unexpected error");
-    }
+    getErrorHandler(error);
   }
 };
 
@@ -37,11 +28,7 @@ const postFeed = async (fetchData: FeedProps) => {
     const data = await res.json();
     return data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      return console.error(error.message);
-    } else {
-      return console.error("unexpected error");
-    }
+    getErrorHandler(error);
   }
 };
 

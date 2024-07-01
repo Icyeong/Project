@@ -48,3 +48,11 @@ export function getFetchOptions(method: string, token: boolean, body: any) {
 
   return options;
 }
+
+export function getErrorHandler(error: unknown) {
+  if (error instanceof Error) {
+    return console.error(error.message);
+  } else {
+    return console.error("unexpected error");
+  }
+}
