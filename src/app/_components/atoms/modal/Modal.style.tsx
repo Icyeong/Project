@@ -37,6 +37,7 @@ export const ModalStyle = {
     border-radius: 10px;
     min-width: 500px;
     height: 70vh;
+    overflow: hidden;
   `,
   Header: styled.div`
     display: flex;
@@ -50,6 +51,7 @@ export const ModalStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
     /* padding: 20px; */
   `,
 };

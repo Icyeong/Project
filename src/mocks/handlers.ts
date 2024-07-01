@@ -13,4 +13,8 @@ export const handlers = [
   http.get("/explore", () => {
     return HttpResponse.json(createPhotoPiesces(45));
   }),
+  http.post("/feed", async ({ request }) => {
+    const feedData = await request.json();
+    return HttpResponse.json(feedData);
+  }),
 ];

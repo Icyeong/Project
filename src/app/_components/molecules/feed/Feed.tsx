@@ -8,7 +8,7 @@ import CommentInputBar from "@components/molecules/commentInputBar/CommentInputB
 import BaseButton from "@components/atoms/button/BaseButton";
 
 export interface FeedProps {
-  feedId: number;
+  feedId: string;
   username: string;
   createdAt: string;
   following: boolean;

@@ -9,8 +9,10 @@ import IconButton from "@components/atoms/button/IconButton";
 import { MODAL_NAME } from "@/_constant/modal";
 
 export default function EditImageModal() {
-  const { selectedImage, setModal } = useModalStore();
-  const handleNextClick = () => {};
+  const { modalName, selectedImage, setModal } = useModalStore();
+  const handleNextClick = () => {
+    setModal(MODAL_NAME.WRITE_POST);
+  };
   const handleBackClick = () => {
     const res = confirm("게시물을 삭제하시겠어요?").valueOf();
     if (res) {
@@ -28,9 +30,11 @@ export default function EditImageModal() {
         </Content.Header>
       </ModalStyle.Header>
       <ModalStyle.Body>
-        <Content.ImgBox>
-          {selectedImage && <Image src={selectedImage} width={300} height={400} alt="preview" />}
-        </Content.ImgBox>
+        <Content.Flex>
+          <Content.ImgBox>
+            {selectedImage && <Image src={selectedImage} width={300} height={400} alt="preview" />}
+          </Content.ImgBox>
+        </Content.Flex>
       </ModalStyle.Body>
     </>
   );
