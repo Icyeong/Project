@@ -18,7 +18,7 @@ export default function FeedList() {
     if (data) {
       setFeedsState(data);
     }
-  }, []);
+  }, [data]);
 
   return (
     <>

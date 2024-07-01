@@ -7,7 +7,10 @@ import { StoryService } from "@/_services/story_service";
 import StorySkeleton from "./StorySkeleton";
 
 export default function StoryBar() {
-  const { data, isLoading } = useCustomQuery(QUERY_KEYS.STORY.LIST.queryKey, StoryService.getStoryList);
+  const { data, isLoading } = useCustomQuery(QUERY_KEYS.STORY.LIST.queryKey, StoryService.getStoryList, {
+    gcTime: 1000 * 60 * 3,
+    staleTime: 1000 * 60 * 3,
+  });
   return (
     <>
       {isLoading && <StorySkeleton />}
