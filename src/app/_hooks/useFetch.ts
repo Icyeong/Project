@@ -1,7 +1,7 @@
 import { MutationOptions, QueryFunction, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
 
 interface CustomQueryOptions<TQueryFnData, TError, TData = TQueryFnData>
-  extends Omit<UseQueryOptions<TQueryFnData, TError, TData>, "queryFn"> {}
+  extends Omit<UseQueryOptions<TQueryFnData, TError, TData>, "queryKey" | "queryFn"> {}
 
 export const useCustomQuery = <TQueryFnData, TError, TData = TQueryFnData>(
   queryKey: readonly string[],

@@ -9,7 +9,10 @@ import { PhotoPieceProps } from "@components/atoms/photoPiece/PhotoPiece";
 import PhotoListSkeleton from "./PhotoListSkeleton";
 
 export default function PhotoList() {
-  const { data, isLoading } = useCustomQuery(QUERY_KEYS.FEED.PHOTO_PIECES.queryKey, FeedService.getPhotoPieces);
+  const { data, isLoading } = useCustomQuery(QUERY_KEYS.FEED.PHOTO_PIECES.queryKey, FeedService.getPhotoPieces, {
+    gcTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5,
+  });
 
   if (isLoading) return <PhotoListSkeleton />;
 

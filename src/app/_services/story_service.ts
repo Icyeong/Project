@@ -1,4 +1,5 @@
 import { BASE_DOMAIN } from "@/_env/env";
+import { getErrorHandler } from "@/_utils/utils";
 
 const getStoryList = async () => {
   try {
@@ -6,11 +7,7 @@ const getStoryList = async () => {
     const data = await res.json();
     return data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      return console.error(error.message);
-    } else {
-      return console.error("unexpected error");
-    }
+    getErrorHandler(error);
   }
 };
 
