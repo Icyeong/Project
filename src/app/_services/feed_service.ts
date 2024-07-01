@@ -1,5 +1,6 @@
 import { FeedProps } from "@/_components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
+import { getFetchOptions } from "@/_utils/utils";
 import { getCookie } from "cookies-next";
 
 const getFeedsList = async () => {
@@ -32,11 +33,7 @@ const getPhotoPieces = async () => {
 
 const postFeed = async (fetchData: FeedProps) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feed`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=UTF-8", Authorization: `Beare ${getCookie("accessToken")}` },
-      body: JSON.stringify(fetchData),
-    });
+    const res = await fetch(`${BASE_DOMAIN}/feed`, getFetchOptions("POST", true, fetchData));
     const data = await res.json();
     return data;
   } catch (error: unknown) {

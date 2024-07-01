@@ -3,6 +3,7 @@ import UploadModal from "@components/molecules/ModalContent/uploadModal/UploadMo
 import EditImageModal from "@/_components/molecules/ModalContent/editImageModal/EditImageModal";
 import EditPostModal from "@components/molecules/ModalContent/editPostModal/EditPostModal";
 import TestModal from "@components/molecules/ModalContent/TestModal";
+import { getCookie } from "cookies-next";
 
 export function getRandomBoolean() {
   return Boolean(Math.round(Math.random() * 1));
@@ -25,4 +26,25 @@ export function getModal(modalName: string) {
     default:
       return null;
   }
+}
+
+export function getFetchOptions(method: string, token: boolean, body: any) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json;charset=UTF-8",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${getCookie("accessToken")}`;
+  }
+
+  const options: RequestInit = {
+    method,
+    headers,
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  return options;
 }
