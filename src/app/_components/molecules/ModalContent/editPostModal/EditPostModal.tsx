@@ -13,42 +13,37 @@ import { FeedService } from "@/_services/feed_service";
 import { v4 as uuidv4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
 import { FeedProps } from "../../feed/Feed";
-import useFeedStore from "@/_stores/client/feedStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 
 export default function EditPostModal() {
   const { selectedImage, setModal, closeModal } = useModalStore();
-  const { feedList, setFeedsState } = useFeedStore();
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: uuidv4(),
     username: useAuthStore().userName,
     createdAt: "",
     following: false,
-    content: "",
-    // content: selectedImage,
-    // image 크기가 커서 그런지 413 오류발생..
+    content: selectedImage,
     text: "",
     likes: 0,
   });
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const handleBackClick = () => {
     setModal(MODAL_NAME.EDIT_IMAGE);
   };
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
-    onSuccess: (data) => {
-      // queryClient.setQueryData(QUERY_KEYS.FEED.LIST.queryKey, (oldData: FeedProps[]) => {
-      //   console.log("oldData : ", oldData);
-      //   return [...feedList, data];
-      // });
-      // 작동안함
-
-      const addedData: FeedProps[] = feedList;
-      addedData.unshift(data);
-      setFeedsState(addedData);
+    onSuccess: (data: FeedProps) => {
+      queryClient.setQueryData(QUERY_KEYS.FEED.LIST.queryKey, (oldData: FeedProps[]) => {
+        console.log("oldData : ", oldData);
+        const updatedList = [...oldData, { ...data, createdAt: new Date().toISOString() }];
+        updatedList.sort(
+          (a: FeedProps, b: FeedProps) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+        return updatedList;
+      });
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
