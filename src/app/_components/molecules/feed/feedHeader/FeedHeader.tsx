@@ -7,6 +7,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
+import useAuthStore from "@/_stores/client/authStore";
 
 interface FeedHeaderProps {
   username: string;
@@ -18,9 +19,10 @@ dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
 export default function FeedHeader({ username, createdAt, following }: FeedHeaderProps) {
+  const { userName, userImg } = useAuthStore();
   return (
     <Header.Container>
-      <Avatar size={32} img={faker.image.avatar()} />
+      <Avatar size={32} img={userName === username ? userImg : faker.image.avatar()} />
       <Header.Box>
         <Header.Username>{username}</Header.Username>
         <Header.TimeStamp>{dayjs(createdAt).fromNow(true)}</Header.TimeStamp>

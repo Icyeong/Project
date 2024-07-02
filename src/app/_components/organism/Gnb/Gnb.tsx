@@ -22,8 +22,7 @@ import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { v4 } from "uuid";
 
 export default function Gnb() {
-  const [avatar, setAvater] = useState("");
-  const { resetAuthState } = useAuthStore();
+  const { resetAuthState, userImg } = useAuthStore();
   const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
@@ -82,10 +81,6 @@ export default function Gnb() {
     logOutMutation(null);
   };
 
-  useEffect(() => {
-    const profileImg = faker.image.avatar();
-    setAvater(profileImg);
-  }, []);
   return (
     <GnbStyle.Wrapper>
       <Logo />
@@ -94,7 +89,7 @@ export default function Gnb() {
           <NavLink key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
         <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
-        <NavButton name="프로필" img={avatar} onClick={handleTestModalClick} />
+        <NavButton name="프로필" img={userImg} onClick={handleTestModalClick} />
       </GnbStyle.Top>
       <GnbStyle.Bottom>
         <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
