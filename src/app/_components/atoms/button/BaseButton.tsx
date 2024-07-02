@@ -6,7 +6,7 @@ interface ButtonProps extends AllHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
   fontSize?: string;
   color?: string;
-  bgColor?: string;
+  $bgColor?: string;
   fontWeight?: number;
   radius?: number;
   img?: string;
@@ -17,7 +17,7 @@ export default function BaseButton({
   fontSize,
   fontWeight,
   color,
-  bgColor,
+  $bgColor,
   radius,
   img,
   isActive = true,
@@ -32,13 +32,13 @@ export default function BaseButton({
       })}
       fontSize={fontSize}
       color={color}
-      bgColor={bgColor}
+      $bgColor={$bgColor}
       fontWeight={fontWeight || 600}
       radius={radius}
       onClick={onClick}
       disabled={!isActive}
     >
-      {img && <span></span>}
+      {img && <span />}
       {value}
     </Button>
   );

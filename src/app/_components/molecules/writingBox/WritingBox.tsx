@@ -26,7 +26,7 @@ export default function WritingBox({
         <Avatar img={img} size={32} />
         {userName}
       </Box.Header>
-      <TextArea maxLength={2200} maxHeight={160} placeholder="문구를 입력하세요..." value={text} onChange={onChange} />
+      <TextArea maxLength={2200} $maxHeight={160} placeholder="문구를 입력하세요..." value={text} onChange={onChange} />
       <Box.Footer>{textSize}/2200</Box.Footer>
       <ToggleButton label="고급 설정">{children}</ToggleButton>
     </Box.Container>

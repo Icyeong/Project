@@ -2,10 +2,10 @@ import React, { AllHTMLAttributes, useEffect, useRef } from "react";
 import { Textarea } from "./TextArea.style";
 
 interface TextAreaPorps extends AllHTMLAttributes<HTMLTextAreaElement> {
-  maxHeight?: number;
+  $maxHeight?: number;
 }
 
-export default function TextArea({ maxHeight, placeholder, value, onChange, ...props }: TextAreaPorps) {
+export default function TextArea({ $maxHeight, placeholder, value, onChange, ...props }: TextAreaPorps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function TextArea({ maxHeight, placeholder, value, onChange, ...p
 
   return (
     <Textarea
-      maxHeight={maxHeight}
+      $maxHeight={$maxHeight}
       ref={textAreaRef}
       rows={1}
       placeholder={placeholder}
