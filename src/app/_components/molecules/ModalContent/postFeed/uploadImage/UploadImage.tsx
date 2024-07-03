@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useRef } from "react";
+import { Content } from "./UploadImage.style";
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
-import { Content } from "./UploadModal.style";
 import BaseButton from "@components/atoms/button/BaseButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
-import { MODAL_NAME } from "@/_constant/modal";
+import { MODAL } from "@/_constant/modal";
 
-export default function UploadModal() {
-  const { setSelectedImage, setModal } = useModalStore();
+export default function UploadImage() {
+  const { setSelectedImage, setModalStep } = useModalStore();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleSelectClick = () => {
     if (fileInputRef.current) {
@@ -22,7 +22,7 @@ export default function UploadModal() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result as string);
-        setModal(MODAL_NAME.EDIT_IMAGE);
+        setModalStep(MODAL.POST_FEED.STEP.IMAGE_PREVIEW);
       };
       reader.readAsDataURL(file);
     }

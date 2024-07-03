@@ -1,23 +1,23 @@
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
 import React, { ChangeEvent, useState } from "react";
-import { Content } from "./EditPostModal.style";
+import { Content } from "./WriteContent.style";
 import BaseButton from "@components/atoms/button/BaseButton";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
 import Image from "next/image";
 import IconButton from "@components/atoms/button/IconButton";
-import { MODAL_NAME } from "@/_constant/modal";
-import WritingBox from "../../writingBox/WritingBox";
+import { MODAL } from "@/_constant/modal";
+import WritingBox from "../../../writingBox/WritingBox";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { v4 as uuidv4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
-import { FeedProps } from "../../feed/Feed";
+import { FeedProps } from "../../../feed/Feed";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 
-export default function EditPostModal() {
-  const { selectedImage, setModal, closeModal } = useModalStore();
+export default function WriteContent() {
+  const { selectedImage, setModalStep, closeModal } = useModalStore();
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: uuidv4(),
@@ -32,7 +32,7 @@ export default function EditPostModal() {
   const queryClient = useQueryClient();
 
   const handleBackClick = () => {
-    setModal(MODAL_NAME.EDIT_IMAGE);
+    setModalStep(MODAL.POST_FEED.STEP.IMAGE_PREVIEW);
   };
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: (data: FeedProps) => {
