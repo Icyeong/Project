@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { GnbStyle } from "./Gnb.style";
 import Logo from "@components/atoms/common/Logo";
 import { GNB_NAV_LIST } from "@/_constant/gnb";
@@ -9,7 +9,7 @@ import { faArrowRightFromBracket, faCircleHalfStroke, faT } from "@fortawesome/f
 import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
-import { MODAL_NAME } from "@/_constant/modal";
+import { MODAL } from "@/_constant/modal";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { deleteCookie } from "cookies-next";
 import useAuthStore from "@/_stores/client/authStore";
@@ -23,17 +23,18 @@ import { v4 } from "uuid";
 
 export default function Gnb() {
   const { resetAuthState, userImg } = useAuthStore();
-  const { openModal, setModal } = useModalStore();
+  const { openModal, setModal, setModalStep } = useModalStore();
 
   const router = useRouter();
 
   const handlePostClick = () => {
-    setModal(MODAL_NAME.POST_FEED);
+    setModal(MODAL.POST_FEED.NAME);
+    setModalStep(MODAL.POST_FEED.STEP.UPLOAD_IMAGE);
     openModal();
   };
 
   const handleTestModalClick = () => {
-    setModal(MODAL_NAME.TEST);
+    setModal(MODAL.TEST);
     openModal();
   };
 
