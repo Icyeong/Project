@@ -36,3 +36,10 @@ export function getErrorHandler(error: unknown) {
     return console.error("unexpected error");
   }
 }
+
+interface Sortable {
+  [key: string]: any;
+}
+export const sortByTime = (arr: Sortable[], key: string) => {
+  return arr.sort((a, b) => new Date(b[key]).getTime() - new Date(a[key]).getTime());
+};

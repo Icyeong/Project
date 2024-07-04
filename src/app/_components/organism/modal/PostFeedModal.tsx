@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
+import { sortByTime } from "@/_utils/utils";
 
 export default function PostFeedModal() {
   const { selectedImage, setSelectedImage, closeModal } = useModalStore();
@@ -62,10 +63,8 @@ export default function PostFeedModal() {
       useQueryClient().setQueryData(QUERY_KEYS.FEED.LIST.queryKey, (oldData: FeedProps[]) => {
         console.log("oldData : ", oldData);
         const updatedList = [...oldData, { ...data, createdAt: new Date().toISOString() }];
-        updatedList.sort(
-          (a: FeedProps, b: FeedProps) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        return updatedList;
+        const sortedList = sortByTime(updatedList, "createdAt");
+        return sortedList;
       });
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
