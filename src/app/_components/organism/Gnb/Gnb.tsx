@@ -23,13 +23,12 @@ import { v4 } from "uuid";
 
 export default function Gnb() {
   const { resetAuthState, userImg } = useAuthStore();
-  const { openModal, setModal, setModalStep } = useModalStore();
+  const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
 
   const handlePostClick = () => {
-    setModal(MODAL.POST_FEED.NAME);
-    setModalStep(MODAL.POST_FEED.STEP.UPLOAD_IMAGE);
+    setModal(MODAL.POST_FEED);
     openModal();
   };
 

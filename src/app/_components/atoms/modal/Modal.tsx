@@ -16,7 +16,7 @@ interface ModalProps {
 
 export function getModal(modalName: string) {
   switch (modalName) {
-    case MODAL.POST_FEED.NAME:
+    case MODAL.POST_FEED:
       return <PostFeedModal />;
     case MODAL.TEST:
       return <TestModal />;
