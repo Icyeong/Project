@@ -6,9 +6,23 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames";
 import useModalStore from "@/_stores/client/modalStore";
 import { createPortal } from "react-dom";
+import { MODAL } from "@/_constant/modal";
+import TestModal from "@components/molecules/ModalContent/TestModal";
+import PostFeedModal from "@/_components/organism/modal/PostFeedModal";
 
 interface ModalProps {
   children?: ReactNode;
+}
+
+export function getModal(modalName: string) {
+  switch (modalName) {
+    case MODAL.POST_FEED:
+      return <PostFeedModal />;
+    case MODAL.TEST:
+      return <TestModal />;
+    default:
+      return null;
+  }
 }
 
 export default function Modal({ children }: ModalProps) {

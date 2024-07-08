@@ -1,12 +1,13 @@
 import { AuthService } from "@/_services/auth_service";
 import { setCookie } from "cookies-next";
-import useAuthStore from "@/_stores/client/authStore";
+import useAuthStore, { JwtPayload_EMAIL, JwtPayload_GOOGLE } from "@/_stores/client/authStore";
 import { authErrorHandler } from "@/_utils/authErrorHandler";
 import { useCustomMutation } from "./useFetch";
 import { jwtDecode } from "jwt-decode";
+import { faker } from "@faker-js/faker";
 
 const useLogin = () => {
-  const { setAuthState, setUserName } = useAuthStore();
+  const { setAuthState, setUserName, setUserImg } = useAuthStore();
 
   const emailPasswordLogin = useCustomMutation(AuthService.signInWithEmailPassword, {
     onSuccess: async ({ token, user }) => {
@@ -14,6 +15,7 @@ const useLogin = () => {
       const userName = decodedToken.email;
       setCookie("accessToken", token);
       setUserName(userName);
+      setUserImg(faker.image.avatar());
       setAuthState(true);
       window.location.href = "/";
     },
@@ -29,6 +31,7 @@ const useLogin = () => {
       const userName = decodedToken.name;
       setCookie("accessToken", token);
       setUserName(userName);
+      setUserImg(faker.image.avatar());
       setAuthState(true);
       window.location.href = "/";
     },

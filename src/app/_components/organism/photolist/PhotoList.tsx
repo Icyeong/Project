@@ -23,8 +23,8 @@ export default function PhotoList() {
     }
     return (
       <List.Container>
-        {chunkedData.map((chunk: PhotoPieceProps[]) => (
-          <PhotoSet pieces={chunk} />
+        {chunkedData.map((chunk: PhotoPieceProps[], idx) => (
+          <PhotoSet key={idx} pieces={chunk} />
         ))}
       </List.Container>
     );

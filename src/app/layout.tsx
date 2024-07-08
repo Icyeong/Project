@@ -4,6 +4,7 @@ import "./_styles/globals.css";
 import App from "./(pages)/App";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import StyledComponentsRegistry from "./_styles/registry";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <App>{children}</App>
+        <StyledComponentsRegistry>
+          <App>{children}</App>
+        </StyledComponentsRegistry>
         <div id="modal-root" />
       </body>
     </html>

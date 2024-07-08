@@ -1,32 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container } from "./FeedList.style";
 import Feed, { FeedProps } from "@components/molecules/feed/Feed";
-import { useCustomQuery } from "@/_hooks/useFetch";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import FeedSkeleton from "./FeedSkeleton";
-import useFeedStore from "@/_stores/client/feedStore";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function FeedList() {
-  const [isInitLoad, setIsInitLoad] = useState(true);
-  const { data, isLoading } = useCustomQuery(QUERY_KEYS.FEED.LIST.queryKey, FeedService.getFeedsList, {
+  const { fetchNextPage, data, isLoading } = useInfiniteQuery({
+    queryKey: QUERY_KEYS.FEED.LIST.queryKey,
+    queryFn: FeedService.getFeedsList,
     gcTime: 1000 * 60 * 60,
     staleTime: 1000 * 60 * 60,
+    initialPageParam: true,
+    getNextPageParam: () => true,
   });
-  const { setFeedsState, feedList } = useFeedStore();
 
   useEffect(() => {
-    if (data && isInitLoad) {
-      setFeedsState(data);
-      setIsInitLoad(false);
-    }
-  }, [data, isInitLoad, setFeedsState]);
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+      if (clientHeight + scrollTop > scrollHeight - 300) {
+        fetchNextPage();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // const rowVirtualizer = useVirtualizer({
+  //   count: 5,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 850,
+  // });
 
   return (
     <>
       {isLoading && <FeedSkeleton />}
-      <Container>{feedList && feedList.map((feed: FeedProps) => <Feed key={feed.feedId} {...feed} />)}</Container>
-      {/* <Container>{data && !isLoading && data.map((feed: FeedProps) => <Feed key={feed.feedId} {...feed} />)}</Container> */}
+      <Container
+      // style={{
+      //   height: `${rowVirtualizer.getTotalSize()}px`,
+      //   width: "100%",
+      //   position: "relative",
+      // }}
+      >
+        {/* {data &&
+          !isLoading &&
+          rowVirtualizer.getVirtualItems().map((virtualItem) => {
+            const feed = data[virtualItem.index];
+            return (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: `${virtualItem.size}px`,
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+              >
+                <Feed {...feed} />
+              </div>
+            );
+          })} */}
+        {data &&
+          !isLoading &&
+          data.pages.flatMap((page) => page.map((feed: FeedProps) => <Feed key={feed.feedId} {...feed} />))}
+      </Container>
     </>
   );
 }

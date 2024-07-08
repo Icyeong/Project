@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const Textarea = styled.textarea<{ maxHeight?: number }>`
-  max-height: ${({ maxHeight }) => (maxHeight ? maxHeight : 80)}px;
+export const Textarea = styled.textarea<{ $maxHeight?: number }>`
+  max-height: ${({ $maxHeight }) => ($maxHeight ? $maxHeight : 80)}px;
   height: auto;
   font-size: 14px;
   line-height: 18px;
