@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Container } from "./FeedList.style";
-import Feed, { FeedProps } from "@components/molecules/feed/Feed";
+import Feed from "@components/molecules/feed/Feed";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import FeedSkeleton from "./FeedSkeleton";
@@ -8,13 +8,14 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function FeedList() {
-  const { fetchNextPage, data, isLoading } = useInfiniteQuery({
+  const parentRef = useRef<HTMLDivElement | null>(null);
+  const { fetchNextPage, data, isLoading, hasNextPage } = useInfiniteQuery({
     queryKey: QUERY_KEYS.FEED.LIST.queryKey,
-    queryFn: FeedService.getFeedsList,
+    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam),
     gcTime: 1000 * 60 * 60,
     staleTime: 1000 * 60 * 60,
-    initialPageParam: true,
-    getNextPageParam: () => true,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
   });
 
   useEffect(() => {
@@ -30,28 +31,32 @@ export default function FeedList() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [fetchNextPage, hasNextPage]);
 
-  // const rowVirtualizer = useVirtualizer({
-  //   count: 5,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 850,
-  // });
+  const rowVirtualizer = useVirtualizer({
+    count: data?.pages.flatMap((page) => page.feeds).length ?? 0,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 800,
+  });
 
   return (
     <>
       {isLoading && <FeedSkeleton />}
       <Container
-      // style={{
-      //   height: `${rowVirtualizer.getTotalSize()}px`,
-      //   width: "100%",
-      //   position: "relative",
-      // }}
+        ref={parentRef}
+        style={{
+          height: `${rowVirtualizer.getTotalSize()}px`,
+          width: "100%",
+          position: "relative",
+        }}
       >
-        {/* {data &&
+        {data &&
           !isLoading &&
           rowVirtualizer.getVirtualItems().map((virtualItem) => {
-            const feed = data[virtualItem.index];
+            const list = data.pages.flatMap((page) => page.feeds);
+            const feed = list[virtualItem.index];
+            console.log("list : ", list);
+            console.log("feed : ", feed);
             return (
               <div
                 key={virtualItem.key}
@@ -67,10 +72,7 @@ export default function FeedList() {
                 <Feed {...feed} />
               </div>
             );
-          })} */}
-        {data &&
-          !isLoading &&
-          data.pages.flatMap((page) => page.map((feed: FeedProps) => <Feed key={feed.feedId} {...feed} />))}
+          })}
       </Container>
     </>
   );

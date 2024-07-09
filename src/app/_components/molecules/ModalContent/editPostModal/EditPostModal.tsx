@@ -6,7 +6,6 @@ import useAuthStore from "@/_stores/client/authStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
-import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
@@ -21,8 +20,6 @@ interface EditPostProps {
   setStep: Dispatch<SetStateAction<string>>;
 }
 
-const queryClient = useQueryClient();
-
 export default function EditPostModal({ setStep }: EditPostProps) {
   const { selectedImage, closeModal } = useModalStore();
   const [textSize, setTextSize] = useState(0);
@@ -36,16 +33,11 @@ export default function EditPostModal({ setStep }: EditPostProps) {
     likes: 0,
   });
 
-  const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
-    onSuccess: (data: FeedProps) => {
-      queryClient.setQueryData(
-        QUERY_KEYS.FEED.LIST.queryKey,
-        (oldData: { pageParams: boolean[]; pages: FeedProps[][] }) => {
-          console.log("oldData : ", oldData);
+  const queryClient = useQueryClient();
 
-          return { ...oldData, pages: [[data, ...oldData.pages[0]], ...oldData.pages.slice(1)] };
-        },
-      );
+  const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
+    onSuccess: () => {
+      queryClient.invalidateQueries();
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
@@ -54,8 +46,6 @@ export default function EditPostModal({ setStep }: EditPostProps) {
     setStep(POST_MODAL.PREVIEW);
   };
   const handleNextClick = () => {
-    console.log("data : ", newFeedData);
-
     createFeed({ ...newFeedData, createdAt: new Date().toISOString() });
   };
 
