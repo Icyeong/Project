@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
 import BaseButton from "@components/atoms/button/BaseButton";
-import { POST_MODAL } from "@/_constant/modal";
+import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 interface UploadModalProps {
-  setStep: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<PostModalType>>;
 }
 
 export default function UploadModal({ setStep }: UploadModalProps) {

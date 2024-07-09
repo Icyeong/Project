@@ -14,10 +14,10 @@ import IconButton from "@components/atoms/button/IconButton";
 import BaseButton from "@components/atoms/button/BaseButton";
 import WritingBox from "../../writingBox/WritingBox";
 import { faker } from "@faker-js/faker";
-import { POST_MODAL } from "@/_constant/modal";
+import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 interface EditPostProps {
-  setStep: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<PostModalType>>;
 }
 
 export default function EditPostModal({ setStep }: EditPostProps) {

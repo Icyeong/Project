@@ -3,8 +3,9 @@ export const MODAL = {
   TEST: "TEST MODAL",
 };
 
+export type PostModalType = (typeof POST_MODAL)[keyof typeof POST_MODAL];
 export const POST_MODAL = {
   UPLOAD: "img upload",
   PREVIEW: "img preview & edit",
   WRITE: "write content",
-};
+} as const;

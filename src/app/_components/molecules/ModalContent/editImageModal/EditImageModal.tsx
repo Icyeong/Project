@@ -6,10 +6,10 @@ import IconButton from "@components/atoms/button/IconButton";
 import useModalStore from "@/_stores/client/modalStore";
 import Image from "next/image";
 import BaseButton from "@components/atoms/button/BaseButton";
-import { POST_MODAL } from "@/_constant/modal";
+import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 interface EditImageProps {
-  setStep: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<PostModalType>>;
 }
 
 export default function EditImageModal({ setStep }: EditImageProps) {

@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import UploadModal from "@components/molecules/ModalContent/uploadModal/UploadModal";
 import EditImageModal from "@components/molecules/ModalContent/editImageModal/EditImageModal";
 import EditPostModal from "@components/molecules/ModalContent/editPostModal/EditPostModal";
-import { POST_MODAL } from "@/_constant/modal";
+import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 export default function PostFeedModal() {
-  const [step, setStep] = useState(POST_MODAL.UPLOAD);
+  const [step, setStep] = useState<PostModalType>(POST_MODAL.UPLOAD);
 
   return (
     <>
