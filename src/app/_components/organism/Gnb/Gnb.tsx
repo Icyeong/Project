@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { GnbStyle } from "./Gnb.style";
 import Logo from "@components/atoms/common/Logo";
 import { GNB_NAV_LIST } from "@/_constant/gnb";
@@ -15,26 +15,26 @@ import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/_services/auth_service";
 
-export default function Gnb() {
+function Gnb() {
   const { resetAuthState, userImg } = useAuthStore();
   const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
 
-  const handlePostClick = () => {
+  const handlePostClick = useCallback(() => {
     setModal(MODAL.POST_FEED);
     openModal();
-  };
+  }, [setModal, openModal]);
 
-  const handleTestModalClick = () => {
+  const handleTestModalClick = useCallback(() => {
     setModal(MODAL.TEST);
     openModal();
-  };
+  }, [setModal, openModal]);
 
-  const handleModeChangeClick = () => {};
-  const handleTestClick = () => {};
+  const handleModeChangeClick = useCallback(() => {}, []);
+  const handleTestClick = useCallback(() => {}, []);
 
-  const { mutate: logOutMutation } = useCustomMutation(async () => AuthService.LogOut, {
+  const { mutate: logOut } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
       deleteCookie("accessToken");
       resetAuthState();
@@ -45,9 +45,9 @@ export default function Gnb() {
     },
   });
 
-  const handleLogOutClick = async () => {
-    logOutMutation(null);
-  };
+  const handleLogOutClick = useCallback(() => {
+    logOut(null);
+  }, [logOut]);
 
   return (
     <GnbStyle.Wrapper>
@@ -67,3 +67,5 @@ export default function Gnb() {
     </GnbStyle.Wrapper>
   );
 }
+
+export default React.memo(Gnb);
