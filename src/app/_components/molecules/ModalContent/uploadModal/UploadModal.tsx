@@ -29,6 +29,7 @@ export default function UploadModal({ setStep }: UploadModalProps) {
         setSelectedImage(reader.result as string);
         setStep(POST_MODAL.PREVIEW);
       };
+      reader.readAsDataURL(file);
     }
   };
 
