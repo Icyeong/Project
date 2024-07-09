@@ -55,8 +55,6 @@ export default function FeedList() {
           rowVirtualizer.getVirtualItems().map((virtualItem) => {
             const list = data.pages.flatMap((page) => page.feeds);
             const feed = list[virtualItem.index];
-            console.log("list : ", list);
-            console.log("feed : ", feed);
             return (
               <div
                 key={virtualItem.key}
