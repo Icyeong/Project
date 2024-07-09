@@ -6,7 +6,6 @@ import { GNB_NAV_LIST } from "@/_constant/gnb";
 import NavLink from "@components/atoms/nav/NavLink";
 import NavButton from "@components/atoms/nav/NavButton";
 import { faArrowRightFromBracket, faCircleHalfStroke, faT } from "@fortawesome/free-solid-svg-icons";
-import { faker } from "@faker-js/faker";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
 import { MODAL } from "@/_constant/modal";
@@ -15,12 +14,6 @@ import { deleteCookie } from "cookies-next";
 import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/_services/auth_service";
-import { FeedService } from "@/_services/feed_service";
-import { useQueryClient } from "@tanstack/react-query";
-import { FeedProps } from "@/_components/molecules/feed/Feed";
-import { QUERY_KEYS } from "@/_stores/server/queryKeys";
-import { v4 } from "uuid";
-import { sortByTime } from "@/_utils/utils";
 
 export default function Gnb() {
   const { resetAuthState, userImg } = useAuthStore();
@@ -39,31 +32,7 @@ export default function Gnb() {
   };
 
   const handleModeChangeClick = () => {};
-
-  const queryClient = useQueryClient();
-  const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
-    onSuccess: (data: FeedProps) => {
-      queryClient.setQueryData(QUERY_KEYS.FEED.LIST.queryKey, (oldData: FeedProps[]) => {
-        console.log("oldData : ", oldData);
-        const updatedList = [...oldData, { ...data, createdAt: new Date().toISOString() }];
-        const sortedList = sortByTime(updatedList, "createdAt");
-        return sortedList;
-      });
-
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    },
-  });
-  const handleTestClick = () => {
-    createFeed({
-      content: faker.image.urlLoremFlickr(),
-      createdAt: "",
-      feedId: v4(),
-      following: false,
-      likes: 0,
-      text: "szzzz",
-      username: "qq@qq.com",
-    });
-  };
+  const handleTestClick = () => {};
 
   const { mutate: logOutMutation } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
