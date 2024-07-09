@@ -12,9 +12,9 @@ const getFeedsList = async (page: number) => {
   }
 };
 
-const getPhotoPieces = async () => {
+const getPhotoPieces = async (page: number) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/explore`);
+    const res = await fetch(`${BASE_DOMAIN}/explore?page=${page}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
