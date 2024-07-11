@@ -4,8 +4,8 @@ import { createFeeds, isFeedProps } from "@/_dummyData/feedDummy";
 import { createStory } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 
-const serverFeedsData: FeedProps[] = createFeeds(15);
-const serverPhotoPiecesData = createPhotoPieces(100);
+const serverFeedsData: FeedProps[] = createFeeds(30);
+const serverPhotoPiecesData = createPhotoPieces(300);
 export const handlers = [
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
@@ -24,7 +24,7 @@ export const handlers = [
   http.get("/explore", ({ request }) => {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 12;
+    const pageSize = 15;
     const start = page * pageSize;
     const end = start + pageSize;
     const photos = serverPhotoPiecesData.slice(start, end);
