@@ -6,8 +6,8 @@ const TOP = [
   { name: "검색", href: "/#", icon: faSearch },
   { name: "탐색 탭", href: "/explore", icon: faCompass },
   { name: "메시지", href: "/message", icon: faMessage },
-];
+] as const;
 
 export const GNB_NAV_LIST = {
   TOP,
-};
+} as const;

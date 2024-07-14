@@ -5,12 +5,12 @@ import Modal, { getModal } from "@components/atoms/modal/Modal";
 import useModalStore from "@/_stores/client/modalStore";
 import { useEffect, useState } from "react";
 
+const queryClient = new QueryClient();
 export default function App({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient();
   const { isOpen, modalName } = useModalStore();
   const [hydrated, setHydrated] = useState(false);
 

@@ -7,7 +7,7 @@ export default function ExploreTemplate() {
   return (
     <HomeLayoutStyle.Container>
       <Template.Main>
-        <PhotoList />;
+        <PhotoList />
       </Template.Main>
     </HomeLayoutStyle.Container>
   );
