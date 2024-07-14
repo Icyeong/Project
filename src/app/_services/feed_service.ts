@@ -2,9 +2,9 @@ import { FeedProps } from "@/_components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
-const getFeedsList = async () => {
+const getFeedsList = async (page: number) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feeds`);
+    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -12,9 +12,9 @@ const getFeedsList = async () => {
   }
 };
 
-const getPhotoPieces = async () => {
+const getPhotoPieces = async (page: number) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/explore`);
+    const res = await fetch(`${BASE_DOMAIN}/explore?page=${page}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {

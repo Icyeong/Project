@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const FeedStyle = {
-  Container: styled.li`
+  Container: styled.div`
     display: flex;
     flex-direction: column;
     padding: 15px 0 10px;

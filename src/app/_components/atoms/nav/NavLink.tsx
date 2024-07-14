@@ -15,7 +15,7 @@ interface NavProps {
   img?: string;
 }
 
-export default function NavLink({ name, href, icon, img }: NavProps) {
+function NavLink({ name, href, icon, img }: NavProps) {
   const pathname = usePathname();
   return (
     <NavStyle.Li className={classNames({ active: pathname === href })}>
@@ -29,3 +29,5 @@ export default function NavLink({ name, href, icon, img }: NavProps) {
     </NavStyle.Li>
   );
 }
+
+export default React.memo(NavLink);

@@ -1,4 +1,4 @@
-import { FeedState } from "@/_types/feed_type";
+import { FeedProps } from "@/_components/molecules/feed/Feed";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -16,5 +16,11 @@ const useFeedStore = create(
     { name: "feed-storage" },
   ),
 );
+
+interface FeedState {
+  feedList: FeedProps[];
+  setFeedsState: (state: FeedProps[]) => void;
+  resetFeedState: () => void;
+}
 
 export default useFeedStore;

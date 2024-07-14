@@ -3,14 +3,14 @@ import styled from "styled-components";
 interface ButtonProps {
   fontSize?: string;
   color?: string;
-  bgColor?: string;
+  $bgColor?: string;
   fontWeight?: number;
   radius?: number;
 }
 
 export const Button = styled.button<ButtonProps>`
   color: ${(props) => props.color || "black"};
-  background-color: ${({ bgColor }) => bgColor || "transparent"};
+  background-color: ${({ $bgColor }) => $bgColor || "transparent"};
   font-size: ${(props) => props.fontSize || "16px"};
   font-weight: ${(props) => props.fontWeight || 500};
   border: none;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Content = {
+export const Preview = {
   Header: styled.div`
     display: flex;
     justify-content: space-between;

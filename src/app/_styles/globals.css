@@ -23,11 +23,22 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
   background: white;
+}
+
+body::-webkit-scrollbar {
+  position: fixed;
+  width: 13px;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
 }
 
 a {

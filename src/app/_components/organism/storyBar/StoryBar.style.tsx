@@ -1,4 +1,3 @@
-import { SkeletonAni } from "@/_styles/common.style";
 import styled from "styled-components";
 
 export const StoryStyle = {

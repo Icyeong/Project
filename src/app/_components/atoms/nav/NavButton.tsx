@@ -10,7 +10,7 @@ interface NavProps extends AllHTMLAttributes<HTMLButtonElement> {
   img?: string;
 }
 
-export default function NavButton({ name, icon, img, onClick }: NavProps) {
+function NavButton({ name, icon, img, onClick }: NavProps) {
   return (
     <NavStyle.Li>
       <button onClick={onClick}>
@@ -23,3 +23,4 @@ export default function NavButton({ name, icon, img, onClick }: NavProps) {
     </NavStyle.Li>
   );
 }
+export default React.memo(NavButton);

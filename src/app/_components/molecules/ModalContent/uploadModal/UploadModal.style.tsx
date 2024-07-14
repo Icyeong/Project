@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Content = {
+export const Upload = {
   Container: styled.div`
     height: 510px;
     display: flex;

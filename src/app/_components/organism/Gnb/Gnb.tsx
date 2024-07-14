@@ -1,41 +1,40 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { GnbStyle } from "./Gnb.style";
 import Logo from "@components/atoms/common/Logo";
 import { GNB_NAV_LIST } from "@/_constant/gnb";
 import NavLink from "@components/atoms/nav/NavLink";
 import NavButton from "@components/atoms/nav/NavButton";
-import { faArrowRightFromBracket, faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
-import { faker } from "@faker-js/faker";
+import { faArrowRightFromBracket, faCircleHalfStroke, faT } from "@fortawesome/free-solid-svg-icons";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import useModalStore from "@/_stores/client/modalStore";
-import { MODAL_NAME } from "@/_constant/modal";
+import { MODAL } from "@/_constant/modal";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { deleteCookie } from "cookies-next";
 import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/_services/auth_service";
 
-export default function Gnb() {
-  const [avatar, setAvater] = useState("");
-  const { resetAuthState } = useAuthStore();
+function Gnb() {
+  const { resetAuthState, userImg } = useAuthStore();
   const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
 
-  const handlePostClick = () => {
-    setModal(MODAL_NAME.POST_FEED);
+  const handlePostClick = useCallback(() => {
+    setModal(MODAL.POST_FEED);
     openModal();
-  };
+  }, [setModal, openModal]);
 
-  const handleTestClick = () => {
-    setModal(MODAL_NAME.TEST);
+  const handleTestModalClick = useCallback(() => {
+    setModal(MODAL.TEST);
     openModal();
-  };
+  }, [setModal, openModal]);
 
-  const handleModeChangeClick = () => {};
+  const handleModeChangeClick = useCallback(() => {}, []);
+  const handleTestClick = useCallback(() => {}, []);
 
-  const { mutate: logOutMutation } = useCustomMutation(async () => AuthService.LogOut, {
+  const { mutate: logOut } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
       deleteCookie("accessToken");
       resetAuthState();
@@ -46,14 +45,10 @@ export default function Gnb() {
     },
   });
 
-  const handleLogOutClick = async () => {
-    logOutMutation(null);
-  };
+  const handleLogOutClick = useCallback(() => {
+    logOut(null);
+  }, [logOut]);
 
-  useEffect(() => {
-    const profileImg = faker.image.avatar();
-    setAvater(profileImg);
-  }, []);
   return (
     <GnbStyle.Wrapper>
       <Logo />
@@ -62,12 +57,15 @@ export default function Gnb() {
           <NavLink key={nav.name} name={nav.name} href={nav.href} icon={nav.icon} />
         ))}
         <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
-        <NavButton name="프로필" img={avatar} onClick={handleTestClick} />
+        <NavButton name="프로필" img={userImg} onClick={handleTestModalClick} />
       </GnbStyle.Top>
       <GnbStyle.Bottom>
         <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
         <NavButton name="로그아웃" icon={faArrowRightFromBracket} onClick={handleLogOutClick} />
+        <NavButton name="테스트" icon={faT} onClick={handleTestClick} />
       </GnbStyle.Bottom>
     </GnbStyle.Wrapper>
   );
 }
+
+export default React.memo(Gnb);
