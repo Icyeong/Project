@@ -1,8 +1,9 @@
 import { FeedProps } from "@components/molecules/feed/Feed";
 import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isFeedProps } from "@/_dummyData/feedDummy";
-import { createStory } from "@/_dummyData/userDummy";
+import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
+import { getRandomNumber } from "@/_utils/utils";
 
 const serverFeedsData: FeedProps[] = createFeeds(30);
 const serverPhotoPiecesData = createPhotoPieces(300);
@@ -19,7 +20,7 @@ export const handlers = [
     return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
   }),
   http.get("/stories", () => {
-    return HttpResponse.json(createStory(16));
+    return HttpResponse.json(createUser(16));
   }),
   http.get("/explore", ({ request }) => {
     const url = new URL(request.url);
@@ -40,5 +41,15 @@ export const handlers = [
       return HttpResponse.json({ error: "Invalid data format" });
     }
     return HttpResponse.json(feedData);
+  }),
+
+  http.get("/search", async ({ request }) => {
+    const url = new URL(request.url);
+    const keyword = url.searchParams.get("keyword");
+
+    console.log("searh keyword : ", keyword);
+
+    // 검색결과 데이터 작업중(수정필요)
+    return HttpResponse.json(createUser(getRandomNumber(20)));
   }),
 ];
