@@ -4,3 +4,7 @@ export const INPUT_TEXT = {
   NAME: "성명",
   USERNAME: "사용자 이름",
 } as const;
+
+export const INPUT_SIZE = {
+  FEED_CONTENT: 1199,
+};

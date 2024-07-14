@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { ModalStyle } from "@/_components/atoms/modal/Modal.style";
 import { Upload } from "./UploadModal.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,7 @@ import BaseButton from "@components/atoms/button/BaseButton";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 interface UploadModalProps {
-  setStep: Dispatch<SetStateAction<PostModalType>>;
+  setStep: (step: PostModalType) => void;
 }
 
 export default function UploadModal({ setStep }: UploadModalProps) {

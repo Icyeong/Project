@@ -1,5 +1,4 @@
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
-import React, { Dispatch, SetStateAction } from "react";
 import { Preview } from "./EditImageModal.style";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "@components/atoms/button/IconButton";
@@ -9,7 +8,7 @@ import BaseButton from "@components/atoms/button/BaseButton";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
 
 interface EditImageProps {
-  setStep: Dispatch<SetStateAction<PostModalType>>;
+  setStep: (step: PostModalType) => void;
 }
 
 export default function EditImageModal({ setStep }: EditImageProps) {

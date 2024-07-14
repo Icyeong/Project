@@ -1,5 +1,5 @@
 import useModalStore from "@/_stores/client/modalStore";
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FeedProps } from "../../feed/Feed";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
@@ -15,9 +15,10 @@ import BaseButton from "@components/atoms/button/BaseButton";
 import WritingBox from "../../writingBox/WritingBox";
 import { faker } from "@faker-js/faker";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
+import { INPUT_SIZE } from "@/_constant/input";
 
 interface EditPostProps {
-  setStep: Dispatch<SetStateAction<PostModalType>>;
+  setStep: (step: PostModalType) => void;
 }
 
 export default function EditPostModal({ setStep }: EditPostProps) {
@@ -50,7 +51,7 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (textSize > 1199) return;
+    if (textSize > INPUT_SIZE.FEED_CONTENT) return;
     setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
     setTextSize(e.target.value.length);
   };
