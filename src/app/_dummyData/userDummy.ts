@@ -7,7 +7,7 @@ export const createUser = (max: number) => {
   for (let i = 0; i < max; i++) {
     user_list.push({
       userId: v4(),
-      username: faker.person.fullName(),
+      username: faker.person.middleName(),
       img: faker.image.avatar(),
     });
   }

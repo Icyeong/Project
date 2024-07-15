@@ -9,7 +9,7 @@ export function createFeeds(number: number) {
   for (let i = 0; i < number; i++) {
     feedList.push({
       feedId: uuidv4(),
-      username: faker.person.fullName(),
+      username: faker.person.middleName(),
       createdAt: new Date().toISOString(),
       following: getRandomBoolean(),
       content: faker.image.urlLoremFlickr(),
