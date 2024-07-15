@@ -3,10 +3,11 @@ import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
-import { getRandomNumber } from "@/_utils/utils";
+import { UserProps } from "@/_components/molecules/user/User";
 
 const serverFeedsData: FeedProps[] = createFeeds(30);
 const serverPhotoPiecesData = createPhotoPieces(300);
+const serverUsersData = createUser(100);
 export const handlers = [
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
@@ -47,9 +48,13 @@ export const handlers = [
     const url = new URL(request.url);
     const keyword = url.searchParams.get("keyword");
 
-    console.log("searh keyword : ", keyword);
+    let results: UserProps[] = [];
 
-    // 검색결과 데이터 작업중(수정필요)
-    return HttpResponse.json(createUser(getRandomNumber(20)));
+    if (keyword) {
+      const regex = new RegExp(keyword, "g");
+      const filteredUsers = serverUsersData.filter((user: UserProps) => user.username.match(regex));
+      results = filteredUsers;
+    }
+    return HttpResponse.json(results);
   }),
 ];
