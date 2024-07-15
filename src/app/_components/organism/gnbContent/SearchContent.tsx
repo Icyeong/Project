@@ -7,9 +7,11 @@ import debounce from "lodash/debounce";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { UserProps } from "@/_components/molecules/user/User";
+import useFeedStore from "@/_stores/client/feedStore";
 
 export default function SearchContent() {
   const [keyword, setKeyword] = useState("");
+  const { searchHistory } = useFeedStore();
 
   const handleTextChange = useCallback(
     debounce(
@@ -39,15 +41,16 @@ export default function SearchContent() {
       </Search.Head>
       <ScrollBox>
         {keyword && data?.length ? (
-          // 검색결과 데이터 작업중(수정필요)
-          data.map((item: UserProps) => <UserBar key={item.userId} {...item} />)
+          data.map((user: UserProps) => <UserBar key={user.userId} user={user} />)
         ) : (
           <Search.EmptyContent>
-            {!keyword && (
+            {!keyword &&
+              searchHistory.length > 0 &&
+              searchHistory.map((user) => <UserBar key={user.userId} user={user} deleteButton={true} />)}
+            {!keyword && searchHistory.length === 0 && (
               <>
                 <span>최근 검색 항목</span>
                 <p>최근 검색 내역 없음.</p>
-                {/* 최근 검색 내역 작업 필요 */}
               </>
             )}
             {keyword && !data?.length && <p>검색 결과가 없습니다.</p>}

@@ -12,6 +12,15 @@ export const Bar = {
       background-color: #ececec;
     }
   `,
+  CloseButton: styled.button`
+    padding: 8px;
+    z-index: 10;
+    font-size: 20px;
+    color: #737373;
+    &:hover {
+      color: #3b3b3b;
+    }
+  `,
   UserInfo: styled.div`
     display: flex;
     flex: 1;
@@ -25,6 +34,7 @@ export const Bar = {
     span {
       font-weight: 600;
       color: black;
+      padding: 0;
     }
     p {
     }
