@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const Bar = {
-  Wrapper: styled.li``,
+  Wrapper: styled.li`
+    position: relative;
+  `,
   Button: styled.button`
     width: 100%;
     display: flex;
@@ -13,10 +15,14 @@ export const Bar = {
     }
   `,
   CloseButton: styled.button`
-    padding: 8px;
+    padding: 8px 10px;
     z-index: 10;
     font-size: 20px;
     color: #737373;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
     &:hover {
       color: #3b3b3b;
     }

@@ -34,12 +34,12 @@ export default function UserBar({ user, deleteButton }: UserBarProps) {
           <span>{user.username}</span>
           {faker.person.fullName()}님이 팔로우합니다
         </Bar.UserInfo>
-        {deleteButton && (
-          <Bar.CloseButton onClick={handleDeleteHistory}>
-            <FontAwesomeIcon icon={faClose} />
-          </Bar.CloseButton>
-        )}
       </Bar.Button>
+      {deleteButton && (
+        <Bar.CloseButton onClick={handleDeleteHistory}>
+          <FontAwesomeIcon icon={faClose} />
+        </Bar.CloseButton>
+      )}
     </Bar.Wrapper>
   );
 }
