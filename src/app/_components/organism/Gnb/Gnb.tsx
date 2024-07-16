@@ -16,11 +16,10 @@ import { AuthService } from "@/_services/auth_service";
 import { GNB_SHAPE, GnbShapeType } from "@/_constant/gnb";
 import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
-import SearchContent from "../gnbContent/SearchContent";
+import SearchContent from "../SearchContent/SearchContent";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
-  const [gnbBoxActive, setGnbBoxActive] = useState(false);
   const { resetAuthState, userImg } = useAuthStore();
   const { openModal, setModal } = useModalStore();
 
@@ -32,11 +31,7 @@ function Gnb() {
   }, [setModal, openModal]);
 
   const handleSearchClick = useCallback(() => {
-    if (gnbShape === GNB_SHAPE.ALL) {
-      setGnbShape(GNB_SHAPE.ICON_WITH_BOX);
-    } else {
-      setGnbShape(GNB_SHAPE.ALL);
-    }
+    setGnbShape((prev) => (prev === GNB_SHAPE.ALL ? GNB_SHAPE.ICON_WITH_BOX : GNB_SHAPE.ALL));
   }, [gnbShape]);
 
   const handleTestModalClick = useCallback(() => {
@@ -47,7 +42,7 @@ function Gnb() {
   const handleModeChangeClick = useCallback(() => {}, []);
   const handleTestClick = useCallback(() => {}, []);
 
-  const { mutate: logOut } = useCustomMutation(async () => AuthService.LogOut, {
+  const { mutate: mutateLogOut } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
       deleteCookie("accessToken");
       resetAuthState();
@@ -59,16 +54,8 @@ function Gnb() {
   });
 
   const handleLogOutClick = useCallback(() => {
-    logOut(null);
-  }, [logOut]);
-
-  useEffect(() => {
-    if (gnbShape === GNB_SHAPE.ICON_WITH_BOX) {
-      setGnbBoxActive(true);
-    } else {
-      setGnbBoxActive(false);
-    }
-  }, [gnbShape, setGnbBoxActive]);
+    mutateLogOut(null);
+  }, [mutateLogOut]);
 
   return (
     <GnbStyle.Wrapper>
@@ -93,8 +80,7 @@ function Gnb() {
           <NavButton name="테스트" icon={faT} onClick={handleTestClick} />
         </GnbStyle.Bottom>
       </GnbStyle.NavContainer>
-      <GnbContentBox isActive={gnbBoxActive}>
-        {/* test */}
+      <GnbContentBox gnbShape={gnbShape}>
         <SearchContent />
       </GnbContentBox>
     </GnbStyle.Wrapper>
