@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const Upload = {
   Container: styled.div`
-    height: 510px;
+    width: 38vw;
+    height: 78vh;
     display: flex;
     flex-direction: column;
     align-items: center;
