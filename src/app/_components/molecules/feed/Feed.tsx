@@ -10,6 +10,7 @@ import BaseButton from "@components/atoms/button/BaseButton";
 export interface FeedProps {
   feedId: string;
   username: string;
+  img: string;
   createdAt: string;
   following: boolean;
   content: string;
@@ -17,10 +18,11 @@ export interface FeedProps {
   likes: number;
 }
 
-export default function Feed({ feedId, username, createdAt, following, content, text, likes }: FeedProps) {
+export default function Feed(feed: FeedProps) {
+  const { username, content, text, likes } = feed;
   return (
     <FeedStyle.Container>
-      <FeedHeader username={username} createdAt={createdAt} following={following} />
+      <FeedHeader {...feed} />
       <FeedStyle.ContentBox>
         <Image src={content} width={470} height={580} alt="content" priority />
       </FeedStyle.ContentBox>

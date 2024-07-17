@@ -10,6 +10,7 @@ export function createFeeds(number: number) {
     feedList.push({
       feedId: uuidv4(),
       username: faker.person.middleName(),
+      img: faker.image.avatar(),
       createdAt: new Date().toISOString(),
       following: getRandomBoolean(),
       content: faker.image.urlLoremFlickr(),
