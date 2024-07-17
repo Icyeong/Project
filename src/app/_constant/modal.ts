@@ -1,5 +1,6 @@
 export const MODAL = {
   POST_FEED: "새 게시물 만들기",
+  FEED_OPTION: "피드 옵션 보기",
   TEST: "TEST MODAL",
 } as const;
 

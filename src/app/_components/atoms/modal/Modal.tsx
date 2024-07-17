@@ -8,7 +8,8 @@ import useModalStore from "@/_stores/client/modalStore";
 import { createPortal } from "react-dom";
 import { MODAL } from "@/_constant/modal";
 import TestModal from "@components/molecules/ModalContent/TestModal";
-import PostFeedModal from "@/_components/organism/modal/PostFeedModal";
+import PostFeedModal from "@components/organism/modal/postFeed/PostFeedModal";
+import FeedOptionModal from "@/_components/organism/modal/feedOptions/FeedOptionModal";
 
 interface ModalProps {
   children?: ReactNode;
@@ -18,6 +19,8 @@ export function getModal(modalName: string) {
   switch (modalName) {
     case MODAL.POST_FEED:
       return <PostFeedModal />;
+    case MODAL.FEED_OPTION:
+      return <FeedOptionModal />;
     case MODAL.TEST:
       return <TestModal />;
     default:
