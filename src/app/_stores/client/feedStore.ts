@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 
 const initialState = {
   feedList: [],
+  selectedFeed: null,
   searchHistory: [],
 };
 
@@ -13,6 +14,7 @@ const useFeedStore = create(
     (set) => ({
       ...initialState,
       setFeedsState: (state) => set(() => ({ feedList: state })),
+      setSelectedFeed: (state: FeedProps) => set(() => ({ selectedFeed: state })),
       addSearchHistory: (state) =>
         set((prev) => {
           const filteredHistory = prev.searchHistory.filter((history) => history.userId !== state.userId);
@@ -31,8 +33,10 @@ const useFeedStore = create(
 
 interface FeedState {
   feedList: FeedProps[];
+  selectedFeed: FeedProps | null;
   searchHistory: UserProps[];
   setFeedsState: (state: FeedProps[]) => void;
+  setSelectedFeed: (state: FeedProps) => void;
   addSearchHistory: (state: UserProps) => void;
   deleteSearchHistory: (state: string) => void;
   resetFeedState: () => void;

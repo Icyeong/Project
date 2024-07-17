@@ -5,7 +5,7 @@ import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 import { UserProps } from "@/_components/molecules/user/User";
 
-const serverFeedsData: FeedProps[] = createFeeds(30);
+let serverFeedsData: FeedProps[] = createFeeds(30);
 const serverPhotoPiecesData = createPhotoPieces(300);
 const serverUsersData = createUser(100);
 export const handlers = [
@@ -42,6 +42,15 @@ export const handlers = [
       return HttpResponse.json({ error: "Invalid data format" });
     }
     return HttpResponse.json(feedData);
+  }),
+
+  http.delete("/feed", async ({ request }) => {
+    const url = new URL(request.url);
+    const feedId = url.searchParams.get("id");
+
+    const filtered = serverFeedsData.filter((feed) => feed.feedId !== feedId);
+    serverFeedsData = [...filtered];
+    return HttpResponse.json(feedId);
   }),
 
   http.get("/search", async ({ request }) => {
