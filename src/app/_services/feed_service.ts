@@ -32,8 +32,19 @@ const postFeed = async (fetchData: FeedProps) => {
   }
 };
 
+const getSearchedResults = async (keyword: string) => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/search?keyword=${keyword}`);
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    getErrorHandler(error);
+  }
+};
+
 export const FeedService = {
   getFeedsList,
   getPhotoPieces,
   postFeed,
+  getSearchedResults,
 };

@@ -1,11 +1,13 @@
 import { FeedProps } from "@components/molecules/feed/Feed";
 import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isFeedProps } from "@/_dummyData/feedDummy";
-import { createStory } from "@/_dummyData/userDummy";
+import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
+import { UserProps } from "@/_components/molecules/user/User";
 
 const serverFeedsData: FeedProps[] = createFeeds(30);
 const serverPhotoPiecesData = createPhotoPieces(300);
+const serverUsersData = createUser(100);
 export const handlers = [
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
@@ -19,7 +21,7 @@ export const handlers = [
     return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
   }),
   http.get("/stories", () => {
-    return HttpResponse.json(createStory(16));
+    return HttpResponse.json(createUser(16));
   }),
   http.get("/explore", ({ request }) => {
     const url = new URL(request.url);
@@ -40,5 +42,19 @@ export const handlers = [
       return HttpResponse.json({ error: "Invalid data format" });
     }
     return HttpResponse.json(feedData);
+  }),
+
+  http.get("/search", async ({ request }) => {
+    const url = new URL(request.url);
+    const keyword = url.searchParams.get("keyword");
+
+    let results: UserProps[] = [];
+
+    if (keyword) {
+      const regex = new RegExp(keyword, "g");
+      const filteredUsers = serverUsersData.filter((user: UserProps) => user.username.match(regex));
+      results = filteredUsers;
+    }
+    return HttpResponse.json(results);
   }),
 ];

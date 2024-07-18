@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import PhotoSet from "@components/molecules/photoSet/PhotoSet";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
@@ -62,7 +62,6 @@ export default function PhotoList() {
   return (
     <div ref={parentRef} style={{ height: `${rowVirtualizer.getTotalSize()}px`, width: "100%", position: "relative" }}>
       {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-        console.log("virtualItem : ", virtualItem);
         const chunk = chunkedData[virtualItem.index];
         return (
           <div

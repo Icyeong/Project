@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CardWarpper } from "@/_styles/cardWrapper.style";
 import BaseButton from "@components/atoms/button/BaseButton";
 import useLogin from "@/_hooks/useLogin";
+import { GNB_SHAPE } from "@/_constant/gnb";
 
 export default function LoginCard() {
   const { googleLogin } = useLogin();
@@ -17,7 +18,7 @@ export default function LoginCard() {
   return (
     <LoginWrapper>
       <CardWarpper>
-        <Logo />
+        <Logo gnbShape={GNB_SHAPE.ALL} />
         <LoginForm />
         <div className="divider">
           <span></span>

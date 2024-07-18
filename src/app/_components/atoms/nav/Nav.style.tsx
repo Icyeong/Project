@@ -41,5 +41,10 @@ export const NavStyle = {
       align-items: center;
       border-radius: 50%;
     }
+    svg {
+      font-size: 22px;
+    }
   `,
+
+  Name: styled.span``,
 };

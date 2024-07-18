@@ -24,7 +24,7 @@ function NavLink({ name, href, icon, img }: NavProps) {
           {icon && <FontAwesomeIcon icon={icon} />}
           {img && <Image src={img} width={22} height={22} alt={name} />}
         </NavStyle.Icon>
-        {name}
+        <NavStyle.Name className="navName">{name}</NavStyle.Name>
       </Link>
     </NavStyle.Li>
   );
