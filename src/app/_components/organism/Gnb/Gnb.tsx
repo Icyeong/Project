@@ -17,10 +17,13 @@ import { GNB_SHAPE, GnbShapeType } from "@/_constant/gnb";
 import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
+import useFeedStore from "@/_stores/client/feedStore";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
   const { resetAuthState, userImg } = useAuthStore();
+  const { resetFeedState } = useFeedStore();
+  const { resetModalState } = useModalStore();
   const { openModal, setModal } = useModalStore();
 
   const router = useRouter();
@@ -46,6 +49,8 @@ function Gnb() {
     onSuccess: () => {
       deleteCookie("accessToken");
       resetAuthState();
+      resetFeedState();
+      resetModalState();
       router.push("/login");
     },
     onError: (error) => {
