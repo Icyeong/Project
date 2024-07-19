@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GnbStyle } from "./Gnb.style";
 import Logo from "@components/atoms/common/Logo";
 import NavLink from "@components/atoms/nav/NavLink";
@@ -26,6 +26,7 @@ function Gnb() {
   const { resetModalState } = useModalStore();
   const { openModal, setModal } = useModalStore();
 
+  const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const handlePostClick = useCallback(() => {
@@ -62,8 +63,22 @@ function Gnb() {
     mutateLogOut(null);
   }, [mutateLogOut]);
 
+  const handleOutsideClick = (e: any) => {
+    if (gnbRef.current && !gnbRef.current.contains(e.target)) {
+      setGnbShape(GNB_SHAPE.ALL);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <GnbStyle.Wrapper>
+    <GnbStyle.Wrapper ref={gnbRef}>
       <GnbStyle.NavContainer
         className={classNames([
           { icon: gnbShape === GNB_SHAPE.ICON_ONLY },
