@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { Container } from "./FeedList.style";
-import Feed from "@components/molecules/feed/Feed";
+import Feed, { FeedProps } from "@components/molecules/feed/Feed";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import FeedSkeleton from "./FeedSkeleton";
@@ -60,7 +60,7 @@ export default function FeedList() {
           !isLoading &&
           rowVirtualizer.getVirtualItems().map((virtualItem) => {
             const list = data.pages.flatMap((page) => page.feeds);
-            const feed = list[virtualItem.index];
+            const feed: FeedProps = list[virtualItem.index];
             return (
               <div
                 key={virtualItem.key}

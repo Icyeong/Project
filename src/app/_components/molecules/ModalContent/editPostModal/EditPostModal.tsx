@@ -3,7 +3,6 @@ import React, { ChangeEvent, useState } from "react";
 import { FeedProps } from "../../feed/Feed";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +15,7 @@ import WritingBox from "../../writingBox/WritingBox";
 import { faker } from "@faker-js/faker";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
 import { INPUT_SIZE } from "@/_constant/input";
+import { queryClient } from "@/(pages)/App";
 
 interface EditPostProps {
   setStep: (step: PostModalType) => void;
@@ -27,14 +27,13 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: v4(),
     username: useAuthStore().userName,
+    img: faker.image.avatar(),
     createdAt: "",
     following: false,
     content: selectedImage || faker.image.urlLoremFlickr(),
     text: "",
     likes: 0,
   });
-
-  const queryClient = useQueryClient();
 
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: () => {

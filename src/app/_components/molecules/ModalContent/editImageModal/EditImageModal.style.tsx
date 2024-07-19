@@ -12,17 +12,15 @@ export const Preview = {
     display: flex;
     justify-content: center;
     border-right: 1px solid rgb(219, 219, 219);
-    max-width: 1100px;
-    min-width: 35vw;
     overflow: hidden;
+    width: 38vw;
+    height: 78vh;
     img {
       width: auto;
-      /* height: 100%; */
+      height: auto;
     }
   `,
   Flex: styled.div`
     display: flex;
-    flex: 1;
-    width: 100%;
   `,
 };
