@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FeedStyle } from "./Feed.style";
 import FeedHeader from "./feedHeader/FeedHeader";
 import Image from "next/image";
@@ -16,12 +16,23 @@ export interface FeedProps {
   content: string;
   text: string;
   likes: number;
+  onSizeChange?: (size: number) => void;
 }
 
-export default function Feed(feed: FeedProps) {
+export default function Feed({ onSizeChange, ...feed }: FeedProps) {
   const { username, content, text, likes } = feed;
+  const feedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (feedRef.current) {
+      const resizeObsever = new ResizeObserver((entries) => {
+        onSizeChange?.(entries[0].contentRect.height);
+      });
+      resizeObsever.observe(feedRef.current);
+    }
+  }, [onSizeChange]);
   return (
-    <FeedStyle.Container>
+    <FeedStyle.Container ref={feedRef}>
       <FeedHeader {...feed} />
       <FeedStyle.ContentBox>
         <Image src={content} width={470} height={580} alt="content" priority />
