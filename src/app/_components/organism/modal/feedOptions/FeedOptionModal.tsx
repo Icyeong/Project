@@ -7,6 +7,8 @@ import { FeedService } from "@/_services/feed_service";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { queryClient } from "@/(pages)/App";
 import { FEED_OPTIONS_MODAL } from "@/_constant/modal";
+import { InvalidateQueryFilters } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 
 export default function FeedOptionModal() {
   const { userName } = useAuthStore();
@@ -15,7 +17,10 @@ export default function FeedOptionModal() {
 
   const { mutate: mutateDeleteFeed } = useCustomMutation(FeedService.deleteFeed, {
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      const filters: InvalidateQueryFilters = {
+        queryKey: QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters["queryKey"],
+      };
+      queryClient.invalidateQueries(filters);
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },

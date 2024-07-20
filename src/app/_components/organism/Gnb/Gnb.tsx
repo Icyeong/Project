@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GnbStyle } from "./Gnb.style";
 import Logo from "@components/atoms/common/Logo";
 import NavLink from "@components/atoms/nav/NavLink";
@@ -17,12 +17,16 @@ import { GNB_SHAPE, GnbShapeType } from "@/_constant/gnb";
 import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
+import useFeedStore from "@/_stores/client/feedStore";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
   const { resetAuthState, userImg } = useAuthStore();
+  const { resetFeedState } = useFeedStore();
+  const { resetModalState } = useModalStore();
   const { openModal, setModal } = useModalStore();
 
+  const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const handlePostClick = useCallback(() => {
@@ -46,6 +50,8 @@ function Gnb() {
     onSuccess: () => {
       deleteCookie("accessToken");
       resetAuthState();
+      resetFeedState();
+      resetModalState();
       router.push("/login");
     },
     onError: (error) => {
@@ -57,8 +63,22 @@ function Gnb() {
     mutateLogOut(null);
   }, [mutateLogOut]);
 
+  const handleOutsideClick = (e: any) => {
+    if (gnbRef.current && !gnbRef.current.contains(e.target)) {
+      setGnbShape(GNB_SHAPE.ALL);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <GnbStyle.Wrapper>
+    <GnbStyle.Wrapper ref={gnbRef}>
       <GnbStyle.NavContainer
         className={classNames([
           { icon: gnbShape === GNB_SHAPE.ICON_ONLY },

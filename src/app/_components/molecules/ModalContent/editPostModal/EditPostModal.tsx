@@ -16,6 +16,8 @@ import { faker } from "@faker-js/faker";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
 import { INPUT_SIZE } from "@/_constant/input";
 import { queryClient } from "@/(pages)/App";
+import { QUERY_KEYS } from "@/_stores/server/queryKeys";
+import { InvalidateQueryFilters } from "@tanstack/react-query";
 
 interface EditPostProps {
   setStep: (step: PostModalType) => void;
@@ -37,7 +39,10 @@ export default function EditPostModal({ setStep }: EditPostProps) {
 
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      const filters: InvalidateQueryFilters = {
+        queryKey: QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters["queryKey"],
+      };
+      queryClient.invalidateQueries(filters);
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
