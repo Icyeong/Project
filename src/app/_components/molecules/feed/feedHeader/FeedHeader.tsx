@@ -21,11 +21,11 @@ export default function FeedHeader(feed: FeedProps) {
   const { setSelectedFeed } = useFeedStore();
   const { userName, userImg } = useAuthStore();
 
-  const handleOptionClick = useCallback(() => {
+  const handleOptionClick = () => {
     setSelectedFeed(feed);
     setModal(MODAL.FEED_OPTION);
     openModal();
-  }, [setModal, openModal]);
+  };
 
   return (
     <Header.Container>
