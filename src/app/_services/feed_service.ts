@@ -32,6 +32,16 @@ const postFeed = async (fetchData: FeedProps) => {
   }
 };
 
+const editFeed = async (fetchData: FeedProps) => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/feed`, getFetchOptions("PATCH", true, fetchData));
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    getErrorHandler(error);
+  }
+};
+
 const deleteFeed = async (feedId: string) => {
   try {
     const res = await fetch(`${BASE_DOMAIN}/feed?id=${feedId}`, getFetchOptions("DELETE", true, null));
@@ -56,6 +66,7 @@ export const FeedService = {
   getFeedsList,
   getPhotoPieces,
   postFeed,
+  editFeed,
   deleteFeed,
   getSearchedResults,
 };

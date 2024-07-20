@@ -39,10 +39,7 @@ export default function EditPostModal({ setStep }: EditPostProps) {
 
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: () => {
-      const filters: InvalidateQueryFilters = {
-        queryKey: QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters["queryKey"],
-      };
-      queryClient.invalidateQueries(filters);
+      queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
       closeModal();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },

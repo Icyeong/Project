@@ -44,6 +44,17 @@ export const handlers = [
     return HttpResponse.json(feedData);
   }),
 
+  http.patch("/feed", async ({ request }) => {
+    const feedData = await request.json();
+    if (isFeedProps(feedData)) {
+      const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedData.feedId);
+      serverFeedsData[idx] = feedData;
+      return HttpResponse.json(serverFeedsData);
+    } else {
+      return HttpResponse.json({ error: "Invalid data format" });
+    }
+  }),
+
   http.delete("/feed", async ({ request }) => {
     const url = new URL(request.url);
     const feedId = url.searchParams.get("id");
