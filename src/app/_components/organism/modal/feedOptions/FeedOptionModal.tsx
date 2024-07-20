@@ -1,5 +1,4 @@
 import { ModalStyle } from "@components/atoms/modal/Modal.style";
-import React, { useEffect } from "react";
 import { Options } from "./FeedOptionModal.style";
 import useAuthStore from "@/_stores/client/authStore";
 import useModalStore from "@/_stores/client/modalStore";
@@ -7,6 +6,7 @@ import useFeedStore from "@/_stores/client/feedStore";
 import { FeedService } from "@/_services/feed_service";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { queryClient } from "@/(pages)/App";
+import { FEED_OPTIONS_MODAL } from "@/_constant/modal";
 
 export default function FeedOptionModal() {
   const { userName } = useAuthStore();
@@ -27,34 +27,33 @@ export default function FeedOptionModal() {
     }
   };
 
-  useEffect(() => {
-    console.log("selectedFeed: ", selectedFeed);
-  }, [selectedFeed]);
+  const getOptionFunction = (fn: string) => {
+    switch (fn) {
+      case "deleteFeed":
+        return deleteFeedClick;
+      default:
+        return () => alert("not yet working...");
+    }
+  };
+
+  const getCurrentOption = () => {
+    if (selectedFeed?.username === userName) {
+      return FEED_OPTIONS_MODAL.MYFEED.map((option, idx) => (
+        <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
+          {option.name}
+        </Options.Button>
+      ));
+    } else {
+      return FEED_OPTIONS_MODAL.OTHERS.map((option, idx) => (
+        <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
+          {option.name}
+        </Options.Button>
+      ));
+    }
+  };
   return (
     <ModalStyle.Body>
-      {selectedFeed?.username === userName ? (
-        <>
-          <Options.Button onClick={deleteFeedClick}>삭제</Options.Button>
-          <Options.Button>수정</Options.Button>
-          <Options.Button>다른 사람에게 좋아요 수 숨기기 취소</Options.Button>
-          <Options.Button>댓글 기능 해제</Options.Button>
-          <Options.Button>게시물로 이동</Options.Button>
-          <Options.Button>공유 대상...</Options.Button>
-          <Options.Button>링크 복사</Options.Button>
-          <Options.Button>퍼가기</Options.Button>
-        </>
-      ) : (
-        <>
-          <Options.Button>신고</Options.Button>
-          <Options.Button>팔로우 취소</Options.Button>
-          <Options.Button>즐겨찾기에 추가</Options.Button>
-          <Options.Button>게시물로 이동</Options.Button>
-          <Options.Button>공유 대상...</Options.Button>
-          <Options.Button>링크 복사</Options.Button>
-          <Options.Button>퍼가기</Options.Button>
-          <Options.Button>이 계정 정보</Options.Button>
-        </>
-      )}
+      {getCurrentOption()}
       <Options.Button onClick={closeModal}>취소</Options.Button>
     </ModalStyle.Body>
   );
