@@ -13,7 +13,7 @@ import { deleteCookie } from "cookies-next";
 import useAuthStore from "@/_stores/client/authStore";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/_services/auth_service";
-import { GNB_SHAPE, GnbShapeType } from "@/_constant/gnb";
+import { GNB_CONTENT, GNB_SHAPE, GnbContentType, GnbShapeType } from "@/_constant/gnb";
 import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
@@ -21,6 +21,7 @@ import useFeedStore from "@/_stores/client/feedStore";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
+  const [gnbContent, setGnbContent] = useState<GnbContentType | null>(null);
   const { resetAuthState, userImg } = useAuthStore();
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
@@ -35,6 +36,7 @@ function Gnb() {
   }, [setModal, openModal]);
 
   const handleSearchClick = useCallback(() => {
+    setGnbContent(GNB_CONTENT.SEARCH);
     setGnbShape((prev) => (prev === GNB_SHAPE.ALL ? GNB_SHAPE.ICON_WITH_BOX : GNB_SHAPE.ALL));
   }, [gnbShape]);
 
@@ -69,6 +71,15 @@ function Gnb() {
     }
   };
 
+  const getGnbContent = () => {
+    switch (gnbContent) {
+      case "search":
+        return <SearchContent />;
+      default:
+        return null;
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
 
@@ -99,10 +110,8 @@ function Gnb() {
           <NavButton name="로그아웃" icon={faArrowRightFromBracket} onClick={handleLogOutClick} />
           <NavButton name="테스트" icon={faT} onClick={handleTestClick} />
         </GnbStyle.Bottom>
+        <GnbContentBox gnbShape={gnbShape}>{getGnbContent()}</GnbContentBox>
       </GnbStyle.NavContainer>
-      <GnbContentBox gnbShape={gnbShape}>
-        <SearchContent />
-      </GnbContentBox>
     </GnbStyle.Wrapper>
   );
 }

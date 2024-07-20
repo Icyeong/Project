@@ -18,6 +18,7 @@ export const GnbStyle = {
     padding: 8px 12px 20px;
     display: flex;
     flex-direction: column;
+    position: relative;
     &.icon,
     &.iconWithBox {
       min-width: auto;
