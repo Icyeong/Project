@@ -14,8 +14,9 @@ export default function FeedList() {
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
     queryKey: QUERY_KEYS.FEED.LIST.queryKey,
     queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam),
-    gcTime: 1000 * 60 * 60,
-    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 2,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
   });
