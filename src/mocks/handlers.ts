@@ -1,6 +1,6 @@
 import { FeedProps } from "@components/molecules/feed/Feed";
 import { createPhotoPieces } from "@/_dummyData/explorDummy";
-import { createFeeds, isFeedProps } from "@/_dummyData/feedDummy";
+import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 import { UserProps } from "@/_components/molecules/user/User";
@@ -64,6 +64,20 @@ export const handlers = [
     return HttpResponse.json(feedId);
   }),
 
+  http.post("/feed/:id/comment", async ({ request, params }) => {
+    const feedId = params.id;
+    console.log("msw comment feedId : ", feedId);
+    const commentData = await request.json();
+
+    const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
+    if (isCommentInfoProps(commentData)) {
+      serverFeedsData[idx].comments.unshift(commentData);
+      return HttpResponse.json(commentData);
+    } else {
+      return HttpResponse.json({ error: "Invalid data format" });
+    }
+  }),
+
   http.get("/search", async ({ request }) => {
     const url = new URL(request.url);
     const keyword = url.searchParams.get("keyword");
@@ -72,7 +86,7 @@ export const handlers = [
 
     if (keyword) {
       const regex = new RegExp(keyword, "g");
-      const filteredUsers = serverUsersData.filter((user: UserProps) => user.username.match(regex));
+      const filteredUsers = serverUsersData.filter((user: UserProps) => user.userName.match(regex));
       results = filteredUsers;
     }
     return HttpResponse.json(results);

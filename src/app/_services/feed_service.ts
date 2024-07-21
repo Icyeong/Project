@@ -1,4 +1,5 @@
-import { FeedProps } from "@/_components/molecules/feed/Feed";
+import { CommentInfoProps } from "@components/molecules/commentInputBar/CommentInputBar";
+import { FeedProps } from "@components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
@@ -52,6 +53,16 @@ const deleteFeed = async (feedId: string) => {
   }
 };
 
+const addComment = async ({ feedId, fetchData }: { feedId: string; fetchData: CommentInfoProps }) => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/feed/${feedId}/comment`, getFetchOptions("POST", true, fetchData));
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    getErrorHandler(error);
+  }
+};
+
 const getSearchedResults = async (keyword: string) => {
   try {
     const res = await fetch(`${BASE_DOMAIN}/search?keyword=${keyword}`);
@@ -68,5 +79,6 @@ export const FeedService = {
   postFeed,
   editFeed,
   deleteFeed,
+  addComment,
   getSearchedResults,
 };

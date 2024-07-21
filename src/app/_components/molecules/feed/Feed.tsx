@@ -4,8 +4,9 @@ import FeedHeader from "./feedHeader/FeedHeader";
 import Image from "next/image";
 import ControlBar from "./feedInfo/ControlBar";
 import TextBox from "./feedInfo/TextBox";
-import CommentInputBar from "@components/molecules/commentInputBar/CommentInputBar";
+import CommentInputBar, { CommentInfoProps } from "@components/molecules/commentInputBar/CommentInputBar";
 import BaseButton from "@components/atoms/button/BaseButton";
+import { isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
 
 export interface FeedProps {
   feedId: string;
@@ -16,11 +17,12 @@ export interface FeedProps {
   content: string;
   text: string;
   likes: number;
+  comments: CommentInfoProps[];
   onSizeChange?: (size: number) => void;
 }
 
 export default function Feed({ onSizeChange, ...feed }: FeedProps) {
-  const { username, content, text, likes } = feed;
+  const { feedId, username, content, text, likes, comments } = feed;
   const feedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export default function Feed({ onSizeChange, ...feed }: FeedProps) {
       });
       resizeObsever.observe(feedRef.current);
     }
-  }, [onSizeChange]);
+  }, []);
   return (
     <FeedStyle.Container ref={feedRef}>
       <FeedHeader {...feed} />
@@ -40,9 +42,11 @@ export default function Feed({ onSizeChange, ...feed }: FeedProps) {
       <FeedStyle.InfoBox>
         <ControlBar />
         {likes > 0 && <FeedStyle.Likes>좋아요 {likes}개</FeedStyle.Likes>}
-        <TextBox username={username} text={text} />
-        <BaseButton fontSize="14px" fontWeight={500} color="#737373" value={`댓글 모두 보기`} />
-        <CommentInputBar />
+        {isTxtNotEmpty(text) && <TextBox username={username} text={text} />}
+        {isArrNotEmpty(comments) && (
+          <BaseButton fontSize="14px" fontWeight={500} color="#737373" value={`댓글 ${comments.length}개 모두 보기`} />
+        )}
+        <CommentInputBar feedId={feedId} />
       </FeedStyle.InfoBox>
     </FeedStyle.Container>
   );
