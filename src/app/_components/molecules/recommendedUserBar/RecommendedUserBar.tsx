@@ -9,15 +9,15 @@ interface RecommendedUsersProps {
 }
 
 export default function RecommendedUserBar({ user }: RecommendedUsersProps) {
-  const { userName, userImg } = useAuthStore();
+  const { userInfo } = useAuthStore();
   const handleUserClick = () => {};
   const handleFollowClick = () => {};
   return (
     <Bar.Wrapper>
       <Bar.User>
-        <Avatar size={44} img={user ? user.img : userImg} />
+        <Avatar size={44} img={user ? user.userImg : userInfo.userImg} />
         <Bar.UserInfo>
-          <span>{user ? user.username : userName}</span>
+          <span>{user ? user.userName : userInfo.userName}</span>
           {user ? "Instagram 신규 가입" : `It's me!`}
         </Bar.UserInfo>
         <BaseButton

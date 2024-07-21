@@ -22,7 +22,7 @@ import useFeedStore from "@/_stores/client/feedStore";
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
   const [gnbContent, setGnbContent] = useState<GnbContentType | null>(null);
-  const { resetAuthState, userImg } = useAuthStore();
+  const { resetAuthState, userInfo } = useAuthStore();
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
   const { openModal, setModal } = useModalStore();
@@ -103,7 +103,7 @@ function Gnb() {
           <NavLink name="탐색 탭" href="/explore" icon={faCompass} />
           <NavLink name="메시지" href="/message" icon={faMessage} />
           <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
-          <NavButton name="프로필" img={userImg} onClick={handleTestModalClick} />
+          <NavButton name="프로필" img={userInfo.userImg} onClick={handleTestModalClick} />
         </GnbStyle.Top>
         <GnbStyle.Bottom>
           <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />

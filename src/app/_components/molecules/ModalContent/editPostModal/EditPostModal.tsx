@@ -12,7 +12,6 @@ import { Write } from "./EditPostModal.style";
 import IconButton from "@components/atoms/button/IconButton";
 import BaseButton from "@components/atoms/button/BaseButton";
 import WritingBox from "../../writingBox/WritingBox";
-import { faker } from "@faker-js/faker";
 import { POST_MODAL, PostModalType } from "@/_constant/modal";
 import { INPUT_SIZE } from "@/_constant/input";
 import { queryClient } from "@/(pages)/App";
@@ -25,16 +24,18 @@ interface EditPostProps {
 
 export default function EditPostModal({ setStep }: EditPostProps) {
   const { selectedImage, closeModal } = useModalStore();
+  const { userInfo } = useAuthStore();
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: v4(),
-    username: useAuthStore().userName,
-    img: faker.image.avatar(),
+    username: userInfo.userName,
+    img: userInfo.userImg,
     createdAt: "",
     following: false,
-    content: selectedImage || faker.image.urlLoremFlickr(),
+    content: selectedImage,
     text: "",
     likes: 0,
+    comments: [],
   });
 
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {

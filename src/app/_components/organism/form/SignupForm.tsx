@@ -4,9 +4,7 @@ import { INPUT_TEXT } from "@/_constant/input";
 import BaseButton from "@components/atoms/button/BaseButton";
 import { Notice } from "./SignupForm.style";
 import { AuthService } from "@/_services/auth_service";
-import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import useAuthStore from "@/_stores/client/authStore";
 import { authErrorHandler } from "@/_utils/authErrorHandler";
 import { Form } from "@/_styles/common.style";
 import { useCustomMutation } from "@/_hooks/useFetch";
@@ -14,7 +12,6 @@ import { User } from "firebase/auth";
 const { EMAIL, NAME, USERNAME, PASSWORD } = INPUT_TEXT;
 
 export default function SignupForm() {
-  const { setAuthState } = useAuthStore();
   const { signupWithEmail } = AuthService;
   const [isActive, setIsActive] = useState(false);
   const [signupForm, setSignupForm] = useState({
@@ -49,11 +46,10 @@ export default function SignupForm() {
     Error,
     { email: string; password: string },
     undefined
-  >(async (variables) => AuthService.signupWithEmail(variables), {
+  >(async (variables) => signupWithEmail(variables), {
     onSuccess: async ({ token, user }) => {
-      setCookie("accessToken", token);
-      setAuthState(true);
-      router.push("/");
+      alert("회원가입이 완료되었습니다.");
+      router.push("/login");
     },
     onError: (error) => {
       const { message } = authErrorHandler(error);

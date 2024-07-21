@@ -16,7 +16,8 @@ export default function WritingBox({
   onChange: any;
   children: React.ReactNode;
 }) {
-  const { userName, userImg } = useAuthStore();
+  const { userInfo } = useAuthStore();
+  const { userName, userImg } = userInfo;
 
   return (
     <Box.Container>

@@ -19,7 +19,7 @@ export default function UserBar({ user, deleteButton }: UserBarProps) {
 
   const handleUserClick = () => {
     addSearchHistory(user);
-    router.push(`/${user.username}`);
+    router.push(`/${user.userName}`);
   };
 
   const handleDeleteHistory = (e: MouseEvent<HTMLButtonElement>) => {
@@ -29,9 +29,9 @@ export default function UserBar({ user, deleteButton }: UserBarProps) {
   return (
     <Bar.Wrapper>
       <Bar.Button onClick={handleUserClick}>
-        <Avatar size={44} img={user.img} />
+        <Avatar size={44} img={user.userImg} />
         <Bar.UserInfo>
-          <span>{user.username}</span>
+          <span>{user.userName}</span>
           {faker.person.fullName()}님이 팔로우합니다
         </Bar.UserInfo>
       </Bar.Button>

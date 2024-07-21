@@ -11,7 +11,7 @@ import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 
 export default function FeedOptionModal() {
-  const { userName } = useAuthStore();
+  const { userInfo } = useAuthStore();
   const { selectedFeed } = useFeedStore();
   const { closeModal, setModal } = useModalStore();
 
@@ -45,7 +45,7 @@ export default function FeedOptionModal() {
   };
 
   const getCurrentOption = () => {
-    if (selectedFeed?.username === userName) {
+    if (selectedFeed?.username === userInfo.userName) {
       return FEED_OPTIONS_MODAL.MYFEED.map((option, idx) => (
         <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
           {option.name}
