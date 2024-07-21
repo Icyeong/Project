@@ -27,7 +27,7 @@ export const Button = styled.button<ButtonProps>`
     margin-right: 10px;
   }
   &.active {
-    cursor: pointer;
+    cursor: pointer !important;
   }
   &.blue-button {
     border-radius: 8px;
