@@ -11,15 +11,21 @@ import { faker } from "@faker-js/faker";
 interface UserBarProps {
   user: UserProps;
   deleteButton?: boolean;
+  isTagUser?: boolean;
+  handleTagClick?: (user: UserProps) => void;
 }
 
-export default function UserBar({ user, deleteButton }: UserBarProps) {
+export default function UserBar({ user, deleteButton, isTagUser, handleTagClick }: UserBarProps) {
   const { addSearchHistory, deleteSearchHistory } = useFeedStore();
   const router = useRouter();
 
   const handleUserClick = () => {
-    addSearchHistory(user);
-    router.push(`/${user.userName}`);
+    if (handleTagClick) {
+      handleTagClick(user);
+    } else {
+      addSearchHistory(user);
+      router.push(`/${user.userName}`);
+    }
   };
 
   const handleDeleteHistory = (e: MouseEvent<HTMLButtonElement>) => {
@@ -29,11 +35,24 @@ export default function UserBar({ user, deleteButton }: UserBarProps) {
   return (
     <Bar.Wrapper>
       <Bar.Button onClick={handleUserClick}>
-        <Avatar size={44} img={user.userImg} />
-        <Bar.UserInfo>
-          <span>{user.userName}</span>
-          {faker.person.fullName()}님이 팔로우합니다
-        </Bar.UserInfo>
+        {isTagUser && (
+          <>
+            <Avatar size={30} img={user.userImg} />
+            <Bar.UserInfo>
+              <span>{user.userName}</span>
+            </Bar.UserInfo>
+          </>
+        )}
+
+        {!isTagUser && (
+          <>
+            <Avatar size={44} img={user.userImg} />
+            <Bar.UserInfo>
+              <span>{user.userName}</span>
+              {faker.person.fullName()}님이 팔로우합니다
+            </Bar.UserInfo>
+          </>
+        )}
       </Bar.Button>
       {deleteButton && (
         <Bar.CloseButton onClick={handleDeleteHistory}>

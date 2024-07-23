@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useCallback, useMemo, useState } from "react";
 import { Input } from "./commentInputBar.style";
 import TextArea from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
@@ -10,6 +10,9 @@ import { queryClient } from "@/(pages)/App";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { INPUT_TEXT } from "@/_constant/input";
+import UserBar from "../userbar/UserBar";
+import { createUser } from "@/_dummyData/userDummy";
+import { UserProps } from "../user/User";
 
 export interface CommentInfoProps extends UserInfoType {
   comment: string;
@@ -55,8 +58,19 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     }
   };
 
+  const handleTagClick = (user: UserProps) => {
+    console.log("teg user : ", user);
+  };
+
+  const users = useMemo(() => createUser(10), []);
+
   return (
     <Input.Container>
+      <Input.PopOver>
+        {users.map((user) => (
+          <UserBar key={user.userId} user={user} isTagUser={true} handleTagClick={handleTagClick} />
+        ))}
+      </Input.PopOver>
       <TextArea
         value={commentInfo.comment}
         onKeyDown={handleInputKeyDown}
