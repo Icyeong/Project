@@ -12,16 +12,16 @@ interface UserBarProps {
   user: UserProps;
   deleteButton?: boolean;
   isTagUser?: boolean;
-  handleTagClick?: (user: UserProps) => void;
+  onTagClick?: (user: UserProps) => void;
 }
 
-export default function UserBar({ user, deleteButton, isTagUser, handleTagClick }: UserBarProps) {
+export default function UserBar({ user, deleteButton, isTagUser, onTagClick }: UserBarProps) {
   const { addSearchHistory, deleteSearchHistory } = useFeedStore();
   const router = useRouter();
 
   const handleUserClick = () => {
-    if (handleTagClick) {
-      handleTagClick(user);
+    if (onTagClick) {
+      onTagClick(user);
     } else {
       addSearchHistory(user);
       router.push(`/${user.userName}`);
@@ -35,24 +35,11 @@ export default function UserBar({ user, deleteButton, isTagUser, handleTagClick 
   return (
     <Bar.Wrapper>
       <Bar.Button onClick={handleUserClick}>
-        {isTagUser && (
-          <>
-            <Avatar size={30} img={user.userImg} />
-            <Bar.UserInfo>
-              <span>{user.userName}</span>
-            </Bar.UserInfo>
-          </>
-        )}
-
-        {!isTagUser && (
-          <>
-            <Avatar size={44} img={user.userImg} />
-            <Bar.UserInfo>
-              <span>{user.userName}</span>
-              {faker.person.fullName()}님이 팔로우합니다
-            </Bar.UserInfo>
-          </>
-        )}
+        <Avatar size={isTagUser ? 30 : 44} img={user.userImg} />
+        <Bar.UserInfo>
+          <span>{user.userName}</span>
+          {!isTagUser && faker.person.fullName() + "님이 팔로우합니다"}
+        </Bar.UserInfo>
       </Bar.Button>
       {deleteButton && (
         <Bar.CloseButton onClick={handleDeleteHistory}>

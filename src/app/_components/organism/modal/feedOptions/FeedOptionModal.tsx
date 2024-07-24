@@ -45,19 +45,13 @@ export default function FeedOptionModal() {
   };
 
   const getCurrentOption = () => {
-    if (selectedFeed?.username === userInfo.userName) {
-      return FEED_OPTIONS_MODAL.MYFEED.map((option, idx) => (
-        <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
-          {option.name}
-        </Options.Button>
-      ));
-    } else {
-      return FEED_OPTIONS_MODAL.OTHERS.map((option, idx) => (
-        <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
-          {option.name}
-        </Options.Button>
-      ));
-    }
+    const isMyFeed = selectedFeed?.username === userInfo.userName;
+
+    return FEED_OPTIONS_MODAL[isMyFeed ? "MYFEED" : "OTHERS"].map((option, idx) => (
+      <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>
+        {option.name}
+      </Options.Button>
+    ));
   };
   return (
     <ModalStyle.Body>

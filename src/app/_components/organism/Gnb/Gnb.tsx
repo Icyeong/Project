@@ -65,8 +65,8 @@ function Gnb() {
     mutateLogOut(null);
   }, [mutateLogOut]);
 
-  const handleOutsideClick = (e: any) => {
-    if (gnbRef.current && !gnbRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (gnbRef.current && !gnbRef.current.contains(e.target as Node)) {
       setGnbShape(GNB_SHAPE.ALL);
     }
   };
