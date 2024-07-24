@@ -91,4 +91,11 @@ export const handlers = [
     }
     return HttpResponse.json(results);
   }),
+  http.get("/following", ({ request }) => {
+    const url = new URL(request.url);
+    const userId = parseInt(url.searchParams.get("userId") || "");
+    console.log("msw userId : ", userId);
+
+    return HttpResponse.json(createUser(10));
+  }),
 ];

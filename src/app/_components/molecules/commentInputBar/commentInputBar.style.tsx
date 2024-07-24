@@ -11,7 +11,7 @@ export const Input = {
     }
   `,
   PopOver: styled.ul`
-    display: no;
+    display: none;
     flex-direction: column;
     width: 325px;
     height: 200px;
