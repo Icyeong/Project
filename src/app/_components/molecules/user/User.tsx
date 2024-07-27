@@ -4,15 +4,15 @@ import Avatar from "@components/atoms/avatar/Avatar";
 
 export interface UserProps {
   userId: string;
-  username: string;
-  img: string;
+  userName: string;
+  userImg: string;
 }
 
-export default function User({ username, img }: UserProps) {
+export default function User({ userName, userImg }: UserProps) {
   return (
     <UserStyle.User>
-      <Avatar img={img} />
-      <UserStyle.UserName>{username}</UserStyle.UserName>
+      <Avatar img={userImg} />
+      <UserStyle.UserName>{userName}</UserStyle.UserName>
     </UserStyle.User>
   );
 }

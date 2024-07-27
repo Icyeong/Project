@@ -43,3 +43,20 @@ interface Sortable {
 export const sortByTime = (arr: Sortable[], key: string) => {
   return arr.sort((a, b) => new Date(b[key]).getTime() - new Date(a[key]).getTime());
 };
+
+export const isTxtNotEmpty = (text: string) => {
+  return text.trim().length > 0;
+};
+
+export const isArrNotEmpty = <T>(arr: T[]) => {
+  return Array.isArray(arr) && arr.length > 0;
+};
+
+export const hasEmptyProps = (obj: any) => {
+  return Object.values(obj).some((value) => {
+    if (typeof value === "string" || Array.isArray(value)) {
+      return value.length === 0;
+    }
+    return false;
+  });
+};

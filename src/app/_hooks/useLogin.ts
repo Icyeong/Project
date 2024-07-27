@@ -5,18 +5,17 @@ import { authErrorHandler } from "@/_utils/authErrorHandler";
 import { useCustomMutation } from "./useFetch";
 import { jwtDecode } from "jwt-decode";
 import { faker } from "@faker-js/faker";
+import { v4 } from "uuid";
 
 const useLogin = () => {
-  const { setAuthState, setUserName, setUserImg } = useAuthStore();
+  const { setUserState } = useAuthStore();
 
   const emailPasswordLogin = useCustomMutation(AuthService.signInWithEmailPassword, {
     onSuccess: async ({ token, user }) => {
       const decodedToken = jwtDecode<JwtPayload_EMAIL>(token);
       const userName = decodedToken.email;
       setCookie("accessToken", token);
-      setUserName(userName);
-      setUserImg(faker.image.avatar());
-      setAuthState(true);
+      setUserState({ userName, userId: v4(), userImg: faker.image.avatar() });
       window.location.href = "/";
     },
     onError: (error: Error) => {
@@ -30,9 +29,7 @@ const useLogin = () => {
       const decodedToken = jwtDecode<JwtPayload_GOOGLE>(token);
       const userName = decodedToken.name;
       setCookie("accessToken", token);
-      setUserName(userName);
-      setUserImg(faker.image.avatar());
-      setAuthState(true);
+      setUserState({ userName, userId: v4(), userImg: faker.image.avatar() });
       window.location.href = "/";
     },
     onError: (error: Error) => {

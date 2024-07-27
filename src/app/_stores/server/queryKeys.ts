@@ -28,4 +28,9 @@ export const QUERY_KEYS = createQueryKeyStore({
       queryKey: null,
     },
   },
+  USERS: {
+    FOLLOWING: {
+      queryKey: null,
+    },
+  },
 });

@@ -11,15 +11,21 @@ import { faker } from "@faker-js/faker";
 interface UserBarProps {
   user: UserProps;
   deleteButton?: boolean;
+  isTagUser?: boolean;
+  onTagClick?: (user: UserProps) => void;
 }
 
-export default function UserBar({ user, deleteButton }: UserBarProps) {
+export default function UserBar({ user, deleteButton, isTagUser, onTagClick }: UserBarProps) {
   const { addSearchHistory, deleteSearchHistory } = useFeedStore();
   const router = useRouter();
 
   const handleUserClick = () => {
-    addSearchHistory(user);
-    router.push(`/${user.username}`);
+    if (onTagClick) {
+      onTagClick(user);
+    } else {
+      addSearchHistory(user);
+      router.push(`/${user.userName}`);
+    }
   };
 
   const handleDeleteHistory = (e: MouseEvent<HTMLButtonElement>) => {
@@ -29,10 +35,10 @@ export default function UserBar({ user, deleteButton }: UserBarProps) {
   return (
     <Bar.Wrapper>
       <Bar.Button onClick={handleUserClick}>
-        <Avatar size={44} img={user.img} />
+        <Avatar size={isTagUser ? 30 : 44} img={user.userImg} />
         <Bar.UserInfo>
-          <span>{user.username}</span>
-          {faker.person.fullName()}님이 팔로우합니다
+          <span>{user.userName}</span>
+          {!isTagUser && faker.person.fullName() + "님이 팔로우합니다"}
         </Bar.UserInfo>
       </Bar.Button>
       {deleteButton && (

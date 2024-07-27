@@ -3,17 +3,18 @@ import { persist } from "zustand/middleware";
 
 const initialState = {
   isAuth: false,
-  userName: "",
-  userImg: "",
+  userInfo: {
+    userId: "",
+    userName: "",
+    userImg: "",
+  },
 };
 
 const useAuthStore = create(
   persist<AuthState>(
     (set) => ({
       ...initialState,
-      setAuthState: (state) => set(() => ({ isAuth: state })),
-      setUserName: (state) => set(() => ({ userName: state })),
-      setUserImg: (state) => set(() => ({ userImg: state })),
+      setUserState: (state) => set(() => ({ userInfo: state, inAuth: true })),
       resetAuthState: () => set(() => initialState),
     }),
     { name: "auth-storage" },
@@ -22,12 +23,15 @@ const useAuthStore = create(
 
 interface AuthState {
   isAuth: boolean;
+  userInfo: UserInfoType;
+  setUserState: (state: UserInfoType) => void;
+  resetAuthState: () => void;
+}
+
+export interface UserInfoType {
+  userId: string;
   userName: string;
   userImg: string;
-  setAuthState: (state: boolean) => void;
-  setUserName: (state: string) => void;
-  setUserImg: (state: string) => void;
-  resetAuthState: () => void;
 }
 
 export interface JwtPayload_EMAIL {

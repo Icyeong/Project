@@ -10,6 +10,7 @@ import { MODAL } from "@/_constant/modal";
 import TestModal from "@components/molecules/ModalContent/TestModal";
 import PostFeedModal from "@components/organism/modal/postFeed/PostFeedModal";
 import FeedOptionModal from "@/_components/organism/modal/feedOptions/FeedOptionModal";
+import EditFeedModal from "@/_components/organism/modal/editFeed/EditFeedModal";
 
 interface ModalProps {
   children?: ReactNode;
@@ -19,6 +20,8 @@ export function getModal(modalName: string) {
   switch (modalName) {
     case MODAL.POST_FEED:
       return <PostFeedModal />;
+    case MODAL.EDIT_FEED:
+      return <EditFeedModal />;
     case MODAL.FEED_OPTION:
       return <FeedOptionModal />;
     case MODAL.TEST:
