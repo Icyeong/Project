@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Input } from "./commentInputBar.style";
 import TextArea from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
@@ -9,7 +9,7 @@ import { FeedService } from "@/_services/feed_service";
 import { queryClient } from "@/(pages)/App";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
-import { INPUT_TEXT } from "@/_constant/input";
+import { INPUT_TEXT, KEY_CODE } from "@/_constant/input";
 import UserBar from "../userbar/UserBar";
 import classNames from "classnames";
 import { UserService } from "@/_services/user_service";
@@ -23,20 +23,23 @@ interface CommentInputBarProps {
 export default function CommentInputBar({ feedId }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
+  const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
+  const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
+  const [tagStartIdx, setTagStartIdx] = useState<number>(0);
+  const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(0);
   const [commentInfo, setCommentInfo] = useState<CommentInfoProps>({
     ...userInfo,
     comment: "",
     createdAt: "",
   });
 
+  const popOverRef = useRef<HTMLUListElement>(null);
+
   const { data, refetch } = useCustomQuery(
     QUERY_KEYS.USERS.FOLLOWING.queryKey,
     () => UserService.getFollowingList(userInfo.userId),
     { enabled: false },
   );
-  const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
-  const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
-  const [tagStartIdx, setTagStartIdx] = useState<number>(0);
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -62,6 +65,7 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
         user.userName.toLowerCase().includes(searching?.toLowerCase()),
       );
       setTaggingUsers(filtered);
+      setTagStartIdx(0);
     }
   };
 
@@ -73,10 +77,22 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
   });
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (!isTxtNotEmpty(commentInfo.comment) && e.code === "Enter") {
+    if (e.code === KEY_CODE.ESCAPE) {
+      e.preventDefault();
+      setTagging(false);
+    }
+
+    if (e.code === KEY_CODE.TAB) {
+      e.preventDefault();
+      if (tabFocusedIdx === 0) {
+        setTabFocusedIdx(-1);
+      }
+    }
+
+    if (!isTxtNotEmpty(commentInfo.comment) && e.code === KEY_CODE.ENTER) {
       e.preventDefault();
     }
-    if (isTxtNotEmpty(commentInfo.comment) && e.code === "Enter") {
+    if (isTxtNotEmpty(commentInfo.comment) && commentInfo.comment !== "@" && e.code === KEY_CODE.ENTER) {
       return handleCommentClick();
     }
   };
@@ -95,17 +111,42 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     setTagging(false);
   };
 
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (popOverRef.current && !popOverRef.current.contains(e.target as Node)) {
+      setTagging(false);
+    }
+  };
+
   useEffect(() => {
     if (data) {
       setTaggingUsers(data);
     }
   }, [data]);
 
+  useEffect(() => {
+    if (tabFocusedIdx === -1) {
+      setTabFocusedIdx(0);
+    }
+  }, [tabFocusedIdx]);
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
   return (
     <Input.Container>
-      <Input.PopOver className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
-        {taggingUsers?.map((friend) => (
-          <UserBar key={friend.userId} user={friend} isTagUser={true} onTagClick={onTagClick} />
+      <Input.PopOver ref={popOverRef} className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
+        {taggingUsers?.map((friend, idx) => (
+          <UserBar
+            key={friend.userId}
+            user={friend}
+            isTagUser={true}
+            focused={tabFocusedIdx === idx}
+            onTagClick={onTagClick}
+          />
         ))}
       </Input.PopOver>
       <TextArea
