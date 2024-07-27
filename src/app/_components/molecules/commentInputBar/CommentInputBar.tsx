@@ -1,9 +1,9 @@
-import { KeyboardEvent, useMemo, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { Input } from "./commentInputBar.style";
 import TextArea from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
-import useAuthStore, { UserInfoType } from "@/_stores/client/authStore";
-import { hasEmptyProps, isTxtNotEmpty } from "@/_utils/utils";
+import useAuthStore from "@/_stores/client/authStore";
+import { hasEmptyProps, isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
 import { useCustomMutation, useCustomQuery } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { queryClient } from "@/(pages)/App";
@@ -11,15 +11,10 @@ import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { INPUT_TEXT } from "@/_constant/input";
 import UserBar from "../userbar/UserBar";
-import { createUser } from "@/_dummyData/userDummy";
-import { UserProps } from "../user/User";
 import classNames from "classnames";
 import { UserService } from "@/_services/user_service";
-
-export interface CommentInfoProps extends UserInfoType {
-  comment: string;
-  createdAt: string;
-}
+import { CommentInfoProps } from "@/_types/feed";
+import { UserProps } from "@/_types/user";
 
 interface CommentInputBarProps {
   feedId: string;
@@ -33,12 +28,12 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     comment: "",
     createdAt: "",
   });
-  // const friends = useMemo(() => createUser(10), []);
 
-  // const { data } = useCustomQuery(QUERY_KEYS.USERS.FOLLOWING.queryKey, () =>
-  //   UserService.getFollowingList(userInfo.userId),
-  // );
-  const [allUsers, setAllUsers] = useState<UserProps[]>([]);
+  const { data, refetch } = useCustomQuery(
+    QUERY_KEYS.USERS.FOLLOWING.queryKey,
+    () => UserService.getFollowingList(userInfo.userId),
+    { enabled: false },
+  );
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
   const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
@@ -50,10 +45,9 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     setCommentInfo((prev) => ({ ...prev, comment: e.target.value }));
 
     if (char === "@") {
-      const data = await UserService.getFollowingList(userInfo.userId);
+      refetch();
       const idx = value.length - 1;
       setTagStartIdx(idx);
-      setAllUsers(data);
       setTaggingUsers(data);
       setTagging(true);
     }
@@ -64,7 +58,7 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
         setTagging(false);
       }
       const searching = value.split("@").slice(-1)[0];
-      const filtered: UserProps[] = allUsers.filter((user: UserProps) =>
+      const filtered: UserProps[] = data.filter((user: UserProps) =>
         user.userName.toLowerCase().includes(searching?.toLowerCase()),
       );
       setTaggingUsers(filtered);
@@ -101,9 +95,15 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     setTagging(false);
   };
 
+  useEffect(() => {
+    if (data) {
+      setTaggingUsers(data);
+    }
+  }, [data]);
+
   return (
     <Input.Container>
-      <Input.PopOver className={classNames({ show: tagging })}>
+      <Input.PopOver className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
         {taggingUsers?.map((friend) => (
           <UserBar key={friend.userId} user={friend} isTagUser={true} onTagClick={onTagClick} />
         ))}
@@ -113,7 +113,6 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
         onKeyDown={handleInputKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
-        taggedUsers={taggedUsers}
       />
       {isTxtNotEmpty(commentInfo.comment) && (
         <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />

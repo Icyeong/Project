@@ -31,5 +31,8 @@ export const Input = {
     &.show {
       display: flex;
     }
+    &.hide {
+      display: none;
+    }
   `,
 };
