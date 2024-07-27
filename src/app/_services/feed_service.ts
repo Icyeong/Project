@@ -1,6 +1,5 @@
-import { CommentInfoProps } from "@components/molecules/commentInputBar/CommentInputBar";
-import { FeedProps } from "@components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
+import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
 const getFeedsList = async (page: number) => {

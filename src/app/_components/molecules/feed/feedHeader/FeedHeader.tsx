@@ -8,8 +8,9 @@ import "dayjs/locale/ko";
 import useAuthStore from "@/_stores/client/authStore";
 import useModalStore from "@/_stores/client/modalStore";
 import { MODAL } from "@/_constant/modal";
-import { FeedProps } from "../Feed";
 import useFeedStore from "@/_stores/client/feedStore";
+import { useCallback } from "react";
+import { FeedProps } from "@/_types/feed";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
@@ -24,11 +25,11 @@ export default function FeedHeader(feed: FeedProps) {
     return username === userInfo.userName;
   };
 
-  const handleOptionClick = () => {
+  const handleOptionClick = useCallback(() => {
     setSelectedFeed(feed);
     setModal(MODAL.FEED_OPTION);
     openModal();
-  };
+  }, [setSelectedFeed, setModal, openModal, feed]);
 
   return (
     <Header.Container>

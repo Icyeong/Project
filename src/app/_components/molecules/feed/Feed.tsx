@@ -1,25 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { FeedStyle } from "./Feed.style";
 import FeedHeader from "./feedHeader/FeedHeader";
 import Image from "next/image";
 import ControlBar from "./feedInfo/ControlBar";
 import TextBox from "./feedInfo/TextBox";
-import CommentInputBar, { CommentInfoProps } from "@components/molecules/commentInputBar/CommentInputBar";
+import CommentInputBar from "@components/molecules/commentInputBar/CommentInputBar";
 import BaseButton from "@components/atoms/button/BaseButton";
 import { isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
-
-export interface FeedProps {
-  feedId: string;
-  username: string;
-  img: string;
-  createdAt: string;
-  following: boolean;
-  content: string;
-  text: string;
-  likes: number;
-  comments: CommentInfoProps[];
-  onSizeChange?: (size: number) => void;
-}
+import { FeedProps } from "@/_types/feed";
 
 export default function Feed({ onSizeChange, ...feed }: FeedProps) {
   const { feedId, username, content, text, likes, comments } = feed;

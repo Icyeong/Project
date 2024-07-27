@@ -1,13 +1,11 @@
 import React, { AllHTMLAttributes, useEffect, useRef } from "react";
 import { Textarea } from "./TextArea.style";
-import { UserProps } from "@/_components/molecules/user/User";
 
 interface TextAreaPorps extends AllHTMLAttributes<HTMLTextAreaElement> {
   $maxHeight?: number;
-  taggedUsers: UserProps[];
 }
 
-export default function TextArea({ $maxHeight, taggedUsers, placeholder, value, onChange, ...props }: TextAreaPorps) {
+export default function TextArea({ $maxHeight, placeholder, value, onChange, ...props }: TextAreaPorps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {

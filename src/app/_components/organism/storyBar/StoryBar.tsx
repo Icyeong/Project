@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
 import { StoryStyle } from "./StoryBar.style";
-import User, { UserProps } from "@components/molecules/user/User";
+import User from "@components/molecules/user/User";
 import { useCustomQuery } from "@/_hooks/useFetch";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { StoryService } from "@/_services/story_service";
 import StorySkeleton from "./StorySkeleton";
+import { UserProps } from "@/_types/user";
 
 export default function StoryBar() {
   const scrollBoxRef = useRef<HTMLDivElement | null>(null);

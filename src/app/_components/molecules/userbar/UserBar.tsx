@@ -1,12 +1,12 @@
 import { Bar } from "./UserBar.style";
 import Avatar from "@/_components/atoms/avatar/Avatar";
-import { UserProps } from "../user/User";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { MouseEvent } from "react";
 import { faker } from "@faker-js/faker";
+import { UserProps } from "@/_types/user";
 
 interface UserBarProps {
   user: UserProps;

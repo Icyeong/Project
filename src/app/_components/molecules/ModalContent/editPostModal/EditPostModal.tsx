@@ -1,6 +1,5 @@
 import useModalStore from "@/_stores/client/modalStore";
-import React, { ChangeEvent, useState } from "react";
-import { FeedProps } from "../../feed/Feed";
+import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
 import { useCustomMutation } from "@/_hooks/useFetch";
@@ -17,6 +16,7 @@ import { INPUT_SIZE } from "@/_constant/input";
 import { queryClient } from "@/(pages)/App";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
+import { FeedProps } from "@/_types/feed";
 
 interface EditPostProps {
   setStep: (step: PostModalType) => void;

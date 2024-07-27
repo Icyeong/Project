@@ -1,9 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { v4 as uuidv4 } from "uuid";
 import { getRandomBoolean, getRandomNumber } from "@/_utils/utils";
-import { FeedProps } from "@/_components/molecules/feed/Feed";
 import { createUser } from "./userDummy";
-import { CommentInfoProps } from "@/_components/molecules/commentInputBar/CommentInputBar";
+import { CommentInfoProps, FeedProps } from "@/_types/feed";
 
 export function createFeeds(number: number) {
   const feedList = [];

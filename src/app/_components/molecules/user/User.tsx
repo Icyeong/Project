@@ -1,12 +1,7 @@
 import React from "react";
 import { UserStyle } from "./User.style";
 import Avatar from "@components/atoms/avatar/Avatar";
-
-export interface UserProps {
-  userId: string;
-  userName: string;
-  userImg: string;
-}
+import { UserProps } from "@/_types/user";
 
 export default function User({ userName, userImg }: UserProps) {
   return (
