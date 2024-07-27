@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { StoryStyle } from "./StoryBar.style";
-import User, { UserPorps } from "@components/molecules/user/User";
+import User, { UserProps } from "@components/molecules/user/User";
 import { useCustomQuery } from "@/_hooks/useFetch";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { StoryService } from "@/_services/story_service";
@@ -32,8 +32,8 @@ export default function StoryBar() {
       {isLoading && <StorySkeleton />}
       {data && !isLoading && (
         <StoryStyle.Container ref={scrollBoxRef}>
-          {data.map((user: UserPorps) => (
-            <User key={user.username} {...user} />
+          {data.map((user: UserProps) => (
+            <User key={user.userId} {...user} />
           ))}
         </StoryStyle.Container>
       )}

@@ -18,7 +18,7 @@ function NavButton({ name, icon, img, onClick }: NavProps) {
           {icon && <FontAwesomeIcon icon={icon} />}
           {img && <Image src={img} width={22} height={22} alt={name} />}
         </NavStyle.Icon>
-        {name}
+        <NavStyle.Name className="navName">{name}</NavStyle.Name>
       </button>
     </NavStyle.Li>
   );

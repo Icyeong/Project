@@ -15,6 +15,7 @@ const useModalStore = create(
       closeModal: () => set(() => initialState),
       setModal: (state) => set(() => ({ modalName: state })),
       setSelectedImage: (state) => set(() => ({ selectedImage: state })),
+      resetModalState: () => set(() => initialState),
     }),
     { name: "modal-storage" },
   ),
@@ -28,6 +29,7 @@ interface ModalState {
   closeModal: () => void;
   setModal: (state: string) => void;
   setSelectedImage: (state: string) => void;
+  resetModalState: () => void;
 }
 
 export default useModalStore;

@@ -1,14 +1,16 @@
 import { faker } from "@faker-js/faker";
+import { v4 } from "uuid";
 
-export const createStory = (max: number) => {
-  const story_list = [];
+export const createUser = (max: number) => {
+  const user_list = [];
 
   for (let i = 0; i < max; i++) {
-    story_list.push({
-      username: faker.person.fullName(),
-      img: faker.image.avatar(),
+    user_list.push({
+      userId: v4(),
+      userName: faker.person.middleName(),
+      userImg: faker.image.avatar(),
     });
   }
 
-  return story_list;
+  return user_list;
 };

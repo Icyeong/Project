@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "./FeedList.style";
-import Feed from "@components/molecules/feed/Feed";
+import Feed, { FeedProps } from "@components/molecules/feed/Feed";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import FeedSkeleton from "./FeedSkeleton";
@@ -10,11 +10,13 @@ import debounce from "lodash/debounce";
 
 export default function FeedList() {
   const parentRef = useRef<HTMLDivElement | null>(null);
+  const [feedHeights, setFeedHeights] = useState<number[]>([]);
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
     queryKey: QUERY_KEYS.FEED.LIST.queryKey,
     queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam),
-    gcTime: 1000 * 60 * 60,
-    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 2,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
   });
@@ -39,10 +41,26 @@ export default function FeedList() {
     };
   }, [fetchNextPage]);
 
+  useEffect(() => {
+    if (data) {
+      const newHeights = data.pages.flatMap((page) => page.feeds).map(() => 800);
+      setFeedHeights(newHeights);
+    }
+  }, [data]);
+
+  const updateSize = (idx: number, size: number) => {
+    setFeedHeights((prev) => {
+      const newHeights = [...prev];
+      newHeights[idx] = size;
+      rowVirtualizer.resizeItem(idx, size);
+      return newHeights;
+    });
+  };
+
   const rowVirtualizer = useVirtualizer({
     count: data?.pages.flatMap((page) => page.feeds).length ?? 0,
     getScrollElement: useCallback(() => parentRef.current, []),
-    estimateSize: () => 800,
+    estimateSize: (idx) => feedHeights[idx] || 800,
   });
 
   return (
@@ -60,7 +78,7 @@ export default function FeedList() {
           !isLoading &&
           rowVirtualizer.getVirtualItems().map((virtualItem) => {
             const list = data.pages.flatMap((page) => page.feeds);
-            const feed = list[virtualItem.index];
+            const feed: FeedProps = list[virtualItem.index];
             return (
               <div
                 key={virtualItem.key}
@@ -73,7 +91,7 @@ export default function FeedList() {
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
               >
-                <Feed {...feed} />
+                <Feed onSizeChange={(size) => updateSize(virtualItem.index, size + 20)} {...feed} />
               </div>
             );
           })}
