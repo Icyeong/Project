@@ -14,8 +14,12 @@ import useFeedStore from "@/_stores/client/feedStore";
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
-export default function FeedHeader(feed: FeedProps) {
-  const { username, img, createdAt, following } = feed;
+interface FeedHeaderProps extends FeedProps {
+  size?: string;
+}
+
+export default function FeedHeader(feed: FeedHeaderProps) {
+  const { username, img, createdAt, following, size } = feed;
   const { setModal, openModal } = useModalStore();
   const { setSelectedFeed } = useFeedStore();
   const { userInfo } = useAuthStore();
@@ -31,8 +35,8 @@ export default function FeedHeader(feed: FeedProps) {
   };
 
   return (
-    <Header.Container>
-      <Avatar size={32} img={isMyFeed() ? userInfo.userImg : img} />
+    <Header.Container $size={size === "S" ? 48 : 70}>
+      <Avatar size={size === "S" ? 34 : 42} img={isMyFeed() ? userInfo.userImg : img} />
       <Header.Box>
         <Header.Username>{username}</Header.Username>
         <Header.TimeStamp>{dayjs(createdAt).fromNow(true)}</Header.TimeStamp>

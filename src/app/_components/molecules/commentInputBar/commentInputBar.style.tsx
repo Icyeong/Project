@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Input = {
-  Container: styled.div`
+  Container: styled.div<{ $padding: string }>`
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: ${({ $padding }) => $padding || "8px 0"};
     position: relative;
     button {
       margin-left: 10px;

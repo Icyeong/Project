@@ -1,4 +1,4 @@
-import { KeyboardEvent, useMemo, useState } from "react";
+import { KeyboardEvent, useCallback, useState } from "react";
 import { Input } from "./commentInputBar.style";
 import TextArea from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
@@ -11,10 +11,11 @@ import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { INPUT_TEXT } from "@/_constant/input";
 import UserBar from "../userbar/UserBar";
-import { createUser } from "@/_dummyData/userDummy";
 import { UserProps } from "../user/User";
 import classNames from "classnames";
 import { UserService } from "@/_services/user_service";
+import { faSmile } from "@fortawesome/free-regular-svg-icons";
+import IconButton from "@/_components/atoms/button/IconButton";
 
 export interface CommentInfoProps extends UserInfoType {
   comment: string;
@@ -23,9 +24,10 @@ export interface CommentInfoProps extends UserInfoType {
 
 interface CommentInputBarProps {
   feedId: string;
+  ver?: number;
 }
 
-export default function CommentInputBar({ feedId }: CommentInputBarProps) {
+export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
   const [commentInfo, setCommentInfo] = useState<CommentInfoProps>({
@@ -33,43 +35,47 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     comment: "",
     createdAt: "",
   });
-  // const friends = useMemo(() => createUser(10), []);
 
-  // const { data } = useCustomQuery(QUERY_KEYS.USERS.FOLLOWING.queryKey, () =>
-  //   UserService.getFollowingList(userInfo.userId),
-  // );
+  const { data, refetch } = useCustomQuery(
+    QUERY_KEYS.USERS.FOLLOWING.queryKey,
+    () => UserService.getFollowingList(userInfo.userId),
+    { enabled: false },
+  );
   const [allUsers, setAllUsers] = useState<UserProps[]>([]);
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
   const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
 
-  const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    const char = value.slice(-1);
+  const handleInputChange = useCallback(
+    async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      const char = value.slice(-1);
 
-    setCommentInfo((prev) => ({ ...prev, comment: e.target.value }));
+      setCommentInfo((prev) => ({ ...prev, comment: e.target.value }));
 
-    if (char === "@") {
-      const data = await UserService.getFollowingList(userInfo.userId);
-      const idx = value.length - 1;
-      setTagStartIdx(idx);
-      setAllUsers(data);
-      setTaggingUsers(data);
-      setTagging(true);
-    }
-
-    if (tagging) {
-      const lastWord = value.split(" ").slice(-1)[0];
-      if (!lastWord.includes("@")) {
-        setTagging(false);
+      if (char === "@") {
+        refetch();
+        const idx = value.length - 1;
+        setTagStartIdx(idx);
+        setAllUsers(data);
+        setTaggingUsers(data);
+        setTagging(true);
       }
-      const searching = value.split("@").slice(-1)[0];
-      const filtered: UserProps[] = allUsers.filter((user: UserProps) =>
-        user.userName.toLowerCase().includes(searching?.toLowerCase()),
-      );
-      setTaggingUsers(filtered);
-    }
-  };
+
+      if (tagging) {
+        const lastWord = value.split(" ").slice(-1)[0];
+        if (!lastWord.includes("@")) {
+          setTagging(false);
+        }
+        const searching = value.split("@").slice(-1)[0];
+        const filtered: UserProps[] = data.filter((user: UserProps) =>
+          user.userName.toLowerCase().includes(searching?.toLowerCase()),
+        );
+        setTaggingUsers(filtered);
+      }
+    },
+    [data, refetch],
+  );
 
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
@@ -102,12 +108,13 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
   };
 
   return (
-    <Input.Container>
+    <Input.Container $padding={ver === 2 ? "6px 16px 6px 0px" : "0"}>
       <Input.PopOver className={classNames({ show: tagging })}>
         {taggingUsers?.map((friend) => (
           <UserBar key={friend.userId} user={friend} isTagUser={true} onTagClick={onTagClick} />
         ))}
       </Input.PopOver>
+      {ver === 2 && <IconButton awesomeIcon={faSmile} />}
       <TextArea
         value={commentInfo.comment}
         onKeyDown={handleInputKeyDown}
@@ -115,9 +122,10 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
         placeholder={INPUT_TEXT.COMMENT}
         taggedUsers={taggedUsers}
       />
-      {isTxtNotEmpty(commentInfo.comment) && (
+      {isTxtNotEmpty(commentInfo.comment) && ver !== 2 && (
         <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />
       )}
+      {ver && <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />}
     </Input.Container>
   );
 }

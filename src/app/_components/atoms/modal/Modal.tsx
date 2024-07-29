@@ -9,8 +9,10 @@ import { createPortal } from "react-dom";
 import { MODAL } from "@/_constant/modal";
 import TestModal from "@components/molecules/ModalContent/TestModal";
 import PostFeedModal from "@components/organism/modal/postFeed/PostFeedModal";
-import FeedOptionModal from "@/_components/organism/modal/feedOptions/FeedOptionModal";
-import EditFeedModal from "@/_components/organism/modal/editFeed/EditFeedModal";
+import FeedOptionModal from "@components/organism/modal/feedOptions/FeedOptionModal";
+import EditFeedModal from "@components/organism/modal/editFeed/EditFeedModal";
+import FeedModal from "@components/organism/modal/feed/FeedModal";
+import { useRouter } from "next/navigation";
 
 interface ModalProps {
   children?: ReactNode;
@@ -22,6 +24,8 @@ export function getModal(modalName: string) {
       return <PostFeedModal />;
     case MODAL.EDIT_FEED:
       return <EditFeedModal />;
+    case MODAL.FEED:
+      return <FeedModal />;
     case MODAL.FEED_OPTION:
       return <FeedOptionModal />;
     case MODAL.TEST:
@@ -33,6 +37,8 @@ export function getModal(modalName: string) {
 
 export default function Modal({ children }: ModalProps) {
   const { isOpen, closeModal } = useModalStore();
+  const router = useRouter();
+
   const handleCloseCLick = (e: any) => {
     e.stopPropagation();
     closeModal();
