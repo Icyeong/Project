@@ -15,12 +15,15 @@ import classNames from "classnames";
 import { UserService } from "@/_services/user_service";
 import { CommentInfoProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
+import { faSmile } from "@fortawesome/free-regular-svg-icons";
+import IconButton from "@/_components/atoms/button/IconButton";
 
 interface CommentInputBarProps {
   feedId: string;
+  ver?: number;
 }
 
-export default function CommentInputBar({ feedId }: CommentInputBarProps) {
+export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
@@ -40,7 +43,6 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     () => UserService.getFollowingList(userInfo.userId),
     { enabled: false },
   );
-
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     const char = value.slice(-1);
@@ -54,7 +56,6 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
       setTaggingUsers(data);
       setTagging(true);
     }
-
     if (tagging) {
       const lastWord = value.split(" ").slice(-1)[0];
       if (!lastWord.includes("@")) {
@@ -65,10 +66,14 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
         user.userName.toLowerCase().includes(searching?.toLowerCase()),
       );
       setTaggingUsers(filtered);
-      setTagStartIdx(0);
     }
+    const searching = value.split("@").slice(-1)[0];
+    const filtered: UserProps[] = data.filter((user: UserProps) =>
+      user.userName.toLowerCase().includes(searching?.toLowerCase()),
+    );
+    setTaggingUsers(filtered);
+    setTagStartIdx(0);
   };
-
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
@@ -137,7 +142,7 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
     };
   }, []);
   return (
-    <Input.Container>
+    <Input.Container $padding={ver === 2 ? "6px 16px 6px 0px" : "0"}>
       <Input.PopOver ref={popOverRef} className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
         {taggingUsers?.map((friend, idx) => (
           <UserBar
@@ -149,15 +154,17 @@ export default function CommentInputBar({ feedId }: CommentInputBarProps) {
           />
         ))}
       </Input.PopOver>
+      {ver === 2 && <IconButton awesomeIcon={faSmile} />}
       <TextArea
         value={commentInfo.comment}
         onKeyDown={handleInputKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
       />
-      {isTxtNotEmpty(commentInfo.comment) && (
+      {isTxtNotEmpty(commentInfo.comment) && ver !== 2 && (
         <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />
       )}
+      {ver && <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />}
     </Input.Container>
   );
 }

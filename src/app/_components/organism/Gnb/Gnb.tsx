@@ -46,7 +46,11 @@ function Gnb() {
   }, [setModal, openModal]);
 
   const handleModeChangeClick = useCallback(() => {}, []);
-  const handleTestClick = useCallback(() => {}, []);
+  const handleTestClick = useCallback(() => {
+    router.replace("/p/hello");
+    setModal(MODAL.FEED);
+    openModal();
+  }, []);
 
   const { mutate: mutateLogOut } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
