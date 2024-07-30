@@ -28,8 +28,9 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: v4(),
-    username: userInfo.userName,
-    img: userInfo.userImg,
+    userId: userInfo.userId,
+    userName: userInfo.userName,
+    userImg: userInfo.userImg,
     createdAt: "",
     following: false,
     content: selectedImage,

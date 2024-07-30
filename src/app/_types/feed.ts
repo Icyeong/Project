@@ -1,9 +1,7 @@
 import { UserProps } from "./user";
 
-export interface FeedProps {
+export interface FeedProps extends UserProps {
   feedId: string;
-  username: string;
-  img: string;
   createdAt: string;
   following: boolean;
   content: string;
@@ -16,4 +14,5 @@ export interface FeedProps {
 export interface CommentInfoProps extends UserProps {
   comment: string;
   createdAt: string;
+  taggedUsers: UserProps[];
 }

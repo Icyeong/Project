@@ -1,4 +1,3 @@
-import React from "react";
 import { FeedComment } from "./CommentBox.style";
 import ScrollBox from "@/_components/atoms/scrollBox/ScrollBox";
 import { FeedStyle } from "../../molecules/feed/Feed.style";
@@ -13,17 +12,16 @@ interface CommentBoxProps {
 }
 
 export default function CommentBox({ feed }: CommentBoxProps) {
-  const { feedId, username, content, text, likes, comments } = feed;
+  const { feedId, userId, userImg, userName, text, likes, comments, createdAt } = feed;
   const headerProps = { ...feed, size: "M" };
+  const myComment = { userImg, userId, userName, comment: text, createdAt, taggedUsers: [] };
   return (
     <FeedComment.Container>
       <FeedComment.Header>
         <FeedHeader {...headerProps} />
       </FeedComment.Header>
       <ScrollBox>
-        {comments.map((comment) => (
-          <UserComment key={comment.userId} {...comment} />
-        ))}
+        <UserComment {...myComment} />
         {comments.map((comment) => (
           <UserComment key={comment.userId} {...comment} />
         ))}

@@ -20,13 +20,13 @@ interface FeedHeaderProps extends FeedProps {
 }
 
 export default function FeedHeader(feed: FeedHeaderProps) {
-  const { username, img, createdAt, following, size } = feed;
+  const { userName, userImg, createdAt, following, size } = feed;
   const { setModal, openModal } = useModalStore();
   const { setSelectedFeed } = useFeedStore();
   const { userInfo } = useAuthStore();
 
   const isMyFeed = () => {
-    return username === userInfo.userName;
+    return userName === userInfo.userName;
   };
 
   const handleOptionClick = useCallback(() => {
@@ -37,9 +37,9 @@ export default function FeedHeader(feed: FeedHeaderProps) {
 
   return (
     <Header.Container $size={size === "S" ? 48 : 70}>
-      <Avatar size={size === "S" ? 34 : 42} img={isMyFeed() ? userInfo.userImg : img} />
+      <Avatar size={size === "S" ? 34 : 42} img={isMyFeed() ? userInfo.userImg : userImg} />
       <Header.Box>
-        <Header.Username>{username}</Header.Username>
+        <Header.Username>{userName}</Header.Username>
         <Header.TimeStamp>{dayjs(createdAt).fromNow(true)}</Header.TimeStamp>
 
         {!isMyFeed() && !following && <Header.Follow>팔로우</Header.Follow>}
