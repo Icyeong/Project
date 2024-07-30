@@ -34,6 +34,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     ...userInfo,
     comment: "",
     createdAt: "",
+    taggedUsers: [],
   });
 
   const popOverRef = useRef<HTMLUListElement>(null);
@@ -79,7 +80,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
-      setCommentInfo((prev) => ({ ...prev, comment: "", createdAt: "" }));
+      setCommentInfo((prev) => ({ ...prev, comment: "", createdAt: "", taggedUsers: [] }));
     },
   });
 
@@ -105,18 +106,15 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   };
 
   const handleCommentClick = () => {
-    const fetchData = { ...commentInfo, createdAt: String(new Date()) };
+    const fetchData = { ...commentInfo, createdAt: String(new Date()), taggedUsers };
     if (!hasEmptyProps(fetchData)) {
       mutateComment({ feedId, fetchData });
     }
   };
 
   const onTagClick = (user: UserProps) => {
-    setTaggedUsers((prev) => ({ ...prev, user }));
+    setTaggedUsers((prev) => [...prev, user]);
     const comment = commentInfo.comment.slice(0, tagStartIdx + 1);
-    console.log("commentInfo.comment : ", commentInfo.comment);
-    console.log("comment : ", comment);
-    console.log("tagged users : ", taggedUsers);
     setCommentInfo((prev) => ({ ...prev, comment: comment + user.userName + " " }));
     setTagging(false);
   };

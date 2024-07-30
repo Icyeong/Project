@@ -9,6 +9,11 @@ export const Comment = {
     display: flex;
     flex-direction: column;
     margin-left: 15px;
+    span {
+      color: #0095f6;
+      display: contents;
+      cursor: pointer;
+    }
   `,
   UserName: styled.p`
     font-size: 14px;
