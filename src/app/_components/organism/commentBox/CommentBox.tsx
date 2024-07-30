@@ -4,7 +4,7 @@ import ScrollBox from "@/_components/atoms/scrollBox/ScrollBox";
 import { FeedStyle } from "../../molecules/feed/Feed.style";
 import ControlBar from "../../molecules/feed/feedInfo/ControlBar";
 import CommentInputBar from "../../molecules/commentInputBar/CommentInputBar";
-import { FeedProps } from "../../molecules/feed/Feed";
+import { FeedProps } from "@/_types/feed";
 import FeedHeader from "../../molecules/feed/feedHeader/FeedHeader";
 import UserComment from "@/_components/molecules/userComment/UserComment";
 

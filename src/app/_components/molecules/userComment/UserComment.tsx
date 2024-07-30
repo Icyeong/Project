@@ -2,7 +2,7 @@ import React from "react";
 import { Comment } from "./UserComment.style";
 import Avatar from "@/_components/atoms/avatar/Avatar";
 import BaseButton from "@/_components/atoms/button/BaseButton";
-import { CommentInfoProps } from "../commentInputBar/CommentInputBar";
+import { CommentInfoProps } from "@/_types/feed";
 
 export default function UserComment(userComment: CommentInfoProps) {
   const { userImg, userName, comment, createdAt } = userComment;

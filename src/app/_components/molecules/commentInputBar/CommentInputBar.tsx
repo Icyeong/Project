@@ -56,6 +56,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       setTaggingUsers(data);
       setTagging(true);
     }
+
     if (tagging) {
       const lastWord = value.split(" ").slice(-1)[0];
       if (!lastWord.includes("@")) {
@@ -67,13 +68,14 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       );
       setTaggingUsers(filtered);
     }
+
     const searching = value.split("@").slice(-1)[0];
-    const filtered: UserProps[] = data.filter((user: UserProps) =>
+    const filtered: UserProps[] = data?.filter((user: UserProps) =>
       user.userName.toLowerCase().includes(searching?.toLowerCase()),
     );
     setTaggingUsers(filtered);
-    setTagStartIdx(0);
   };
+
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
@@ -112,6 +114,9 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const onTagClick = (user: UserProps) => {
     setTaggedUsers((prev) => ({ ...prev, user }));
     const comment = commentInfo.comment.slice(0, tagStartIdx + 1);
+    console.log("commentInfo.comment : ", commentInfo.comment);
+    console.log("comment : ", comment);
+    console.log("tagged users : ", taggedUsers);
     setCommentInfo((prev) => ({ ...prev, comment: comment + user.userName + " " }));
     setTagging(false);
   };
