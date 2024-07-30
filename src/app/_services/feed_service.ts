@@ -12,6 +12,16 @@ const getFeedsList = async (page: number) => {
   }
 };
 
+const getFeedDetail = async (feedId: string) => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/feed?feedId=${feedId}`);
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    getErrorHandler(error);
+  }
+};
+
 const getPhotoPieces = async (page: number) => {
   try {
     const res = await fetch(`${BASE_DOMAIN}/explore?page=${page}`);
@@ -74,6 +84,7 @@ const getSearchedResults = async (keyword: string) => {
 
 export const FeedService = {
   getFeedsList,
+  getFeedDetail,
   getPhotoPieces,
   postFeed,
   editFeed,

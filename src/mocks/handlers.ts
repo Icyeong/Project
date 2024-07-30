@@ -21,6 +21,15 @@ export const handlers = [
 
     return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
   }),
+
+  http.get("/feed", ({ request }) => {
+    const url = new URL(request.url);
+    const feedId = url.searchParams.get("feedId");
+
+    const filtered = serverFeedsData.filter((feed) => feed.feedId === feedId)[0];
+
+    return HttpResponse.json(filtered);
+  }),
   http.get("/stories", () => {
     return HttpResponse.json(createUser(16));
   }),
