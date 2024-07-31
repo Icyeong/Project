@@ -5,7 +5,7 @@ interface TextAreaPorps extends AllHTMLAttributes<HTMLTextAreaElement> {
   $maxHeight?: number;
 }
 
-export default function TextArea({ $maxHeight, placeholder, value, onChange, ...props }: TextAreaPorps) {
+export default function TextArea({ $maxHeight, value, ...props }: TextAreaPorps) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -18,15 +18,5 @@ export default function TextArea({ $maxHeight, placeholder, value, onChange, ...
     resizeTextArea();
   }, [value]);
 
-  return (
-    <Textarea
-      $maxHeight={$maxHeight}
-      ref={textAreaRef}
-      rows={1}
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-      {...props}
-    />
-  );
+  return <Textarea $maxHeight={$maxHeight} ref={textAreaRef} rows={1} value={value} {...props} />;
 }
