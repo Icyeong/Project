@@ -25,7 +25,7 @@ function Gnb() {
   const { resetAuthState, userInfo } = useAuthStore();
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
-  const { openModal, setModal } = useModalStore();
+  const { openModal, closeModal, setModal } = useModalStore();
 
   const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -89,6 +89,7 @@ function Gnb() {
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
+      closeModal();
     };
   }, []);
 

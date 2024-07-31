@@ -18,6 +18,7 @@ export const Input = {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
     transform: translateY(-100%);
     background-color: white;
     overflow-y: scroll;
