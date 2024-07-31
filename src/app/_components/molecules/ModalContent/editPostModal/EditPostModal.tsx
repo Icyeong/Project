@@ -17,6 +17,8 @@ import { queryClient } from "@/(pages)/App";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { FeedProps } from "@/_types/feed";
+import { isFeedProps } from "@/_dummyData/feedDummy";
+import { FEED_ERROR } from "@/_constant/errors";
 
 interface EditPostProps {
   setStep: (step: PostModalType) => void;
@@ -50,6 +52,8 @@ export default function EditPostModal({ setStep }: EditPostProps) {
     setStep(POST_MODAL.PREVIEW);
   };
   const handleNextClick = () => {
+    const newFeed = { ...newFeedData, createdAt: new Date().toISOString() };
+    if (!isFeedProps(newFeed)) return alert(FEED_ERROR.ADD);
     createFeed({ ...newFeedData, createdAt: new Date().toISOString() });
   };
 

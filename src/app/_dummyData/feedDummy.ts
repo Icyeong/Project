@@ -4,7 +4,6 @@ import { getRandomBoolean, getRandomNumber } from "@/_utils/utils";
 import { createUser } from "./userDummy";
 import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
-import { random } from "lodash";
 
 export function createFeeds(number: number) {
   const feedList = [];
@@ -45,7 +44,7 @@ export function createComments(number: number) {
 export const isFeedProps = (data: any): data is FeedProps => {
   return (
     typeof data.feedId === "string" &&
-    typeof data.username === "string" &&
+    typeof data.userName === "string" &&
     typeof data.createdAt === "string" &&
     typeof data.following === "boolean" &&
     typeof data.content === "string" &&
