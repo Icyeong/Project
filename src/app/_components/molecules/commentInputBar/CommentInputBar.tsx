@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Input } from "./commentInputBar.style";
-import TextArea from "@components/atoms/textarea/TextArea";
+import { TextArea } from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
 import useAuthStore from "@/_stores/client/authStore";
 import { hasEmptyProps, isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
@@ -38,6 +38,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   });
 
   const popOverRef = useRef<HTMLUListElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const { data, refetch } = useCustomQuery(
     QUERY_KEYS.USERS.FOLLOWING.queryKey,
@@ -117,6 +118,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     const comment = commentInfo.comment.slice(0, tagStartIdx + 1);
     setCommentInfo((prev) => ({ ...prev, comment: comment + user.userName + " " }));
     setTagging(false);
+    textAreaRef.current?.focus();
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -163,6 +165,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
         onKeyDown={handleInputKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
+        ref={textAreaRef}
       />
       {isTxtNotEmpty(commentInfo.comment) && ver !== 2 && (
         <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />
