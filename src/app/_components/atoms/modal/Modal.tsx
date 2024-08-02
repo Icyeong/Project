@@ -36,15 +36,25 @@ export function getModal(modalName: string) {
 }
 
 export default function Modal({ children }: ModalProps) {
-  const { isOpen, closeModal } = useModalStore();
+  const { modalName, isOpen, closeModal } = useModalStore();
   const router = useRouter();
 
   const handleCloseCLick = (e: any) => {
     e.stopPropagation();
-    closeModal();
+
+    switch (modalName) {
+      case MODAL.FEED:
+        return handleHistoryBack();
+      default:
+        return closeModal();
+    }
   };
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+  const handleHistoryBack = () => {
+    router.back();
+    closeModal();
   };
 
   const modalRoot = document.getElementById("modal-root");
