@@ -13,7 +13,6 @@ import { INPUT_TEXT, KEY_CODE } from "@/_constant/input";
 import UserBar from "../userbar/UserBar";
 import classNames from "classnames";
 import { UserService } from "@/_services/user_service";
-import { CommentInfoProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "@/_components/atoms/button/IconButton";
@@ -29,13 +28,8 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
   const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
-  const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(0);
-  const [commentInfo, setCommentInfo] = useState<CommentInfoProps>({
-    ...userInfo,
-    comment: "",
-    createdAt: "",
-    taggedUsers: [],
-  });
+  const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(-1);
+  const [comment, setComment] = useState<string>("");
 
   const popOverRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -47,11 +41,10 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   );
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    const char = value.slice(-1);
 
-    setCommentInfo((prev) => ({ ...prev, comment: e.target.value }));
+    setComment(e.target.value);
 
-    if (char === "@") {
+    if (value.endsWith("@")) {
       refetch();
       const idx = value.length - 1;
       setTagStartIdx(idx);
@@ -62,6 +55,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     if (tagging) {
       const lastWord = value.split(" ").slice(-1)[0];
       if (!lastWord.includes("@")) {
+        setTabFocusedIdx(-1);
         setTagging(false);
       }
       const searching = value.split("@").slice(-1)[0];
@@ -70,18 +64,13 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       );
       setTaggingUsers(filtered);
     }
-
-    const searching = value.split("@").slice(-1)[0];
-    const filtered: UserProps[] = data?.filter((user: UserProps) =>
-      user.userName.toLowerCase().includes(searching?.toLowerCase()),
-    );
-    setTaggingUsers(filtered);
   };
 
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
-      setCommentInfo((prev) => ({ ...prev, comment: "", createdAt: "", taggedUsers: [] }));
+      setComment("");
+      setTaggedUsers([]);
     },
   });
 
@@ -89,25 +78,24 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     if (e.code === KEY_CODE.ESCAPE) {
       e.preventDefault();
       setTagging(false);
+      setTabFocusedIdx(-1);
     }
 
     if (e.code === KEY_CODE.TAB) {
       e.preventDefault();
-      if (tabFocusedIdx === 0) {
-        setTabFocusedIdx(-1);
-      }
+      setTabFocusedIdx(tabFocusedIdx + 1);
     }
 
-    if (!isTxtNotEmpty(commentInfo.comment) && e.code === KEY_CODE.ENTER) {
+    if (!isTxtNotEmpty(comment) && e.code === KEY_CODE.ENTER) {
       e.preventDefault();
     }
-    if (isTxtNotEmpty(commentInfo.comment) && commentInfo.comment !== "@" && e.code === KEY_CODE.ENTER) {
+    if (isTxtNotEmpty(comment) && comment !== "@" && e.code === KEY_CODE.ENTER) {
       return handleCommentClick();
     }
   };
 
   const handleCommentClick = () => {
-    const fetchData = { ...commentInfo, createdAt: String(new Date()), taggedUsers };
+    const fetchData = { ...userInfo, comment, createdAt: String(new Date()), taggedUsers };
     if (!hasEmptyProps(fetchData)) {
       mutateComment({ feedId, fetchData });
     }
@@ -115,9 +103,10 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
 
   const onTagClick = (user: UserProps) => {
     setTaggedUsers((prev) => [...prev, user]);
-    const comment = commentInfo.comment.slice(0, tagStartIdx + 1);
-    setCommentInfo((prev) => ({ ...prev, comment: comment + user.userName + " " }));
+    const prevComment = comment.slice(0, tagStartIdx + 1);
+    setComment(prevComment + user.userName + " ");
     setTagging(false);
+    setTabFocusedIdx(-1);
     textAreaRef.current?.focus();
   };
 
@@ -134,7 +123,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   }, [data]);
 
   useEffect(() => {
-    if (tabFocusedIdx === -1) {
+    if (tabFocusedIdx === taggingUsers.length - 1 && tagging) {
       setTabFocusedIdx(0);
     }
   }, [tabFocusedIdx]);
@@ -145,7 +134,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, []);
+  }, [handleOutsideClick]);
   return (
     <Input.Container $padding={ver === 2 ? "6px 16px 6px 0px" : "0"}>
       <Input.PopOver ref={popOverRef} className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
@@ -161,13 +150,13 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       </Input.PopOver>
       {ver === 2 && <IconButton awesomeIcon={faSmile} />}
       <TextArea
-        value={commentInfo.comment}
+        value={comment}
         onKeyDown={handleInputKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
         ref={textAreaRef}
       />
-      {isTxtNotEmpty(commentInfo.comment) && ver !== 2 && (
+      {isTxtNotEmpty(comment) && ver !== 2 && (
         <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />
       )}
       {ver && <BaseButton onClick={handleCommentClick} fontSize="14" color="#0095f6" value="게시" />}
