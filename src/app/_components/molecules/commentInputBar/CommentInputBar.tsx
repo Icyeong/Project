@@ -16,6 +16,7 @@ import { UserService } from "@/_services/user_service";
 import { UserProps } from "@/_types/user";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "@/_components/atoms/button/IconButton";
+import { useOutsideClick } from "@/_hooks/useOutsideClick";
 
 interface CommentInputBarProps {
   feedId: string;
@@ -110,11 +111,9 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     textAreaRef.current?.focus();
   };
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (popOverRef.current && !popOverRef.current.contains(e.target as Node)) {
-      setTagging(false);
-    }
-  };
+  const { handleOutsideClick } = useOutsideClick(popOverRef, () => {
+    setTagging(false);
+  });
 
   useEffect(() => {
     if (data) {

@@ -18,6 +18,7 @@ import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
 import useFeedStore from "@/_stores/client/feedStore";
+import { useOutsideClick } from "@/_hooks/useOutsideClick";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
@@ -69,11 +70,9 @@ function Gnb() {
     mutateLogOut(null);
   }, [mutateLogOut]);
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (gnbRef.current && !gnbRef.current.contains(e.target as Node)) {
-      setGnbShape(GNB_SHAPE.ALL);
-    }
-  };
+  const { handleOutsideClick } = useOutsideClick(gnbRef, () => {
+    setGnbShape(GNB_SHAPE.ALL);
+  });
 
   const getGnbContent = () => {
     switch (gnbContent) {
