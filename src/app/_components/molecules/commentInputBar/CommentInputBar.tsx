@@ -17,6 +17,7 @@ import { UserProps } from "@/_types/user";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "@/_components/atoms/button/IconButton";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
+import { isCommentInfoProps } from "@/_dummyData/feedDummy";
 
 interface CommentInputBarProps {
   feedId: string;
@@ -69,7 +70,8 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
 
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
+      // queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
+      queryClient.invalidateQueries([...QUERY_KEYS.FEED.DETAIL.queryKey, feedId] as InvalidateQueryFilters);
       setComment("");
       setTaggedUsers([]);
     },
@@ -97,7 +99,8 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
 
   const handleCommentClick = () => {
     const fetchData = { ...userInfo, comment, createdAt: String(new Date()), taggedUsers };
-    if (!hasEmptyProps(fetchData)) {
+    console.log("fetchData : ", fetchData);
+    if (isCommentInfoProps(fetchData)) {
       mutateComment({ feedId, fetchData });
     }
   };

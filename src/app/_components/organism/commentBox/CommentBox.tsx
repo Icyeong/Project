@@ -23,7 +23,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
       <ScrollBox>
         <UserComment {...myComment} />
         {comments.map((comment) => (
-          <UserComment key={comment.userId} {...comment} />
+          <UserComment key={comment.createdAt} {...comment} />
         ))}
       </ScrollBox>
       <FeedComment.InfoBox>
