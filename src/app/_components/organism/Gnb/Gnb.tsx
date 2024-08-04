@@ -18,6 +18,7 @@ import classNames from "classnames";
 import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
 import useFeedStore from "@/_stores/client/feedStore";
+import { useOutsideClick } from "@/_hooks/useOutsideClick";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
@@ -25,7 +26,7 @@ function Gnb() {
   const { resetAuthState, userInfo } = useAuthStore();
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
-  const { openModal, setModal } = useModalStore();
+  const { openModal, closeModal, setModal } = useModalStore();
 
   const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -46,7 +47,11 @@ function Gnb() {
   }, [setModal, openModal]);
 
   const handleModeChangeClick = useCallback(() => {}, []);
-  const handleTestClick = useCallback(() => {}, []);
+  const handleTestClick = useCallback(() => {
+    router.replace("/p/hello");
+    setModal(MODAL.FEED);
+    openModal();
+  }, []);
 
   const { mutate: mutateLogOut } = useCustomMutation(async () => AuthService.LogOut, {
     onSuccess: () => {
@@ -65,11 +70,9 @@ function Gnb() {
     mutateLogOut(null);
   }, [mutateLogOut]);
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (gnbRef.current && !gnbRef.current.contains(e.target as Node)) {
-      setGnbShape(GNB_SHAPE.ALL);
-    }
-  };
+  const { handleOutsideClick } = useOutsideClick(gnbRef, () => {
+    setGnbShape(GNB_SHAPE.ALL);
+  });
 
   const getGnbContent = () => {
     switch (gnbContent) {
@@ -85,6 +88,7 @@ function Gnb() {
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
+      closeModal();
     };
   }, []);
 

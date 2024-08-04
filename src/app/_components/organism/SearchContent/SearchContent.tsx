@@ -6,8 +6,8 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
-import { UserProps } from "@/_components/molecules/user/User";
 import useFeedStore from "@/_stores/client/feedStore";
+import { UserProps } from "@/_types/user";
 
 export default function SearchContent() {
   const [keyword, setKeyword] = useState("");

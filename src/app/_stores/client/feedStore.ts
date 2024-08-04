@@ -1,5 +1,5 @@
-import { FeedProps } from "@/_components/molecules/feed/Feed";
-import { UserProps } from "@/_components/molecules/user/User";
+import { FeedProps } from "@/_types/feed";
+import { UserProps } from "@/_types/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

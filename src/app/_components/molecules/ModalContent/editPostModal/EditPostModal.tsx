@@ -1,6 +1,5 @@
 import useModalStore from "@/_stores/client/modalStore";
-import React, { ChangeEvent, useState } from "react";
-import { FeedProps } from "../../feed/Feed";
+import { ChangeEvent, useState } from "react";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
 import { useCustomMutation } from "@/_hooks/useFetch";
@@ -17,6 +16,9 @@ import { INPUT_SIZE } from "@/_constant/input";
 import { queryClient } from "@/(pages)/App";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
+import { FeedProps } from "@/_types/feed";
+import { isFeedProps } from "@/_dummyData/feedDummy";
+import { FEED_ERROR } from "@/_constant/errors";
 
 interface EditPostProps {
   setStep: (step: PostModalType) => void;
@@ -28,8 +30,9 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
     feedId: v4(),
-    username: userInfo.userName,
-    img: userInfo.userImg,
+    userId: userInfo.userId,
+    userName: userInfo.userName,
+    userImg: userInfo.userImg,
     createdAt: "",
     following: false,
     content: selectedImage,
@@ -49,6 +52,8 @@ export default function EditPostModal({ setStep }: EditPostProps) {
     setStep(POST_MODAL.PREVIEW);
   };
   const handleNextClick = () => {
+    const newFeed = { ...newFeedData, createdAt: new Date().toISOString() };
+    if (!isFeedProps(newFeed)) return alert(FEED_ERROR.ADD);
     createFeed({ ...newFeedData, createdAt: new Date().toISOString() });
   };
 

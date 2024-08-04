@@ -1,3 +1,4 @@
+import { UserProps } from "@/_types/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -23,15 +24,9 @@ const useAuthStore = create(
 
 interface AuthState {
   isAuth: boolean;
-  userInfo: UserInfoType;
-  setUserState: (state: UserInfoType) => void;
+  userInfo: UserProps;
+  setUserState: (state: UserProps) => void;
   resetAuthState: () => void;
-}
-
-export interface UserInfoType {
-  userId: string;
-  userName: string;
-  userImg: string;
 }
 
 export interface JwtPayload_EMAIL {

@@ -1,11 +1,20 @@
-import { CommentInfoProps } from "@components/molecules/commentInputBar/CommentInputBar";
-import { FeedProps } from "@components/molecules/feed/Feed";
 import { BASE_DOMAIN } from "@/_env/env";
+import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
 const getFeedsList = async (page: number) => {
   try {
     const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}`);
+    const data = await res.json();
+    return data;
+  } catch (error: unknown) {
+    getErrorHandler(error);
+  }
+};
+
+const getFeedDetail = async (feedId: string) => {
+  try {
+    const res = await fetch(`${BASE_DOMAIN}/feed?feedId=${feedId}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -75,6 +84,7 @@ const getSearchedResults = async (keyword: string) => {
 
 export const FeedService = {
   getFeedsList,
+  getFeedDetail,
   getPhotoPieces,
   postFeed,
   editFeed,

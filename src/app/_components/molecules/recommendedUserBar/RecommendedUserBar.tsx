@@ -2,7 +2,7 @@ import Avatar from "@components/atoms/avatar/Avatar";
 import { Bar } from "./RecommendedUserBar.style";
 import useAuthStore from "@/_stores/client/authStore";
 import BaseButton from "@/_components/atoms/button/BaseButton";
-import { UserProps } from "../user/User";
+import { UserProps } from "@/_types/user";
 
 interface RecommendedUsersProps {
   user?: UserProps;

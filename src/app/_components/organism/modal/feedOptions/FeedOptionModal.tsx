@@ -9,11 +9,14 @@ import { queryClient } from "@/(pages)/App";
 import { FEED_OPTIONS_MODAL, MODAL } from "@/_constant/modal";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
+import { useRouter } from "next/navigation";
+import { USER_ALERT } from "@/_constant/alerts";
 
 export default function FeedOptionModal() {
   const { userInfo } = useAuthStore();
   const { selectedFeed } = useFeedStore();
   const { closeModal, setModal } = useModalStore();
+  const router = useRouter();
 
   const { mutate: mutateDeleteFeed } = useCustomMutation(FeedService.deleteFeed, {
     onSuccess: () => {
@@ -33,19 +36,39 @@ export default function FeedOptionModal() {
     setModal(MODAL.EDIT_FEED);
   };
 
+  const linkToFeedClick = () => {
+    closeModal();
+    router.push(`/p/${selectedFeed?.feedId}`);
+  };
+
+  const copyLinkClick = async () => {
+    const currentUrl = new URL(window.location.href).origin + "/p/" + selectedFeed?.feedId;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      closeModal();
+      window.alert(USER_ALERT.LINK_COPIED);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const getOptionFunction = (fn: string) => {
     switch (fn) {
       case "deleteFeed":
         return deleteFeedClick;
       case "editFeed":
         return editFeedClick;
+      case "linkToFeed":
+        return linkToFeedClick;
+      case "copyLink":
+        return copyLinkClick;
       default:
         return () => alert("not yet working...");
     }
   };
 
   const getCurrentOption = () => {
-    const isMyFeed = selectedFeed?.username === userInfo.userName;
+    const isMyFeed = selectedFeed?.userName === userInfo.userName;
 
     return FEED_OPTIONS_MODAL[isMyFeed ? "MYFEED" : "OTHERS"].map((option, idx) => (
       <Options.Button key={idx} onClick={getOptionFunction(option.fn)}>

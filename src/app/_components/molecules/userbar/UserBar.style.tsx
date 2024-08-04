@@ -13,6 +13,9 @@ export const Bar = {
     &:hover {
       background-color: #ececec;
     }
+    &.focused {
+      background-color: red;
+    }
   `,
   CloseButton: styled.button`
     padding: 8px 10px;

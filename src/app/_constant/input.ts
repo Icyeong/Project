@@ -9,3 +9,9 @@ export const INPUT_TEXT = {
 export const INPUT_SIZE = {
   FEED_CONTENT: 1199,
 };
+
+export const KEY_CODE = {
+  ENTER: "Enter",
+  ESCAPE: "Escape",
+  TAB: "Tab",
+};
