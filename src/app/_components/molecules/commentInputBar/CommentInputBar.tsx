@@ -50,7 +50,6 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       refetch();
       const idx = value.length - 1;
       setTagStartIdx(idx);
-      setTaggingUsers(data);
       setTagging(true);
     }
 

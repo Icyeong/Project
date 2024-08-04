@@ -14,15 +14,14 @@ export default function FeedDetailBox() {
     FeedService.getFeedDetail(feedId),
   );
 
-  if (!feed && !isLoading) return <NotFound />;
+  if (!feed) return <NotFound />;
 
-  if (feed && !isLoading)
-    return (
-      <FeedDetail.Container>
-        <FeedDetail.ImgBox>
-          <Image src={feed.content} width={400} height={400} alt="feedImg" />
-        </FeedDetail.ImgBox>
-        <CommentBox feed={feed} />
-      </FeedDetail.Container>
-    );
+  return (
+    <FeedDetail.Container>
+      <FeedDetail.ImgBox>
+        <Image src={feed.content} width={400} height={400} alt="feedImg" />
+      </FeedDetail.ImgBox>
+      <CommentBox feed={feed} />
+    </FeedDetail.Container>
+  );
 }
