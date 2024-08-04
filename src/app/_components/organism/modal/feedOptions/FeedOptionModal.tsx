@@ -10,6 +10,7 @@ import { FEED_OPTIONS_MODAL, MODAL } from "@/_constant/modal";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { useRouter } from "next/navigation";
+import { USER_ALERT } from "@/_constant/alerts";
 
 export default function FeedOptionModal() {
   const { userInfo } = useAuthStore();
@@ -40,6 +41,18 @@ export default function FeedOptionModal() {
     router.push(`/p/${selectedFeed?.feedId}`);
   };
 
+  const copyLinkClick = async () => {
+    const currentUrl = new URL(window.location.href).host + "/p/" + selectedFeed?.feedId;
+
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      closeModal();
+      alert(USER_ALERT.LINK_COPIED);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const getOptionFunction = (fn: string) => {
     switch (fn) {
       case "deleteFeed":
@@ -48,6 +61,8 @@ export default function FeedOptionModal() {
         return editFeedClick;
       case "linkToFeed":
         return linkToFeedClick;
+      case "copyLink":
+        return copyLinkClick;
       default:
         return () => alert("not yet working...");
     }
