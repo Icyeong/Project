@@ -36,6 +36,10 @@ function Gnb() {
     openModal();
   }, [setModal, openModal]);
 
+  const handleProfileClick = () => {
+    router.push(`/${userInfo.userName}`);
+  };
+
   const handleSearchClick = useCallback(() => {
     setGnbContent(GNB_CONTENT.SEARCH);
     setGnbShape((prev) => (prev === GNB_SHAPE.ALL ? GNB_SHAPE.ICON_WITH_BOX : GNB_SHAPE.ALL));
@@ -107,7 +111,7 @@ function Gnb() {
           <NavLink name="탐색 탭" href="/explore" icon={faCompass} />
           <NavLink name="메시지" href="/message" icon={faMessage} />
           <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
-          <NavButton name="프로필" img={userInfo.userImg} onClick={handleTestModalClick} />
+          <NavButton name="프로필" img={userInfo.userImg} onClick={handleProfileClick} />
         </GnbStyle.Top>
         <GnbStyle.Bottom>
           <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
