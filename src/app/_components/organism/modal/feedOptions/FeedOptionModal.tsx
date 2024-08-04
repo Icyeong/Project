@@ -42,12 +42,11 @@ export default function FeedOptionModal() {
   };
 
   const copyLinkClick = async () => {
-    const currentUrl = new URL(window.location.href).host + "/p/" + selectedFeed?.feedId;
-
+    const currentUrl = new URL(window.location.href).origin + "/p/" + selectedFeed?.feedId;
     try {
       await navigator.clipboard.writeText(currentUrl);
       closeModal();
-      alert(USER_ALERT.LINK_COPIED);
+      window.alert(USER_ALERT.LINK_COPIED);
     } catch (err) {
       console.error(err);
     }

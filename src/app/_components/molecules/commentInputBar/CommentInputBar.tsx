@@ -3,7 +3,7 @@ import { Input } from "./commentInputBar.style";
 import { TextArea } from "@components/atoms/textarea/TextArea";
 import BaseButton from "@components/atoms/button/BaseButton";
 import useAuthStore from "@/_stores/client/authStore";
-import { hasEmptyProps, isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
+import { isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
 import { useCustomMutation, useCustomQuery } from "@/_hooks/useFetch";
 import { FeedService } from "@/_services/feed_service";
 import { queryClient } from "@/(pages)/App";
@@ -44,7 +44,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
 
-    setComment(e.target.value);
+    setComment(value);
 
     if (value.endsWith("@")) {
       refetch();
@@ -70,7 +70,6 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
 
   const { mutate: mutateComment } = useCustomMutation(FeedService.addComment, {
     onSuccess: () => {
-      // queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
       queryClient.invalidateQueries([...QUERY_KEYS.FEED.DETAIL.queryKey, feedId] as InvalidateQueryFilters);
       setComment("");
       setTaggedUsers([]);

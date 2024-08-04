@@ -53,8 +53,8 @@ export default function Modal({ children }: ModalProps) {
     e.stopPropagation();
   };
   const handleHistoryBack = () => {
-    router.back();
     closeModal();
+    router.back();
   };
 
   const modalRoot = document.getElementById("modal-root");
