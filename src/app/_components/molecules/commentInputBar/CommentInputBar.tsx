@@ -32,6 +32,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
   const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(-1);
   const [comment, setComment] = useState<string>("");
+  const [postingState, setPostingState] = useState<boolean>(true);
 
   const popOverRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -97,9 +98,10 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
 
   const handleCommentClick = () => {
     const fetchData = { ...userInfo, comment, createdAt: String(new Date()), taggedUsers };
-    console.log("fetchData : ", fetchData);
-    if (isCommentInfoProps(fetchData)) {
+    if (isCommentInfoProps(fetchData) && postingState) {
       mutateComment({ feedId, fetchData });
+      setPostingState(false);
+      setTimeout(() => setPostingState(true), 1000);
     }
   };
 
@@ -139,13 +141,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     <Input.Container $padding={ver === 2 ? "6px 16px 6px 0px" : "0"}>
       <Input.PopOver ref={popOverRef} className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
         {taggingUsers?.map((friend, idx) => (
-          <UserBar
-            key={friend.userId}
-            user={friend}
-            isTagUser={true}
-            focused={tabFocusedIdx === idx}
-            onTagClick={onTagClick}
-          />
+          <UserBar key={idx} user={friend} isTagUser={true} focused={tabFocusedIdx === idx} onTagClick={onTagClick} />
         ))}
       </Input.PopOver>
       {ver === 2 && <IconButton awesomeIcon={faSmile} />}
