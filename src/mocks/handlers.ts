@@ -1,13 +1,14 @@
-import { FeedProps } from "@components/molecules/feed/Feed";
 import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
-import { UserProps } from "@/_components/molecules/user/User";
+import { FeedProps } from "@/_types/feed";
+import { UserProps } from "@/_types/user";
 
 let serverFeedsData: FeedProps[] = createFeeds(30);
 const serverPhotoPiecesData = createPhotoPieces(300);
 const serverUsersData = createUser(100);
+const serverFollowingData = createUser(15);
 export const handlers = [
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
@@ -19,6 +20,15 @@ export const handlers = [
     const hasNextPage = end < serverFeedsData.length;
 
     return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+  }),
+
+  http.get("/feed", ({ request }) => {
+    const url = new URL(request.url);
+    const feedId = url.searchParams.get("feedId");
+
+    const filtered = serverFeedsData.filter((feed) => feed.feedId === feedId)[0];
+
+    return HttpResponse.json(filtered);
   }),
   http.get("/stories", () => {
     return HttpResponse.json(createUser(16));
@@ -96,6 +106,6 @@ export const handlers = [
     const userId = parseInt(url.searchParams.get("userId") || "");
     console.log("msw userId : ", userId);
 
-    return HttpResponse.json(createUser(10));
+    return HttpResponse.json(serverFollowingData);
   }),
 ];

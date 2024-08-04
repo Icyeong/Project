@@ -1,14 +1,26 @@
-import React, { AllHTMLAttributes, useEffect, useRef } from "react";
+import { AllHTMLAttributes, forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { Textarea } from "./TextArea.style";
-import { UserProps } from "@/_components/molecules/user/User";
 
-interface TextAreaPorps extends AllHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps extends AllHTMLAttributes<HTMLTextAreaElement> {
   $maxHeight?: number;
-  taggedUsers: UserProps[];
 }
 
-export default function TextArea({ $maxHeight, taggedUsers, placeholder, value, onChange, ...props }: TextAreaPorps) {
+export interface FocusHandle {
+  focus: () => void;
+}
+
+export const TextArea = forwardRef<FocusHandle, TextAreaProps>((props, ref) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        focus: () => textAreaRef.current?.focus(),
+      };
+    },
+    [],
+  );
 
   useEffect(() => {
     const resizeTextArea = () => {
@@ -18,17 +30,7 @@ export default function TextArea({ $maxHeight, taggedUsers, placeholder, value, 
       }
     };
     resizeTextArea();
-  }, [value]);
+  }, [props.value]);
 
-  return (
-    <Textarea
-      $maxHeight={$maxHeight}
-      ref={textAreaRef}
-      rows={1}
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-      {...props}
-    />
-  );
-}
+  return <Textarea ref={textAreaRef} rows={1} {...props} />;
+});

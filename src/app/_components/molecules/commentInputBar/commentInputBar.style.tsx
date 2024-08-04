@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Input = {
-  Container: styled.div`
+  Container: styled.div<{ $padding: string }>`
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: ${({ $padding }) => $padding || "8px 0"};
     position: relative;
     button {
       margin-left: 10px;
@@ -18,6 +18,7 @@ export const Input = {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
     transform: translateY(-100%);
     background-color: white;
     overflow-y: scroll;
@@ -30,6 +31,9 @@ export const Input = {
 
     &.show {
       display: flex;
+    }
+    &.hide {
+      display: none;
     }
   `,
 };

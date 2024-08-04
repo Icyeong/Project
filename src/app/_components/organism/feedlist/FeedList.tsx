@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "./FeedList.style";
-import Feed, { FeedProps } from "@components/molecules/feed/Feed";
+import Feed from "@components/molecules/feed/Feed";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import FeedSkeleton from "./FeedSkeleton";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
+import { FeedProps } from "@/_types/feed";
 
 export default function FeedList() {
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +92,7 @@ export default function FeedList() {
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
               >
-                <Feed onSizeChange={(size) => updateSize(virtualItem.index, size + 20)} {...feed} />
+                <Feed onSizeChange={(size: number) => updateSize(virtualItem.index, size + 20)} {...feed} />
               </div>
             );
           })}

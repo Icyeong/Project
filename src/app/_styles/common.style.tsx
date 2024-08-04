@@ -75,3 +75,12 @@ export const HomeLayoutStyle = {
     padding-left: 64px;
   `,
 };
+
+export const Flex = styled.div`
+  display: flex;
+`;
+
+export const FlexColNoAlign = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

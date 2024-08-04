@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Header = {
-  Container: styled.div`
+  Container: styled.div<{ $size?: number }>`
     display: flex;
     align-items: center;
-    height: 48px;
+    height: ${({ $size }) => $size + "px"};
     padding: 0 0 12px 4px;
   `,
   Box: styled.div`

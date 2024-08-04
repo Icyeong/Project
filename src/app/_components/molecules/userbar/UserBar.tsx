@@ -1,23 +1,26 @@
 import { Bar } from "./UserBar.style";
 import Avatar from "@/_components/atoms/avatar/Avatar";
-import { UserProps } from "../user/User";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
 import { faker } from "@faker-js/faker";
+import { UserProps } from "@/_types/user";
 
 interface UserBarProps {
   user: UserProps;
   deleteButton?: boolean;
   isTagUser?: boolean;
+  focused?: boolean;
   onTagClick?: (user: UserProps) => void;
 }
 
-export default function UserBar({ user, deleteButton, isTagUser, onTagClick }: UserBarProps) {
+export default function UserBar({ user, deleteButton, isTagUser, focused, onTagClick }: UserBarProps) {
   const { addSearchHistory, deleteSearchHistory } = useFeedStore();
   const router = useRouter();
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleUserClick = () => {
     if (onTagClick) {
@@ -32,9 +35,16 @@ export default function UserBar({ user, deleteButton, isTagUser, onTagClick }: U
     e.stopPropagation();
     deleteSearchHistory(user.userId);
   };
+
+  useEffect(() => {
+    if (buttonRef.current && focused) {
+      buttonRef.current.focus();
+    }
+  }, [focused]);
+
   return (
     <Bar.Wrapper>
-      <Bar.Button onClick={handleUserClick}>
+      <Bar.Button ref={buttonRef} onClick={handleUserClick}>
         <Avatar size={isTagUser ? 30 : 44} img={user.userImg} />
         <Bar.UserInfo>
           <span>{user.userName}</span>
