@@ -62,8 +62,8 @@ export const HomeLayoutStyle = {
     justify-content: center;
     padding-top: 20px;
   `,
-  Main: styled.main`
-    width: 630px;
+  Main: styled.main<{ $width?: number }>`
+    width: ${({ $width }) => $width + "px" || "auto"};
     display: flex;
     flex-direction: column;
     align-items: center;

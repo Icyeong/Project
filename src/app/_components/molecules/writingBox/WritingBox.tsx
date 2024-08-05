@@ -1,7 +1,6 @@
-import React from "react";
 import { Box } from "./WritingBox.style";
 import Avatar from "@components/atoms/avatar/Avatar";
-import TextArea from "@components/atoms/textarea/TextArea";
+import { TextArea } from "@/_components/atoms/textarea/TextArea";
 import ToggleButton from "@/_components/atoms/button/ToggleButton";
 import useAuthStore from "@/_stores/client/authStore";
 
