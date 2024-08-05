@@ -1,25 +1,35 @@
-import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 import { FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 
-let serverFeedsData: FeedProps[] = createFeeds(30);
-const serverPhotoPiecesData = createPhotoPieces(300);
+let serverFeedsData: FeedProps[] = createFeeds(300);
 const serverUsersData = createUser(100);
 const serverFollowingData = createUser(15);
 export const handlers = [
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
     const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 5;
+    const pageSize = 15;
     const start = page * pageSize;
     const end = start + pageSize;
-    const feeds = serverFeedsData.slice(start, end);
-    const hasNextPage = end < serverFeedsData.length;
 
-    return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    if (userId !== "undefined") {
+      //특정 유저의 게시물만 불러오기
+      const filteredFeeds = serverFeedsData.filter((feed) => feed.userId === userId);
+      const feeds = filteredFeeds.slice(start, end);
+      const hasNextPage = end < filteredFeeds.length;
+
+      return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    } else {
+      // 모든 게시물 불러오기
+      const feeds = serverFeedsData.slice(start, end);
+      const hasNextPage = end < serverFeedsData.length;
+
+      return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    }
   }),
 
   http.get("/feed", ({ request }) => {
@@ -33,17 +43,7 @@ export const handlers = [
   http.get("/stories", () => {
     return HttpResponse.json(createUser(16));
   }),
-  http.get("/explore", ({ request }) => {
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 15;
-    const start = page * pageSize;
-    const end = start + pageSize;
-    const photos = serverPhotoPiecesData.slice(start, end);
-    const hasNextPage = end < serverPhotoPiecesData.length;
 
-    return HttpResponse.json({ photos, nextPage: hasNextPage ? page + 1 : null });
-  }),
   http.post("/feed", async ({ request }) => {
     const feedData = await request.json();
     if (isFeedProps(feedData)) {

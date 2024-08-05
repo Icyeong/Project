@@ -1,7 +1,7 @@
-import React from "react";
 import { Container } from "./PhotoSet.style";
-import PhotoPiece, { PhotoPieceProps } from "@components/atoms/photoPiece/PhotoPiece";
+import PhotoPiece from "@components/atoms/photoPiece/PhotoPiece";
+import { FeedProps } from "@/_types/feed";
 
-export default function PhotoSet({ pieces }: { pieces: PhotoPieceProps[] }) {
-  return <Container>{pieces?.map((piece: PhotoPieceProps) => <PhotoPiece key={piece.id} {...piece} />)}</Container>;
+export default function PhotoSet({ pieces }: { pieces: FeedProps[] }) {
+  return <Container>{pieces?.map((piece: FeedProps) => <PhotoPiece key={piece.feedId} {...piece} />)}</Container>;
 }
