@@ -6,6 +6,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import debounce from "lodash/debounce";
 import { FeedProps } from "@/_types/feed";
 import { isArrNotEmpty } from "@/_utils/utils";
+import NoPostBox from "./NoPostBox";
 
 export default function PhotoList({ fetchNextPage, data, isLoading }: any) {
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -48,7 +49,7 @@ export default function PhotoList({ fetchNextPage, data, isLoading }: any) {
   });
 
   if (isLoading) return <PhotoListSkeleton />;
-  if (!isArrNotEmpty(allPhotos)) return <div>no feeds yet</div>;
+  if (!isArrNotEmpty(allPhotos)) return <NoPostBox />;
 
   return (
     <div ref={parentRef} style={{ height: `${rowVirtualizer.getTotalSize()}px`, width: "100%", position: "relative" }}>
