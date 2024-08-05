@@ -7,6 +7,7 @@ import useAuthStore from "@/_stores/client/authStore";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { HomeLayoutStyle } from "@/_styles/common.style";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 export default function MypageTemplate() {
   const { userInfo } = useAuthStore();
@@ -18,10 +19,13 @@ export default function MypageTemplate() {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
   });
+
+  const postCount = useMemo(() => data?.pages.flatMap((page) => page.feeds).length || 0, [data]);
+
   return (
     <HomeLayoutStyle.Container>
       <HomeLayoutStyle.Main>
-        <MyInfoBox />
+        <MyInfoBox postCount={postCount} />
         <SelectBar />
         <PhotoList fetchNextPage={fetchNextPage} data={data} isLoading={isLoading} />
       </HomeLayoutStyle.Main>
