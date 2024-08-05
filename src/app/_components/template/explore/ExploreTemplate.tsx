@@ -9,7 +9,7 @@ import { FeedService } from "@/_services/feed_service";
 export default function ExploreTemplate() {
   const queryData = useInfiniteQuery({
     queryKey: QUERY_KEYS.FEED.PHOTO_PIECES.queryKey,
-    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam),
+    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam, 15),
     gcTime: 1000 * 60 * 5,
     staleTime: 1000 * 60 * 5,
     initialPageParam: 0,

@@ -12,7 +12,7 @@ export default function MypageTemplate() {
   const { userInfo } = useAuthStore();
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
     queryKey: [QUERY_KEYS.FEED.PHOTO_PIECES.queryKey, userInfo.userId],
-    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam, userInfo.userId),
+    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam, 15, userInfo.userId),
     gcTime: 1000 * 60 * 5,
     staleTime: 1000 * 60 * 5,
     initialPageParam: 0,

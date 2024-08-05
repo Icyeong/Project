@@ -12,7 +12,7 @@ export const handlers = [
     const url = new URL(request.url);
     const userId = url.searchParams.get("userId");
     const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 15;
+    const pageSize = parseInt(url.searchParams.get("size") || "5");
     const start = page * pageSize;
     const end = start + pageSize;
 

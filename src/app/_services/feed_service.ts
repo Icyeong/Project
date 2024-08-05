@@ -2,9 +2,9 @@ import { BASE_DOMAIN } from "@/_env/env";
 import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
-const getFeedsList = async (page: number, userId?: string) => {
+const getFeedsList = async (page: number, size: number, userId?: string) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}?&userId=${userId}`);
+    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}&?size=${size}?&userId=${userId}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
