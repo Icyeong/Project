@@ -19,7 +19,7 @@ export default function FeedDetailBox() {
   return (
     <FeedDetail.Container>
       <FeedDetail.ImgBox>
-        <Image src={feed.content} width={400} height={400} alt="feedImg" />
+        <Image src={feed.content} width={400} height={400} alt="feedImg" priority />
       </FeedDetail.ImgBox>
       <CommentBox feed={feed} />
     </FeedDetail.Container>

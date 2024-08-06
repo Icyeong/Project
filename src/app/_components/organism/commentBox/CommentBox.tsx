@@ -7,6 +7,7 @@ import { FeedProps } from "@/_types/feed";
 import FeedHeader from "../../molecules/feed/feedHeader/FeedHeader";
 import UserComment from "@/_components/molecules/userComment/UserComment";
 import dayjs from "dayjs";
+import { v4 } from "uuid";
 
 interface CommentBoxProps {
   feed: FeedProps;
@@ -25,7 +26,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
       <ScrollBox>
         <UserComment {...myComment} />
         {sortedComments.map((comment) => (
-          <UserComment key={comment.createdAt} {...comment} />
+          <UserComment key={v4()} {...comment} />
         ))}
       </ScrollBox>
       <FeedComment.InfoBox>
