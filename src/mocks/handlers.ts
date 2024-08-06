@@ -1,13 +1,24 @@
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
-import { createUser } from "@/_dummyData/userDummy";
+import { createUser, isMyInfoDetailProps, myInfoDetail, myinfoDetailProps } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 import { FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 
 let serverFeedsData: FeedProps[] = createFeeds(300);
+let serverMyData: myinfoDetailProps = myInfoDetail();
 const serverUsersData = createUser(100);
 const serverFollowingData = createUser(15);
 export const handlers = [
+  http.get("/myinfo", () => {
+    return HttpResponse.json(serverMyData);
+  }),
+  http.patch("/myinfo", async ({ request }) => {
+    const fetchData = await request.json();
+    if (isMyInfoDetailProps(fetchData)) {
+      serverMyData = fetchData;
+    }
+  }),
+
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
     const userId = url.searchParams.get("userId");

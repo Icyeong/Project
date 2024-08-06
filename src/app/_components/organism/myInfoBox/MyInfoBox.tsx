@@ -3,8 +3,11 @@ import { Flex } from "@/_styles/common.style";
 import { InfoBox } from "./MyinfoBox.style";
 import useAuthStore from "@/_stores/client/authStore";
 import BaseButton from "@/_components/atoms/button/BaseButton";
-import { getRandomNumber } from "@/_utils/utils";
 import { useRouter } from "next/navigation";
+import { myinfoDetailProps } from "@/_dummyData/userDummy";
+import { useCustomQuery } from "@/_hooks/useFetch";
+import { QUERY_KEYS } from "@/_stores/server/queryKeys";
+import { UserService } from "@/_services/user_service";
 
 interface MyInfoBoxProps {
   postCount: number;
@@ -13,6 +16,13 @@ interface MyInfoBoxProps {
 export default function MyInfoBox({ postCount }: MyInfoBoxProps) {
   const { userInfo } = useAuthStore();
   const { userId, userImg, userName } = userInfo;
+
+  const { data: infoDetail } = useCustomQuery<myinfoDetailProps, Error>(
+    QUERY_KEYS.USERS.MYPAGE.queryKey,
+    UserService.getMyinfo,
+    { gcTime: 1000 * 60 * 60, staleTime: 1000 * 60 * 60 },
+  );
+
   let curUser = window.location.pathname.split("/")[1];
   curUser = decodeURIComponent(curUser);
   const isMypage = curUser === userName;
@@ -47,12 +57,12 @@ export default function MyInfoBox({ postCount }: MyInfoBoxProps) {
           </Flex>
           <Flex>
             <BaseButton value={`게시물 ${postCount}`} fontWeight={500} />
-            <BaseButton value={`팔로워 ${getRandomNumber(500)}`} fontWeight={500} />
-            <BaseButton value={`팔로우 ${getRandomNumber(500)}`} fontWeight={500} />
+            <BaseButton value={`팔로워 ${infoDetail?.followers}`} fontWeight={500} />
+            <BaseButton value={`팔로우 ${infoDetail?.following}`} fontWeight={500} />
           </Flex>
           <InfoBox.Introduction>
-            <span>{userName}</span>
-            ㅎㅎㅎㅎ
+            <span>{infoDetail?.nickName}</span>
+            {infoDetail?.introduction}
           </InfoBox.Introduction>
         </InfoBox.Infos>
       </Flex>
