@@ -14,4 +14,6 @@ export const KEY_CODE = {
   ENTER: "Enter",
   ESCAPE: "Escape",
   TAB: "Tab",
+  ARROW_UP: "ArrowUp",
+  ARROWD_DOWN: "ArrowDown",
 };
