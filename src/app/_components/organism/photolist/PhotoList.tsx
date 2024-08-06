@@ -32,7 +32,7 @@ export default function PhotoList({ fetchNextPage, data, isLoading }: any) {
     };
   }, [fetchNextPage]);
 
-  const allPhotos = useMemo(() => data?.pages.flatMap((page: any) => page.feeds) || [], [data]);
+  const allPhotos = useMemo(() => data?.pages?.flatMap((page: any) => page.feeds) || [], [data]);
 
   const chunkedData: FeedProps[][] = useMemo(() => {
     const chunks = [];

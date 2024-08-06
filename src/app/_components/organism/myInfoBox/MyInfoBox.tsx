@@ -8,6 +8,7 @@ import { myinfoDetailProps } from "@/_dummyData/userDummy";
 import { useCustomQuery } from "@/_hooks/useFetch";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { UserService } from "@/_services/user_service";
+import { faker } from "@faker-js/faker";
 
 interface MyInfoBoxProps {
   postCount: number;
@@ -36,10 +37,10 @@ export default function MyInfoBox({ postCount }: MyInfoBoxProps) {
   return (
     <InfoBox.Container>
       <Flex>
-        <Avatar img={userImg} size={150} />
+        <Avatar img={isMypage ? userImg : faker.image.avatar()} size={150} />
         <InfoBox.Infos>
           <Flex>
-            <BaseButton value={userName} fontWeight={500} fontSize="20px" />
+            <BaseButton value={isMypage ? userName : curUser} fontWeight={500} fontSize="20px" />
             {isMypage ? (
               <BaseButton
                 onClick={handleEditProfile}
@@ -61,8 +62,8 @@ export default function MyInfoBox({ postCount }: MyInfoBoxProps) {
             <BaseButton value={`팔로우 ${infoDetail?.following}`} fontWeight={500} />
           </Flex>
           <InfoBox.Introduction>
-            <span>{infoDetail?.nickName}</span>
-            {infoDetail?.introduction}
+            <span>{isMypage ? infoDetail?.nickName : faker.person.fullName()}</span>
+            {isMypage ? infoDetail?.introduction : faker.person.bio()}
           </InfoBox.Introduction>
         </InfoBox.Infos>
       </Flex>

@@ -11,6 +11,10 @@ import { useMemo } from "react";
 
 export default function MypageTemplate() {
   const { userInfo } = useAuthStore();
+  let curUser = window.location.pathname.split("/")[1];
+  curUser = decodeURIComponent(curUser);
+  const isMypage = curUser === userInfo.userName;
+
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
     queryKey: [QUERY_KEYS.FEED.PHOTO_PIECES.queryKey, userInfo.userId],
     queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam, 15, userInfo.userId),
@@ -27,7 +31,7 @@ export default function MypageTemplate() {
       <HomeLayoutStyle.Main>
         <MyInfoBox postCount={postCount} />
         <SelectBar />
-        <PhotoList fetchNextPage={fetchNextPage} data={data} isLoading={isLoading} />
+        <PhotoList fetchNextPage={fetchNextPage} data={isMypage && data} isLoading={isLoading} />
       </HomeLayoutStyle.Main>
     </HomeLayoutStyle.Container>
   );
