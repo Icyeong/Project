@@ -4,12 +4,19 @@ import BaseButton from "@/_components/atoms/button/BaseButton";
 import { FlexColNoAlign } from "@/_styles/common.style";
 import { CommentInfoProps } from "@/_types/feed";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export default function UserComment(userComment: CommentInfoProps) {
   const { userImg, userName, comment, createdAt, taggedUsers } = userComment;
 
   const textBoxRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const handleUserClick = () => {
+    console.log("hello???");
+    router.push(`/${userName}`);
+  };
 
   useEffect(() => {
     const users = taggedUsers.map((user) => "@" + user.userName);
@@ -28,7 +35,7 @@ export default function UserComment(userComment: CommentInfoProps) {
       <Avatar size={42} img={userImg} />
       <FlexColNoAlign>
         <Comment.TextBox ref={textBoxRef}>
-          <Comment.UserName>{userName}</Comment.UserName>
+          <Comment.UserName onClick={handleUserClick}>{userName}</Comment.UserName>
           {comment}
         </Comment.TextBox>
         <Comment.ControlBar>
