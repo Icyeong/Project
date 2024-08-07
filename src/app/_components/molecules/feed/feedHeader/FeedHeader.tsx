@@ -22,7 +22,7 @@ interface FeedHeaderProps extends FeedProps {
 
 export default function FeedHeader(feed: FeedHeaderProps) {
   const { userName, userImg, createdAt, following, size } = feed;
-  const { setModal, openModal } = useModalStore();
+  const { setModal, openModal, closeModal } = useModalStore();
   const { setSelectedFeed } = useFeedStore();
   const { userInfo } = useAuthStore();
   const router = useRouter();
@@ -32,6 +32,7 @@ export default function FeedHeader(feed: FeedHeaderProps) {
   };
 
   const handleUserClick = () => {
+    closeModal();
     router.push(`/${userName}`);
   };
 
