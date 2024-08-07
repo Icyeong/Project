@@ -3,12 +3,18 @@ import Avatar from "@/_components/atoms/avatar/Avatar";
 import BaseButton from "@/_components/atoms/button/BaseButton";
 import { FlexColNoAlign } from "@/_styles/common.style";
 import { CommentInfoProps } from "@/_types/feed";
+import { UserProps } from "@/_types/user";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-export default function UserComment(userComment: CommentInfoProps) {
-  const { userImg, userName, comment, createdAt, taggedUsers } = userComment;
+interface UserCommentProps {
+  userComment: CommentInfoProps;
+  setUser?: (user: UserProps) => void;
+}
+
+export default function UserComment({ userComment, setUser }: UserCommentProps) {
+  const { userId, userImg, userName, comment, createdAt, taggedUsers } = userComment;
 
   const textBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -16,6 +22,12 @@ export default function UserComment(userComment: CommentInfoProps) {
   const handleUserClick = () => {
     console.log("hello???");
     router.push(`/${userName}`);
+  };
+
+  const handleCommentingClick = () => {
+    if (setUser) {
+      setUser({ userId, userName, userImg });
+    }
   };
 
   useEffect(() => {
@@ -41,7 +53,7 @@ export default function UserComment(userComment: CommentInfoProps) {
         <Comment.ControlBar>
           <BaseButton fontSize="12px" color="#737373" value={dayjs(createdAt).fromNow(true)} />
           <BaseButton fontSize="12px" color="#737373" value="좋아요" />
-          <BaseButton fontSize="12px" color="#737373" value="댓글 달기" />
+          <BaseButton onClick={handleCommentingClick} fontSize="12px" color="#737373" value="댓글 달기" />
           <BaseButton fontSize="12px" color="#737373" value="번역 보기" />
         </Comment.ControlBar>
       </FlexColNoAlign>

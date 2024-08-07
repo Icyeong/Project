@@ -22,9 +22,10 @@ import { isCommentInfoProps } from "@/_dummyData/feedDummy";
 interface CommentInputBarProps {
   feedId: string;
   ver?: number;
+  commentTo?: UserProps;
 }
 
-export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
+export default function CommentInputBar({ feedId, ver, commentTo }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
@@ -42,6 +43,15 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     () => UserService.getFollowingList(userInfo.userId),
     { enabled: false },
   );
+
+  const handleCommenting = () => {
+    if (commentTo) {
+      setComment(`@${commentTo.userName} `);
+      setTaggedUsers([...taggedUsers, commentTo]);
+      textAreaRef.current?.focus();
+    }
+  };
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
 
@@ -127,6 +137,12 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       setTaggingUsers(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (commentTo) {
+      handleCommenting();
+    }
+  }, [commentTo]);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
