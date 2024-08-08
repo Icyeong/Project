@@ -2,7 +2,7 @@ import { FeedComment } from "./CommentBox.style";
 import ScrollBox from "@/_components/atoms/scrollBox/ScrollBox";
 import { FeedStyle } from "../../molecules/feed/Feed.style";
 import ControlBar from "../../molecules/feed/feedInfo/ControlBar";
-import CommentInputBar from "../../molecules/commentInputBar/CommentInputBar";
+import CommentInputBar, { CommentToProps } from "../../molecules/commentInputBar/CommentInputBar";
 import { FeedProps } from "@/_types/feed";
 import FeedHeader from "../../molecules/feed/feedHeader/FeedHeader";
 import UserComment from "@/_components/molecules/userComment/UserComment";
@@ -18,11 +18,19 @@ interface CommentBoxProps {
 export default function CommentBox({ feed }: CommentBoxProps) {
   const { feedId, userId, userImg, userName, text, likes, comments, createdAt } = feed;
   const headerProps = { ...feed, size: "M" };
-  const myComment = { userImg, userId, userName, comment: text, createdAt, taggedUsers: [] };
+  const myComment = {
+    userImg,
+    userId,
+    userName,
+    comment: text,
+    createdAt,
+    taggedUsers: [],
+    comments: [],
+  };
   const sortedComments = comments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  const [commentTo, setCommentTo] = useState<UserProps>();
-  const setUser = (user: UserProps) => {
-    setCommentTo(user);
+  const [commentTo, setCommentTo] = useState<CommentToProps>();
+  const setUser = (userInfo: CommentToProps) => {
+    setCommentTo(userInfo);
   };
 
   return (

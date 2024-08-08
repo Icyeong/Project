@@ -7,14 +7,15 @@ import { UserProps } from "@/_types/user";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { CommentToProps } from "../commentInputBar/CommentInputBar";
 
 interface UserCommentProps {
   userComment: CommentInfoProps;
-  setUser?: (user: UserProps) => void;
+  setUser?: (user: CommentToProps) => void;
 }
 
 export default function UserComment({ userComment, setUser }: UserCommentProps) {
-  const { userId, userImg, userName, comment, createdAt, taggedUsers } = userComment;
+  const { userId, userImg, userName, commentId, comment, createdAt, taggedUsers } = userComment;
 
   const textBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
 
   const handleCommentingClick = () => {
     if (setUser) {
-      setUser({ userId, userName, userImg });
+      setUser({ userId, userName, userImg, commentId });
     }
   };
 

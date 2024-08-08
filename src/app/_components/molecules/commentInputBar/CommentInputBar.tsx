@@ -18,11 +18,16 @@ import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "@/_components/atoms/button/IconButton";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
 import { isCommentInfoProps } from "@/_dummyData/feedDummy";
+import { v4 } from "uuid";
 
 interface CommentInputBarProps {
   feedId: string;
   ver?: number;
-  commentTo?: UserProps;
+  commentTo?: CommentToProps;
+}
+
+export interface CommentToProps extends UserProps {
+  commentId?: string;
 }
 
 export default function CommentInputBar({ feedId, ver, commentTo }: CommentInputBarProps) {
@@ -111,9 +116,16 @@ export default function CommentInputBar({ feedId, ver, commentTo }: CommentInput
   };
 
   const handleCommentClick = () => {
-    const fetchData = { ...userInfo, comment, createdAt: String(new Date()), taggedUsers };
+    const fetchData = {
+      ...userInfo,
+      comment,
+      createdAt: String(new Date()),
+      taggedUsers,
+    };
+    console.log("check1");
     if (isCommentInfoProps(fetchData) && postingState) {
-      mutateComment({ feedId, fetchData });
+      console.log("check2");
+      mutateComment({ feedId, commentId: commentTo?.commentId, fetchData });
       setPostingState(false);
       setTimeout(() => setPostingState(true), 1000);
     }

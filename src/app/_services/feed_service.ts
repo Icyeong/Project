@@ -52,9 +52,20 @@ const deleteFeed = async (feedId: string) => {
   }
 };
 
-const addComment = async ({ feedId, fetchData }: { feedId: string; fetchData: CommentInfoProps }) => {
+const addComment = async ({
+  feedId,
+  commentId,
+  fetchData,
+}: {
+  feedId: string;
+  commentId?: string;
+  fetchData: CommentInfoProps;
+}) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feed/${feedId}/comment`, getFetchOptions("POST", true, fetchData));
+    const res = await fetch(
+      `${BASE_DOMAIN}/feed/${feedId}/comment?id${commentId || "0"}`,
+      getFetchOptions("POST", true, fetchData),
+    );
     const data = await res.json();
     return data;
   } catch (error: unknown) {

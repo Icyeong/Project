@@ -86,8 +86,11 @@ export const handlers = [
   }),
 
   http.post("/feed/:id/comment", async ({ request, params }) => {
+    const url = new URL(request.url);
+    const commentId = url.searchParams.get("id");
     const feedId = params.id;
     console.log("msw comment feedId : ", feedId);
+    console.log("msw comment commentId : ", commentId);
     const commentData = await request.json();
 
     const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);

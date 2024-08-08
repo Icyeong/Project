@@ -32,6 +32,7 @@ export function createComments(number: number) {
   for (let i = 0; i < number; i++) {
     commentList.push({
       ...createUser(1)[0],
+      commentId: v4(),
       comment: faker.lorem.sentence({ min: 1, max: 5 }),
       createdAt: String(new Date()),
       taggedUsers: [],
@@ -57,13 +58,16 @@ export const isFeedProps = (data: any): data is FeedProps => {
 
 export const isCommentInfoProps = (data: any): data is CommentInfoProps => {
   return (
+    (data.commentId === undefined || typeof data.commentId === "string") &&
     typeof data.comment === "string" &&
     typeof data.createdAt === "string" &&
     typeof data.userId === "string" &&
     typeof data.userName === "string" &&
     typeof data.userImg === "string" &&
     Array.isArray(data.taggedUsers) &&
-    data.taggedUsers.every((user: UserProps) => isUserProps(user))
+    data.taggedUsers.every((user: UserProps) => isUserProps(user)) &&
+    (data.comments === undefined || // comments is optional
+      (Array.isArray(data.comments) && data.comments.every((comment: any) => isCommentInfoProps(comment))))
   );
 };
 
