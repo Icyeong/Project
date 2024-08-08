@@ -87,15 +87,20 @@ export const handlers = [
 
   http.post("/feed/:id/comment", async ({ request, params }) => {
     const url = new URL(request.url);
-    const commentId = url.searchParams.get("id");
+    const commentId = url.searchParams.get("id") || "0";
     const feedId = params.id;
-    console.log("msw comment feedId : ", feedId);
-    console.log("msw comment commentId : ", commentId);
+
     const commentData = await request.json();
 
     const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
     if (isCommentInfoProps(commentData)) {
-      serverFeedsData[idx].comments.unshift(commentData);
+      if (commentId !== "0") {
+        const commentIdx = serverFeedsData[idx].comments.findIndex((comment) => comment.commentId === commentId);
+        serverFeedsData[idx].comments[commentIdx].comments.unshift(commentData);
+      } else {
+        serverFeedsData[idx].comments.unshift(commentData);
+      }
+
       return HttpResponse.json(commentData);
     } else {
       return HttpResponse.json({ error: "Invalid data format" });
@@ -118,7 +123,6 @@ export const handlers = [
   http.get("/following", ({ request }) => {
     const url = new URL(request.url);
     const userId = parseInt(url.searchParams.get("userId") || "");
-    console.log("msw userId : ", userId);
 
     return HttpResponse.json(serverFollowingData);
   }),

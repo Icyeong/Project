@@ -34,6 +34,7 @@ export function createComments(number: number) {
       ...createUser(1)[0],
       commentId: v4(),
       comment: faker.lorem.sentence({ min: 1, max: 5 }),
+      comments: [],
       createdAt: String(new Date()),
       taggedUsers: [],
     });

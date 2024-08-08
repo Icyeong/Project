@@ -3,11 +3,11 @@ import Avatar from "@/_components/atoms/avatar/Avatar";
 import BaseButton from "@/_components/atoms/button/BaseButton";
 import { FlexColNoAlign } from "@/_styles/common.style";
 import { CommentInfoProps } from "@/_types/feed";
-import { UserProps } from "@/_types/user";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CommentToProps } from "../commentInputBar/CommentInputBar";
+import { isArrNotEmpty } from "@/_utils/utils";
 
 interface UserCommentProps {
   userComment: CommentInfoProps;
@@ -15,7 +15,8 @@ interface UserCommentProps {
 }
 
 export default function UserComment({ userComment, setUser }: UserCommentProps) {
-  const { userId, userImg, userName, commentId, comment, createdAt, taggedUsers } = userComment;
+  const { userId, userImg, userName, commentId, comment, comments, createdAt, taggedUsers } = userComment;
+  const [depOneComment, setDepOneComment] = useState<boolean>(false);
 
   const textBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -29,6 +30,10 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
     if (setUser) {
       setUser({ userId, userName, userImg, commentId });
     }
+  };
+
+  const handleShowCommentClick = () => {
+    setDepOneComment(!depOneComment);
   };
 
   useEffect(() => {
@@ -57,6 +62,17 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
           <BaseButton onClick={handleCommentingClick} fontSize="12px" color="#737373" value="댓글 달기" />
           <BaseButton fontSize="12px" color="#737373" value="번역 보기" />
         </Comment.ControlBar>
+        {isArrNotEmpty(comments) && (
+          <>
+            <BaseButton
+              onClick={handleShowCommentClick}
+              fontSize="12px"
+              color="#737373"
+              value={depOneComment ? `--- 답글 숨기기` : `--- 답글보기(${comments.length}개)`}
+            />
+            {depOneComment && comments.map((comment) => <UserComment userComment={comment} />)}
+          </>
+        )}
       </FlexColNoAlign>
     </Comment.Container>
   );

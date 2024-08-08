@@ -9,7 +9,6 @@ import UserComment from "@/_components/molecules/userComment/UserComment";
 import dayjs from "dayjs";
 import { v4 } from "uuid";
 import { useState } from "react";
-import { UserProps } from "@/_types/user";
 
 interface CommentBoxProps {
   feed: FeedProps;
@@ -28,8 +27,8 @@ export default function CommentBox({ feed }: CommentBoxProps) {
     comments: [],
   };
   const sortedComments = comments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  const [commentTo, setCommentTo] = useState<CommentToProps>();
-  const setUser = (userInfo: CommentToProps) => {
+  const [commentTo, setCommentTo] = useState<CommentToProps | null>(null);
+  const setUser = (userInfo: CommentToProps | null) => {
     setCommentTo(userInfo);
   };
 
@@ -49,7 +48,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
         {likes > 0 && <FeedStyle.Likes>좋아요 {likes}개</FeedStyle.Likes>}
         <FeedComment.Time>{dayjs(createdAt).fromNow()}</FeedComment.Time>
       </FeedComment.InfoBox>
-      <CommentInputBar feedId={feedId} ver={2} commentTo={commentTo} />
+      <CommentInputBar feedId={feedId} ver={2} commentTo={commentTo} setUser={setUser} />
     </FeedComment.Container>
   );
 }

@@ -63,7 +63,7 @@ const addComment = async ({
 }) => {
   try {
     const res = await fetch(
-      `${BASE_DOMAIN}/feed/${feedId}/comment?id${commentId || "0"}`,
+      `${BASE_DOMAIN}/feed/${feedId}/comment?id=${commentId || "0"}`,
       getFetchOptions("POST", true, fetchData),
     );
     const data = await res.json();

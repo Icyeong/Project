@@ -18,19 +18,19 @@ import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "@/_components/atoms/button/IconButton";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
 import { isCommentInfoProps } from "@/_dummyData/feedDummy";
-import { v4 } from "uuid";
 
 interface CommentInputBarProps {
   feedId: string;
   ver?: number;
-  commentTo?: CommentToProps;
+  commentTo?: CommentToProps | null;
+  setUser: (userInfo: CommentToProps | null) => void;
 }
 
 export interface CommentToProps extends UserProps {
   commentId?: string;
 }
 
-export default function CommentInputBar({ feedId, ver, commentTo }: CommentInputBarProps) {
+export default function CommentInputBar({ feedId, ver, commentTo, setUser }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
@@ -86,6 +86,7 @@ export default function CommentInputBar({ feedId, ver, commentTo }: CommentInput
     onSuccess: () => {
       queryClient.invalidateQueries([...QUERY_KEYS.FEED.DETAIL.queryKey, feedId] as InvalidateQueryFilters);
       setComment("");
+      setUser(null);
       setTaggedUsers([]);
     },
   });
