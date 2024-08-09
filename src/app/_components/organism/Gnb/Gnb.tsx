@@ -19,6 +19,7 @@ import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
+import { ROUTE } from "@/_constant/route";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
@@ -35,6 +36,10 @@ function Gnb() {
     setModal(MODAL.POST_FEED);
     openModal();
   }, [setModal, openModal]);
+
+  const handleProfileClick = () => {
+    router.push(ROUTE.USER(userInfo.userName));
+  };
 
   const handleSearchClick = useCallback(() => {
     setGnbContent(GNB_CONTENT.SEARCH);
@@ -59,7 +64,7 @@ function Gnb() {
       resetAuthState();
       resetFeedState();
       resetModalState();
-      router.push("/login");
+      router.push(ROUTE.LOGIN);
     },
     onError: (error) => {
       console.log("signout error : ", error);
@@ -107,7 +112,7 @@ function Gnb() {
           <NavLink name="탐색 탭" href="/explore" icon={faCompass} />
           <NavLink name="메시지" href="/message" icon={faMessage} />
           <NavButton name="만들기" icon={faSquarePlus} onClick={handlePostClick} />
-          <NavButton name="프로필" img={userInfo.userImg} onClick={handleTestModalClick} />
+          <NavButton name="프로필" img={userInfo.userImg} onClick={handleProfileClick} />
         </GnbStyle.Top>
         <GnbStyle.Bottom>
           <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />

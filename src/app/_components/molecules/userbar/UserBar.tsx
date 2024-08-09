@@ -4,19 +4,21 @@ import useFeedStore from "@/_stores/client/feedStore";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { MouseEvent, useEffect, useRef } from "react";
+import { KeyboardEvent, MouseEvent, useEffect, useRef } from "react";
 import { faker } from "@faker-js/faker";
 import { UserProps } from "@/_types/user";
+import { ROUTE } from "@/_constant/route";
 
 interface UserBarProps {
   user: UserProps;
   deleteButton?: boolean;
   isTagUser?: boolean;
   focused?: boolean;
+  onkeydown?: (e: KeyboardEvent<HTMLTextAreaElement | HTMLButtonElement>) => void;
   onTagClick?: (user: UserProps) => void;
 }
 
-export default function UserBar({ user, deleteButton, isTagUser, focused, onTagClick }: UserBarProps) {
+export default function UserBar({ user, deleteButton, isTagUser, focused, onkeydown, onTagClick }: UserBarProps) {
   const { addSearchHistory, deleteSearchHistory } = useFeedStore();
   const router = useRouter();
 
@@ -27,7 +29,7 @@ export default function UserBar({ user, deleteButton, isTagUser, focused, onTagC
       onTagClick(user);
     } else {
       addSearchHistory(user);
-      router.push(`/${user.userName}`);
+      router.push(ROUTE.USER(user.userName));
     }
   };
 
@@ -44,7 +46,7 @@ export default function UserBar({ user, deleteButton, isTagUser, focused, onTagC
 
   return (
     <Bar.Wrapper>
-      <Bar.Button ref={buttonRef} onClick={handleUserClick}>
+      <Bar.Button ref={buttonRef} onClick={handleUserClick} onKeyDown={onkeydown}>
         <Avatar size={isTagUser ? 30 : 44} img={user.userImg} />
         <Bar.UserInfo>
           <span>{user.userName}</span>

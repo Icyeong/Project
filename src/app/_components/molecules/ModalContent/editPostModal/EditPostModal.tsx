@@ -1,5 +1,5 @@
 import useModalStore from "@/_stores/client/modalStore";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
 import { useCustomMutation } from "@/_hooks/useFetch";
@@ -53,15 +53,18 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   };
   const handleNextClick = () => {
     const newFeed = { ...newFeedData, createdAt: new Date().toISOString() };
-    if (!isFeedProps(newFeed)) return alert(FEED_ERROR.ADD);
+    if (!isFeedProps(newFeed)) return window.alert(FEED_ERROR.ADD);
     createFeed({ ...newFeedData, createdAt: new Date().toISOString() });
   };
 
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (textSize > INPUT_SIZE.FEED_CONTENT) return;
-    setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
-    setTextSize(e.target.value.length);
-  };
+  const handleTextChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      if (textSize > INPUT_SIZE.FEED_CONTENT) return;
+      setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
+      setTextSize(e.target.value.length);
+    },
+    [textSize],
+  );
   return (
     <>
       <ModalStyle.Header>

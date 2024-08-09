@@ -35,5 +35,8 @@ export const QUERY_KEYS = createQueryKeyStore({
     FOLLOWING: {
       queryKey: null,
     },
+    MYPAGE: {
+      queryKey: null,
+    },
   },
 });

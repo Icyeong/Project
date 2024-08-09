@@ -14,7 +14,7 @@ export default function FeedList() {
   const [feedHeights, setFeedHeights] = useState<number[]>([]);
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
     queryKey: QUERY_KEYS.FEED.LIST.queryKey,
-    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam),
+    queryFn: ({ pageParam = 0 }) => FeedService.getFeedsList(pageParam, 5),
     gcTime: 1000 * 60 * 2,
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5,

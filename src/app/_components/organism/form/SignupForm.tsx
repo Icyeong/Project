@@ -9,6 +9,8 @@ import { authErrorHandler } from "@/_utils/authErrorHandler";
 import { Form } from "@/_styles/common.style";
 import { useCustomMutation } from "@/_hooks/useFetch";
 import { User } from "firebase/auth";
+import { USER_ALERT } from "@/_constant/alerts";
+import { ROUTE } from "@/_constant/route";
 const { EMAIL, NAME, USERNAME, PASSWORD } = INPUT_TEXT;
 
 export default function SignupForm() {
@@ -48,12 +50,12 @@ export default function SignupForm() {
     undefined
   >(async (variables) => signupWithEmail(variables), {
     onSuccess: async ({ token, user }) => {
-      alert("회원가입이 완료되었습니다.");
-      router.push("/login");
+      window.alert(USER_ALERT.SIGNUP_SUCCESS);
+      router.push(ROUTE.LOGIN);
     },
     onError: (error) => {
       const { message } = authErrorHandler(error);
-      alert(message);
+      window.alert(message);
     },
   });
 

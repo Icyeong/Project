@@ -1,25 +1,46 @@
-import { createPhotoPieces } from "@/_dummyData/explorDummy";
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
-import { createUser } from "@/_dummyData/userDummy";
+import { createUser, isMyInfoDetailProps, myInfoDetail, myinfoDetailProps } from "@/_dummyData/userDummy";
 import { http, HttpResponse } from "msw";
 import { FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 
-let serverFeedsData: FeedProps[] = createFeeds(30);
-const serverPhotoPiecesData = createPhotoPieces(300);
+let serverFeedsData: FeedProps[] = createFeeds(300);
+let serverMyData: myinfoDetailProps = myInfoDetail();
 const serverUsersData = createUser(100);
 const serverFollowingData = createUser(15);
 export const handlers = [
+  http.get("/myinfo", () => {
+    return HttpResponse.json(serverMyData);
+  }),
+  http.patch("/myinfo", async ({ request }) => {
+    const fetchData = await request.json();
+    if (isMyInfoDetailProps(fetchData)) {
+      serverMyData = fetchData;
+    }
+  }),
+
   http.get("/feeds", ({ request }) => {
     const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
     const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 5;
+    const pageSize = parseInt(url.searchParams.get("size") || "5");
     const start = page * pageSize;
     const end = start + pageSize;
-    const feeds = serverFeedsData.slice(start, end);
-    const hasNextPage = end < serverFeedsData.length;
 
-    return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    if (userId !== "undefined") {
+      //특정 유저의 게시물만 불러오기
+      const filteredFeeds = serverFeedsData.filter((feed) => feed.userId === userId);
+      const feeds = filteredFeeds.slice(start, end);
+      const hasNextPage = end < filteredFeeds.length;
+
+      return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    } else {
+      // 모든 게시물 불러오기
+      const feeds = serverFeedsData.slice(start, end);
+      const hasNextPage = end < serverFeedsData.length;
+
+      return HttpResponse.json({ feeds, nextPage: hasNextPage ? page + 1 : null });
+    }
   }),
 
   http.get("/feed", ({ request }) => {
@@ -33,17 +54,7 @@ export const handlers = [
   http.get("/stories", () => {
     return HttpResponse.json(createUser(16));
   }),
-  http.get("/explore", ({ request }) => {
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get("page") || "0");
-    const pageSize = 15;
-    const start = page * pageSize;
-    const end = start + pageSize;
-    const photos = serverPhotoPiecesData.slice(start, end);
-    const hasNextPage = end < serverPhotoPiecesData.length;
 
-    return HttpResponse.json({ photos, nextPage: hasNextPage ? page + 1 : null });
-  }),
   http.post("/feed", async ({ request }) => {
     const feedData = await request.json();
     if (isFeedProps(feedData)) {
@@ -75,13 +86,21 @@ export const handlers = [
   }),
 
   http.post("/feed/:id/comment", async ({ request, params }) => {
+    const url = new URL(request.url);
+    const commentId = url.searchParams.get("id") || "0";
     const feedId = params.id;
-    console.log("msw comment feedId : ", feedId);
+
     const commentData = await request.json();
 
     const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
     if (isCommentInfoProps(commentData)) {
-      serverFeedsData[idx].comments.unshift(commentData);
+      if (commentId !== "0") {
+        const commentIdx = serverFeedsData[idx].comments.findIndex((comment) => comment.commentId === commentId);
+        serverFeedsData[idx].comments[commentIdx].comments.unshift(commentData);
+      } else {
+        serverFeedsData[idx].comments.unshift(commentData);
+      }
+
       return HttpResponse.json(commentData);
     } else {
       return HttpResponse.json({ error: "Invalid data format" });
@@ -104,7 +123,6 @@ export const handlers = [
   http.get("/following", ({ request }) => {
     const url = new URL(request.url);
     const userId = parseInt(url.searchParams.get("userId") || "");
-    console.log("msw userId : ", userId);
 
     return HttpResponse.json(serverFollowingData);
   }),

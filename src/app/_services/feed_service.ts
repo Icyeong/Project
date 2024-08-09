@@ -2,9 +2,9 @@ import { BASE_DOMAIN } from "@/_env/env";
 import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
-const getFeedsList = async (page: number) => {
+const getFeedsList = async (page: number, size: number, userId?: string) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}`);
+    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}?&size=${size}?&userId=${userId}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -15,16 +15,6 @@ const getFeedsList = async (page: number) => {
 const getFeedDetail = async (feedId: string) => {
   try {
     const res = await fetch(`${BASE_DOMAIN}/feed?feedId=${feedId}`);
-    const data = await res.json();
-    return data;
-  } catch (error: unknown) {
-    getErrorHandler(error);
-  }
-};
-
-const getPhotoPieces = async (page: number) => {
-  try {
-    const res = await fetch(`${BASE_DOMAIN}/explore?page=${page}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -62,9 +52,20 @@ const deleteFeed = async (feedId: string) => {
   }
 };
 
-const addComment = async ({ feedId, fetchData }: { feedId: string; fetchData: CommentInfoProps }) => {
+const addComment = async ({
+  feedId,
+  commentId,
+  fetchData,
+}: {
+  feedId: string;
+  commentId?: string;
+  fetchData: CommentInfoProps;
+}) => {
   try {
-    const res = await fetch(`${BASE_DOMAIN}/feed/${feedId}/comment`, getFetchOptions("POST", true, fetchData));
+    const res = await fetch(
+      `${BASE_DOMAIN}/feed/${feedId}/comment?id=${commentId || "0"}`,
+      getFetchOptions("POST", true, fetchData),
+    );
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -85,7 +86,6 @@ const getSearchedResults = async (keyword: string) => {
 export const FeedService = {
   getFeedsList,
   getFeedDetail,
-  getPhotoPieces,
   postFeed,
   editFeed,
   deleteFeed,

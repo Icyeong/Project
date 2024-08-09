@@ -13,7 +13,7 @@ export const Header = {
     padding-left: 10px;
     font-size: 14px;
   `,
-  Username: styled.p`
+  Username: styled.button`
     font-weight: 600;
     margin-right: 7px;
   `,

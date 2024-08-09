@@ -12,7 +12,9 @@ export interface FeedProps extends UserProps {
 }
 
 export interface CommentInfoProps extends UserProps {
+  commentId?: string;
   comment: string;
+  comments: CommentInfoProps[];
   createdAt: string;
   taggedUsers: UserProps[];
 }
