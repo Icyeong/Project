@@ -19,6 +19,7 @@ import GnbContentBox from "../gnbContentBox/GnbContentBox";
 import SearchContent from "../SearchContent/SearchContent";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
+import { ROUTE } from "@/_constant/route";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
@@ -37,7 +38,7 @@ function Gnb() {
   }, [setModal, openModal]);
 
   const handleProfileClick = () => {
-    router.push(`/${userInfo.userName}`);
+    router.push(ROUTE.USER(userInfo.userName));
   };
 
   const handleSearchClick = useCallback(() => {
@@ -63,7 +64,7 @@ function Gnb() {
       resetAuthState();
       resetFeedState();
       resetModalState();
-      router.push("/login");
+      router.push(ROUTE.LOGIN);
     },
     onError: (error) => {
       console.log("signout error : ", error);

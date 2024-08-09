@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CommentToProps } from "../commentInputBar/CommentInputBar";
 import { isArrNotEmpty } from "@/_utils/utils";
+import { BUTTON_TEXT } from "@/_constant/button";
+import { ROUTE } from "@/_constant/route";
 
 interface UserCommentProps {
   userComment: CommentInfoProps;
@@ -23,7 +25,7 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
 
   const handleUserClick = () => {
     console.log("hello???");
-    router.push(`/${userName}`);
+    router.push(ROUTE.USER(userName));
   };
 
   const handleCommentingClick = () => {
@@ -58,9 +60,9 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
         </Comment.TextBox>
         <Comment.ControlBar>
           <BaseButton fontSize="12px" color="#737373" value={dayjs(createdAt).fromNow(true)} />
-          <BaseButton fontSize="12px" color="#737373" value="좋아요" />
-          <BaseButton onClick={handleCommentingClick} fontSize="12px" color="#737373" value="댓글 달기" />
-          <BaseButton fontSize="12px" color="#737373" value="번역 보기" />
+          <BaseButton fontSize="12px" color="#737373" value={BUTTON_TEXT.LIKE} />
+          <BaseButton onClick={handleCommentingClick} fontSize="12px" color="#737373" value={BUTTON_TEXT.COMMENT} />
+          <BaseButton fontSize="12px" color="#737373" value={BUTTON_TEXT.TRANSLATE} />
         </Comment.ControlBar>
         {isArrNotEmpty(comments) && (
           <>
@@ -68,7 +70,7 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
               onClick={handleShowCommentClick}
               fontSize="12px"
               color="#737373"
-              value={depOneComment ? `--- 답글 숨기기` : `--- 답글보기(${comments.length}개)`}
+              value={depOneComment ? BUTTON_TEXT.HIDE_COMMENT : `--- 답글보기(${comments.length}개)`}
             />
             {depOneComment && comments.map((comment) => <UserComment userComment={comment} />)}
           </>

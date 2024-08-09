@@ -12,6 +12,7 @@ import useFeedStore from "@/_stores/client/feedStore";
 import { useCallback } from "react";
 import { FeedProps } from "@/_types/feed";
 import { useRouter } from "next/navigation";
+import { ROUTE } from "@/_constant/route";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
@@ -33,7 +34,7 @@ export default function FeedHeader(feed: FeedHeaderProps) {
 
   const handleUserClick = () => {
     closeModal();
-    router.push(`/${userName}`);
+    router.push(ROUTE.USER(userName));
   };
 
   const handleOptionClick = useCallback(() => {

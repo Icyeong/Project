@@ -7,6 +7,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { KeyboardEvent, MouseEvent, useEffect, useRef } from "react";
 import { faker } from "@faker-js/faker";
 import { UserProps } from "@/_types/user";
+import { ROUTE } from "@/_constant/route";
 
 interface UserBarProps {
   user: UserProps;
@@ -28,7 +29,7 @@ export default function UserBar({ user, deleteButton, isTagUser, focused, onkeyd
       onTagClick(user);
     } else {
       addSearchHistory(user);
-      router.push(`/${user.userName}`);
+      router.push(ROUTE.USER(user.userName));
     }
   };
 
