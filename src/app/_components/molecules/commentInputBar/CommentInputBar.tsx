@@ -91,7 +91,7 @@ export default function CommentInputBar({ feedId, ver, commentTo, setUser }: Com
     },
   });
 
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement | HTMLButtonElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement | HTMLButtonElement>) => {
     if (e.code === KEY_CODE.ESCAPE) {
       e.preventDefault();
       setTagging(false);
@@ -173,7 +173,7 @@ export default function CommentInputBar({ feedId, ver, commentTo, setUser }: Com
             user={friend}
             isTagUser={true}
             focused={tabFocusedIdx === idx}
-            onkeydown={onKeyDown}
+            onkeydown={handleKeyDown}
             onTagClick={onTagClick}
           />
         ))}
@@ -181,7 +181,7 @@ export default function CommentInputBar({ feedId, ver, commentTo, setUser }: Com
       {ver === 2 && <IconButton awesomeIcon={faSmile} />}
       <TextArea
         value={comment}
-        onKeyDown={onKeyDown}
+        onKeyDown={handleKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
         ref={textAreaRef}

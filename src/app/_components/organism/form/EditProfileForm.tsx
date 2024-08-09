@@ -5,7 +5,7 @@ import { Bar } from "@/_components/molecules/recommendedUserBar/RecommendedUserB
 import Avatar from "@/_components/atoms/avatar/Avatar";
 import Input from "@/_components/atoms/input/Input";
 import { TextArea } from "@/_components/atoms/textarea/TextArea";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useCustomMutation, useCustomQuery } from "@/_hooks/useFetch";
 import { myinfoDetailProps } from "@/_dummyData/userDummy";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
@@ -13,6 +13,7 @@ import { UserService } from "@/_services/user_service";
 import { queryClient } from "@/(pages)/App";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { USER_ALERT } from "@/_constant/alerts";
+import { BUTTON_TEXT } from "@/_constant/button";
 
 export default function EditProfileForm() {
   const { userInfo } = useAuthStore();
@@ -36,13 +37,16 @@ export default function EditProfileForm() {
   const { mutate: mutateEditInfo } = useCustomMutation(UserService.editMyinfo, {
     onSuccess: () => {
       queryClient.invalidateQueries([...QUERY_KEYS.USERS.MYPAGE.queryKey] as InvalidateQueryFilters);
-      alert(USER_ALERT.EDIT_MYPAGE_COMPLETED);
+      window.alert(USER_ALERT.EDIT_MYPAGE_COMPLETED);
     },
   });
 
-  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMyinfo((prev) => ({ ...prev, introduction: e.target.value }));
-  };
+  const handleTextChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      setMyinfo((prev) => ({ ...prev, introduction: e.target.value }));
+    },
+    [setMyinfo],
+  );
 
   const handleSubmitClick = () => {
     mutateEditInfo(myInfo);
@@ -64,17 +68,17 @@ export default function EditProfileForm() {
             <span>{userName}</span>
             {infoDetail?.nickName}
           </Bar.UserInfo>
-          <BaseButton radius={5} $bgColor="#0095f6" color="white" fontSize="14px" value={"사진 변경"} />
+          <BaseButton radius={5} $bgColor="#0095f6" color="white" fontSize="14px" value={BUTTON_TEXT.CHANGE_IMG} />
         </Bar.User>
       </EditForm.InfoBox>
       <EditForm.Label>소개</EditForm.Label>
-      <TextArea onChange={onTextChange} placeholder="소개" max={150} value={myInfo.introduction} />
+      <TextArea onChange={handleTextChange} placeholder="소개" max={150} value={myInfo.introduction} />
       <EditForm.Label>성별</EditForm.Label>
       <Input type="text" value={infoDetail?.gender === "female" ? "여자" : "남자"} />
       <EditForm.Submit>
         <BaseButton
           onClick={handleSubmitClick}
-          value="제출"
+          value={BUTTON_TEXT.SUBMIT}
           $bgColor="#0095f6"
           color="white"
           isActive={isActive}

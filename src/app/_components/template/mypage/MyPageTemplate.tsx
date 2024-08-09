@@ -7,12 +7,13 @@ import useAuthStore from "@/_stores/client/authStore";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { HomeLayoutStyle } from "@/_styles/common.style";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
 export default function MypageTemplate() {
   const { userInfo } = useAuthStore();
-  let curUser = window.location.pathname.split("/")[1];
-  curUser = decodeURIComponent(curUser);
+  const pathname = usePathname().split("/")[1];
+  const curUser = decodeURIComponent(pathname);
   const isMypage = curUser === userInfo.userName;
 
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({
