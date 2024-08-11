@@ -21,6 +21,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
     userImg,
     userId,
     userName,
+    commentId: v4(),
     comment: text,
     createdAt,
     taggedUsers: [],
