@@ -38,7 +38,7 @@ export default function CommentInputBar({ feedId, ver, commentTo, setUser }: Com
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
   const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
-  const [postingState, setPostingState] = useState<boolean>(true);
+  const postingState = useRef<boolean>(true);
 
   const popOverRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -123,12 +123,11 @@ export default function CommentInputBar({ feedId, ver, commentTo, setUser }: Com
       createdAt: String(new Date()),
       taggedUsers,
     };
-    console.log("check1");
-    if (isCommentInfoProps(fetchData) && postingState) {
-      console.log("check2");
+
+    if (isCommentInfoProps(fetchData) && postingState.current) {
       mutateComment({ feedId, commentId: commentTo?.commentId, fetchData });
-      setPostingState(false);
-      setTimeout(() => setPostingState(true), 1000);
+      postingState.current = false;
+      setTimeout(() => (postingState.current = true), 1000);
     }
   };
 
