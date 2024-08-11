@@ -6,11 +6,10 @@ import useModalStore from "@/_stores/client/modalStore";
 import { MODAL } from "@/_constant/modal";
 
 export default function PhotoPiece({ feedId, userId, likes, comments, content }: FeedProps) {
-  const { setModal, openModal } = useModalStore();
+  const { setModal } = useModalStore();
   const handleShowFeed = () => {
     window.history.pushState({}, "", `/p/${feedId}`);
     setModal(MODAL.FEED);
-    openModal();
   };
   return (
     <Piece.Button value={userId} img={content} onClick={handleShowFeed}>

@@ -16,7 +16,7 @@ import { ROUTE } from "@/_constant/route";
 export default function FeedOptionModal() {
   const { userInfo } = useAuthStore();
   const { selectedFeed } = useFeedStore();
-  const { closeModal, setModal } = useModalStore();
+  const { closeModal, setModal, resetModalState } = useModalStore();
   const router = useRouter();
 
   const { mutate: mutateDeleteFeed } = useCustomMutation(FeedService.deleteFeed, {
@@ -38,7 +38,7 @@ export default function FeedOptionModal() {
   };
 
   const linkToFeedClick = () => {
-    closeModal();
+    resetModalState();
     router.push(ROUTE.FEED_DETAIL(selectedFeed?.feedId || ""));
   };
 

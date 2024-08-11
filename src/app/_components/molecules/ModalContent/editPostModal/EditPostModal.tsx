@@ -25,7 +25,7 @@ interface EditPostProps {
 }
 
 export default function EditPostModal({ setStep }: EditPostProps) {
-  const { selectedImage, closeModal } = useModalStore();
+  const { selectedImage, resetModalState } = useModalStore();
   const { userInfo } = useAuthStore();
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
@@ -44,7 +44,7 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
-      closeModal();
+      resetModalState();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
   });

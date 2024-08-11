@@ -1,5 +1,4 @@
 "use client";
-import React, { ReactNode } from "react";
 import { ModalStyle } from "./Modal.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
@@ -13,10 +12,6 @@ import FeedOptionModal from "@components/organism/modal/feedOptions/FeedOptionMo
 import EditFeedModal from "@components/organism/modal/editFeed/EditFeedModal";
 import FeedModal from "@components/organism/modal/feed/FeedModal";
 import { useRouter } from "next/navigation";
-
-interface ModalProps {
-  children?: ReactNode;
-}
 
 export function getModal(modalName: string) {
   switch (modalName) {
@@ -35,13 +30,13 @@ export function getModal(modalName: string) {
   }
 }
 
-export default function Modal({ children }: ModalProps) {
-  const { modalName, isOpen, closeModal } = useModalStore();
+export default function Modal() {
+  const { modals, isOpen, closeModal } = useModalStore();
   const router = useRouter();
 
   const handleCloseCLick = (e: any) => {
     e.stopPropagation();
-
+    const modalName = modals[modals.length - 1];
     switch (modalName) {
       case MODAL.FEED:
         return handleHistoryBack();
@@ -49,7 +44,7 @@ export default function Modal({ children }: ModalProps) {
         return closeModal();
     }
   };
-  const handleCardClick = (e: React.MouseEvent) => {
+  const handleCardClick = (e: any) => {
     e.stopPropagation();
   };
   const handleHistoryBack = () => {
@@ -61,14 +56,22 @@ export default function Modal({ children }: ModalProps) {
 
   if (modalRoot)
     return createPortal(
-      <ModalStyle.Bg className={classNames({ isOpen: isOpen })} role="button" onClick={handleCloseCLick}>
-        <ModalStyle.Card role="button" onClick={handleCardClick}>
-          <ModalStyle.CloseBtn role="button" onClick={handleCloseCLick}>
-            <FontAwesomeIcon icon={faClose} />
-          </ModalStyle.CloseBtn>
-          {children}
-        </ModalStyle.Card>
-      </ModalStyle.Bg>,
+      <>
+        {modals.map((modal) => {
+          const currentModal = getModal(modal);
+
+          return (
+            <ModalStyle.Bg className={classNames({ isOpen: isOpen })} role="button" onClick={handleCloseCLick}>
+              <ModalStyle.Card role="button" onClick={handleCardClick}>
+                <ModalStyle.CloseBtn role="button" onClick={handleCloseCLick}>
+                  <FontAwesomeIcon icon={faClose} />
+                </ModalStyle.CloseBtn>
+                {currentModal}
+              </ModalStyle.Card>
+            </ModalStyle.Bg>
+          );
+        })}
+      </>,
       modalRoot,
     );
 }

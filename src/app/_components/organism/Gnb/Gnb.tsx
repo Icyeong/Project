@@ -27,15 +27,14 @@ function Gnb() {
   const { resetAuthState, userInfo } = useAuthStore();
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
-  const { openModal, closeModal, setModal } = useModalStore();
+  const { closeModal, setModal } = useModalStore();
 
   const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const handlePostClick = useCallback(() => {
     setModal(MODAL.POST_FEED);
-    openModal();
-  }, [setModal, openModal]);
+  }, [setModal]);
 
   const handleProfileClick = () => {
     router.push(ROUTE.USER(userInfo.userName));
@@ -48,14 +47,12 @@ function Gnb() {
 
   const handleTestModalClick = useCallback(() => {
     setModal(MODAL.TEST);
-    openModal();
-  }, [setModal, openModal]);
+  }, [setModal]);
 
   const handleModeChangeClick = useCallback(() => {}, []);
   const handleTestClick = useCallback(() => {
     router.replace("/p/hello");
     setModal(MODAL.FEED);
-    openModal();
   }, []);
 
   const { mutate: mutateLogOut } = useCustomMutation(async () => AuthService.LogOut, {
