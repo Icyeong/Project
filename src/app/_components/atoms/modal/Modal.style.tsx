@@ -31,6 +31,8 @@ export const ModalStyle = {
     }
   `,
   Card: styled.div`
+    min-width: 430px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     background-color: white;
