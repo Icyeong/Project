@@ -1,19 +1,28 @@
+import { isArrNotEmpty } from "@/_utils/utils";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const initialState = {
   isOpen: false,
-  modalName: "",
   selectedImage: "",
+  modals: [],
 };
 
 const useModalStore = create(
-  persist<ModalState>(
+  persist<ModalStoreState>(
     (set) => ({
       ...initialState,
-      openModal: () => set(() => ({ isOpen: true })),
-      closeModal: () => set(() => initialState),
-      setModal: (state) => set(() => ({ modalName: state })),
+      closeModal: () =>
+        set((prev) => {
+          if (isArrNotEmpty(prev.modals)) {
+            const modal_list = [...prev.modals];
+            modal_list.pop();
+            return { modals: modal_list };
+          } else {
+            return { modals: [] };
+          }
+        }),
+      setModal: (state) => set((prev) => ({ isOpen: true, modals: [...prev.modals, state] })),
       setSelectedImage: (state) => set(() => ({ selectedImage: state })),
       resetModalState: () => set(() => initialState),
     }),
@@ -21,11 +30,10 @@ const useModalStore = create(
   ),
 );
 
-interface ModalState {
+interface ModalStoreState {
   isOpen: boolean;
-  modalName: string;
   selectedImage: string;
-  openModal: () => void;
+  modals: string[];
   closeModal: () => void;
   setModal: (state: string) => void;
   setSelectedImage: (state: string) => void;

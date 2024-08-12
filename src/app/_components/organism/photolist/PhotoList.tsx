@@ -1,24 +1,15 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import PhotoSet from "@components/molecules/photoSet/PhotoSet";
-import { QUERY_KEYS } from "@/_stores/server/queryKeys";
-import { FeedService } from "@/_services/feed_service";
-import { PhotoPieceProps } from "@components/atoms/photoPiece/PhotoPiece";
 import PhotoListSkeleton from "./PhotoListSkeleton";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import debounce from "lodash/debounce";
+import { FeedProps } from "@/_types/feed";
+import { isArrNotEmpty } from "@/_utils/utils";
+import NoPostBox from "./NoPostBox";
 
-export default function PhotoList() {
+export default function PhotoList({ fetchNextPage, data, isLoading }: any) {
   const parentRef = useRef<HTMLDivElement | null>(null);
-  const { fetchNextPage, data, isLoading } = useInfiniteQuery({
-    queryKey: QUERY_KEYS.FEED.PHOTO_PIECES.queryKey,
-    queryFn: ({ pageParam = 0 }) => FeedService.getPhotoPieces(pageParam),
-    gcTime: 1000 * 60 * 5,
-    staleTime: 1000 * 60 * 5,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
-  });
 
   const handleFetchNextPage = useCallback(debounce(fetchNextPage, 300, { leading: false, trailing: true }), [
     fetchNextPage,
@@ -41,9 +32,9 @@ export default function PhotoList() {
     };
   }, [fetchNextPage]);
 
-  const allPhotos = useMemo(() => data?.pages.flatMap((page) => page.photos) || [], [data]);
+  const allPhotos = useMemo(() => data?.pages?.flatMap((page: any) => page.feeds) || [], [data]);
 
-  const chunkedData: PhotoPieceProps[][] = useMemo(() => {
+  const chunkedData: FeedProps[][] = useMemo(() => {
     const chunks = [];
     for (let i = 0; i < allPhotos.length; i += 3) {
       chunks.push(allPhotos.slice(i, i + 3));
@@ -58,6 +49,7 @@ export default function PhotoList() {
   });
 
   if (isLoading) return <PhotoListSkeleton />;
+  if (!isArrNotEmpty(allPhotos)) return <NoPostBox />;
 
   return (
     <div ref={parentRef} style={{ height: `${rowVirtualizer.getTotalSize()}px`, width: "100%", position: "relative" }}>

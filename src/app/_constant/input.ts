@@ -4,6 +4,7 @@ export const INPUT_TEXT = {
   NAME: "성명",
   USERNAME: "사용자 이름",
   COMMENT: "댓글 달기...",
+  TYPE_TEXT: "문구를 입력하세요...",
 } as const;
 
 export const INPUT_SIZE = {
@@ -14,4 +15,6 @@ export const KEY_CODE = {
   ENTER: "Enter",
   ESCAPE: "Escape",
   TAB: "Tab",
+  ARROW_UP: "ArrowUp",
+  ARROWD_DOWN: "ArrowDown",
 };

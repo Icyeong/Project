@@ -11,11 +11,12 @@ import { InvalidateQueryFilters } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { useRouter } from "next/navigation";
 import { USER_ALERT } from "@/_constant/alerts";
+import { ROUTE } from "@/_constant/route";
 
 export default function FeedOptionModal() {
   const { userInfo } = useAuthStore();
   const { selectedFeed } = useFeedStore();
-  const { closeModal, setModal } = useModalStore();
+  const { closeModal, setModal, resetModalState } = useModalStore();
   const router = useRouter();
 
   const { mutate: mutateDeleteFeed } = useCustomMutation(FeedService.deleteFeed, {
@@ -37,8 +38,8 @@ export default function FeedOptionModal() {
   };
 
   const linkToFeedClick = () => {
-    closeModal();
-    router.push(`/p/${selectedFeed?.feedId}`);
+    resetModalState();
+    router.push(ROUTE.FEED_DETAIL(selectedFeed?.feedId || ""));
   };
 
   const copyLinkClick = async () => {

@@ -15,9 +15,10 @@ export const Comment = {
       cursor: pointer;
     }
   `,
-  UserName: styled.p`
+  UserName: styled.button`
     font-size: 14px;
     margin: 5px 0 13px;
+    display: inline-flex;
   `,
   ControlBar: styled.div`
     display: flex;
