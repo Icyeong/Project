@@ -13,12 +13,12 @@ import { ROUTE } from "@/_constant/route";
 
 interface UserCommentProps {
   userComment: CommentInfoProps;
-  setUser?: (user: CommentToProps) => void;
+  setUser: (user: CommentToProps) => void;
 }
 
 export default function UserComment({ userComment, setUser }: UserCommentProps) {
   const { userId, userImg, userName, commentId, comment, comments, createdAt, taggedUsers } = userComment;
-  const [depOneComment, setDepOneComment] = useState<boolean>(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const textBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
   };
 
   const handleShowCommentClick = () => {
-    setDepOneComment(!depOneComment);
+    setIsOpened((prev) => !prev);
   };
 
   useEffect(() => {
@@ -70,9 +70,10 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
               onClick={handleShowCommentClick}
               fontSize="12px"
               color="#737373"
-              value={depOneComment ? BUTTON_TEXT.HIDE_COMMENT : `--- 답글보기(${comments.length}개)`}
+              value={isOpened ? BUTTON_TEXT.HIDE_COMMENT : `--- 답글보기(${comments.length}개)`}
             />
-            {depOneComment && comments.map((comment) => <UserComment userComment={comment} />)}
+            {isOpened &&
+              comments.map((comment, idx) => <UserComment key={idx} userComment={comment} setUser={setUser} />)}
           </>
         )}
       </FlexColNoAlign>
