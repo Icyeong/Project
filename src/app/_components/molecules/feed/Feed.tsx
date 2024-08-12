@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FeedStyle } from "./Feed.style";
 import FeedHeader from "./feedHeader/FeedHeader";
 import Image from "next/image";
 import ControlBar from "./feedInfo/ControlBar";
 import TextBox from "./feedInfo/TextBox";
-import CommentInputBar from "@components/molecules/commentInputBar/CommentInputBar";
+import CommentInputBar, { CommentToProps } from "@components/molecules/commentInputBar/CommentInputBar";
 import BaseButton from "@components/atoms/button/BaseButton";
 import { isArrNotEmpty, isTxtNotEmpty } from "@/_utils/utils";
 import { FeedProps } from "@/_types/feed";
@@ -12,14 +12,18 @@ import useModalStore from "@/_stores/client/modalStore";
 import { MODAL } from "@/_constant/modal";
 
 export default function Feed({ onSizeChange, ...feed }: FeedProps) {
-  const { setModal, openModal } = useModalStore();
+  const { setModal } = useModalStore();
   const { feedId, userName, content, text, likes, comments } = feed;
   const feedRef = useRef<HTMLDivElement>(null);
+  const [commentTo, setCommentTo] = useState<CommentToProps | null>(null);
 
   const handleShowFeed = () => {
     window.history.pushState({}, "", `/p/${feedId}`);
     setModal(MODAL.FEED);
-    openModal();
+  };
+
+  const setUser = (userInfo: CommentToProps | null) => {
+    setCommentTo(userInfo);
   };
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function Feed({ onSizeChange, ...feed }: FeedProps) {
             value={`댓글 ${comments.length}개 모두 보기`}
           />
         )}
-        <CommentInputBar feedId={feedId} />
+        <CommentInputBar feedId={feedId} setUser={setUser} commentTo={commentTo} />
       </FeedStyle.InfoBox>
     </FeedStyle.Container>
   );

@@ -20,7 +20,7 @@ const useLogin = () => {
     },
     onError: (error: Error) => {
       const { message } = authErrorHandler(error);
-      alert(message);
+      window.alert(message);
     },
   });
 
@@ -34,7 +34,7 @@ const useLogin = () => {
     },
     onError: (error: Error) => {
       const { message } = authErrorHandler(error);
-      alert(message);
+      window.alert(message);
     },
   });
 

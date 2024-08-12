@@ -22,16 +22,23 @@ import { isCommentInfoProps } from "@/_dummyData/feedDummy";
 interface CommentInputBarProps {
   feedId: string;
   ver?: number;
+  commentTo?: CommentToProps | null;
+  setUser: (userInfo: CommentToProps | null) => void;
 }
 
-export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
+export interface CommentToProps extends UserProps {
+  commentId?: string;
+}
+
+export default function CommentInputBar({ feedId, ver, commentTo, setUser }: CommentInputBarProps) {
   const { userInfo } = useAuthStore();
   const [tagging, setTagging] = useState(false);
   const [taggingUsers, setTaggingUsers] = useState<UserProps[]>([]);
   const [taggedUsers, setTaggedUsers] = useState<UserProps[]>([]);
   const [tagStartIdx, setTagStartIdx] = useState<number>(0);
-  const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(-1);
+  const [tabFocusedIdx, setTabFocusedIdx] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+  const postingState = useRef<boolean>(true);
 
   const popOverRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,6 +48,15 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     () => UserService.getFollowingList(userInfo.userId),
     { enabled: false },
   );
+
+  const handleCommenting = () => {
+    if (commentTo) {
+      setComment(`@${commentTo.userName} `);
+      setTaggedUsers([...taggedUsers, commentTo]);
+      textAreaRef.current?.focus();
+    }
+  };
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
 
@@ -56,7 +72,6 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     if (tagging) {
       const lastWord = value.split(" ").slice(-1)[0];
       if (!lastWord.includes("@")) {
-        setTabFocusedIdx(-1);
         setTagging(false);
       }
       const searching = value.split("@").slice(-1)[0];
@@ -71,35 +86,48 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     onSuccess: () => {
       queryClient.invalidateQueries([...QUERY_KEYS.FEED.DETAIL.queryKey, feedId] as InvalidateQueryFilters);
       setComment("");
+      setUser(null);
       setTaggedUsers([]);
     },
   });
 
-  const handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement | HTMLButtonElement>) => {
     if (e.code === KEY_CODE.ESCAPE) {
       e.preventDefault();
       setTagging(false);
-      setTabFocusedIdx(-1);
+      setTabFocusedIdx(0);
     }
 
-    if (e.code === KEY_CODE.TAB) {
+    if (e.code === KEY_CODE.TAB || e.code === KEY_CODE.ARROWD_DOWN) {
       e.preventDefault();
-      setTabFocusedIdx(tabFocusedIdx + 1);
+      setTabFocusedIdx((prev) => (prev + 1) % taggingUsers.length);
+    }
+
+    if (e.code === KEY_CODE.ARROW_UP) {
+      e.preventDefault();
+      setTabFocusedIdx((prev) => (prev - 1 + taggingUsers.length) % taggingUsers.length);
     }
 
     if (!isTxtNotEmpty(comment) && e.code === KEY_CODE.ENTER) {
       e.preventDefault();
     }
-    if (isTxtNotEmpty(comment) && comment !== "@" && e.code === KEY_CODE.ENTER) {
+    if (isTxtNotEmpty(comment) && comment !== "@" && !tagging && e.code === KEY_CODE.ENTER) {
       return handleCommentClick();
     }
   };
 
   const handleCommentClick = () => {
-    const fetchData = { ...userInfo, comment, createdAt: String(new Date()), taggedUsers };
-    console.log("fetchData : ", fetchData);
-    if (isCommentInfoProps(fetchData)) {
-      mutateComment({ feedId, fetchData });
+    const fetchData = {
+      ...userInfo,
+      comment,
+      createdAt: String(new Date()),
+      taggedUsers,
+    };
+
+    if (isCommentInfoProps(fetchData) && postingState.current) {
+      mutateComment({ feedId, commentId: commentTo?.commentId, fetchData });
+      postingState.current = false;
+      setTimeout(() => (postingState.current = true), 1000);
     }
   };
 
@@ -108,7 +136,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
     const prevComment = comment.slice(0, tagStartIdx + 1);
     setComment(prevComment + user.userName + " ");
     setTagging(false);
-    setTabFocusedIdx(-1);
+    setTabFocusedIdx(0);
     textAreaRef.current?.focus();
   };
 
@@ -123,10 +151,10 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
   }, [data]);
 
   useEffect(() => {
-    if (tabFocusedIdx === taggingUsers.length - 1 && tagging) {
-      setTabFocusedIdx(0);
+    if (commentTo) {
+      handleCommenting();
     }
-  }, [tabFocusedIdx]);
+  }, [commentTo]);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -140,10 +168,11 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       <Input.PopOver ref={popOverRef} className={classNames({ show: tagging, hide: !isArrNotEmpty(taggingUsers) })}>
         {taggingUsers?.map((friend, idx) => (
           <UserBar
-            key={friend.userId}
+            key={idx}
             user={friend}
             isTagUser={true}
             focused={tabFocusedIdx === idx}
+            onkeydown={handleKeyDown}
             onTagClick={onTagClick}
           />
         ))}
@@ -151,7 +180,7 @@ export default function CommentInputBar({ feedId, ver }: CommentInputBarProps) {
       {ver === 2 && <IconButton awesomeIcon={faSmile} />}
       <TextArea
         value={comment}
-        onKeyDown={handleInputKeyDown}
+        onKeyDown={handleKeyDown}
         onChange={handleInputChange}
         placeholder={INPUT_TEXT.COMMENT}
         ref={textAreaRef}

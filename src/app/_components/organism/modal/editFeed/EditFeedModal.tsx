@@ -1,7 +1,7 @@
 import { queryClient } from "@/(pages)/App";
 import BaseButton from "@/_components/atoms/button/BaseButton";
 import { ModalStyle } from "@/_components/atoms/modal/Modal.style";
-import { FeedProps } from "@/_components/molecules/feed/Feed";
+import { FeedProps } from "@/_types/feed";
 import { Write } from "@/_components/molecules/ModalContent/editPostModal/EditPostModal.style";
 import WritingBox from "@/_components/molecules/writingBox/WritingBox";
 import { INPUT_SIZE } from "@/_constant/input";

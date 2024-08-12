@@ -4,12 +4,39 @@ import BaseButton from "@/_components/atoms/button/BaseButton";
 import { FlexColNoAlign } from "@/_styles/common.style";
 import { CommentInfoProps } from "@/_types/feed";
 import dayjs from "dayjs";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { CommentToProps } from "../commentInputBar/CommentInputBar";
+import { isArrNotEmpty } from "@/_utils/utils";
+import { BUTTON_TEXT } from "@/_constant/button";
+import { ROUTE } from "@/_constant/route";
 
-export default function UserComment(userComment: CommentInfoProps) {
-  const { userImg, userName, comment, createdAt, taggedUsers } = userComment;
+interface UserCommentProps {
+  userComment: CommentInfoProps;
+  setUser: (user: CommentToProps) => void;
+}
+
+export default function UserComment({ userComment, setUser }: UserCommentProps) {
+  const { userId, userImg, userName, commentId, comment, comments, createdAt, taggedUsers } = userComment;
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const textBoxRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const handleUserClick = () => {
+    console.log("hello???");
+    router.push(ROUTE.USER(userName));
+  };
+
+  const handleCommentingClick = () => {
+    if (setUser) {
+      setUser({ userId, userName, userImg, commentId });
+    }
+  };
+
+  const handleShowCommentClick = () => {
+    setIsOpened((prev) => !prev);
+  };
 
   useEffect(() => {
     const users = taggedUsers.map((user) => "@" + user.userName);
@@ -28,15 +55,27 @@ export default function UserComment(userComment: CommentInfoProps) {
       <Avatar size={42} img={userImg} />
       <FlexColNoAlign>
         <Comment.TextBox ref={textBoxRef}>
-          <Comment.UserName>{userName}</Comment.UserName>
+          <Comment.UserName onClick={handleUserClick}>{userName}</Comment.UserName>
           {comment}
         </Comment.TextBox>
         <Comment.ControlBar>
           <BaseButton fontSize="12px" color="#737373" value={dayjs(createdAt).fromNow(true)} />
-          <BaseButton fontSize="12px" color="#737373" value="좋아요" />
-          <BaseButton fontSize="12px" color="#737373" value="댓글 달기" />
-          <BaseButton fontSize="12px" color="#737373" value="번역 보기" />
+          <BaseButton fontSize="12px" color="#737373" value={BUTTON_TEXT.LIKE} />
+          <BaseButton onClick={handleCommentingClick} fontSize="12px" color="#737373" value={BUTTON_TEXT.COMMENT} />
+          <BaseButton fontSize="12px" color="#737373" value={BUTTON_TEXT.TRANSLATE} />
         </Comment.ControlBar>
+        {isArrNotEmpty(comments) && (
+          <>
+            <BaseButton
+              onClick={handleShowCommentClick}
+              fontSize="12px"
+              color="#737373"
+              value={isOpened ? BUTTON_TEXT.HIDE_COMMENT : `--- 답글보기(${comments.length}개)`}
+            />
+            {isOpened &&
+              comments.map((comment, idx) => <UserComment key={idx} userComment={comment} setUser={setUser} />)}
+          </>
+        )}
       </FlexColNoAlign>
     </Comment.Container>
   );

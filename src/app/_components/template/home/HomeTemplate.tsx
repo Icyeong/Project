@@ -6,7 +6,7 @@ import RecommendedUsers from "@components/molecules/recommendedUsers/Recommended
 export default function HomeTemplate() {
   return (
     <HomeLayoutStyle.Container>
-      <HomeLayoutStyle.Main>
+      <HomeLayoutStyle.Main $width={630}>
         <StoryBar />
         <FeedList />
       </HomeLayoutStyle.Main>

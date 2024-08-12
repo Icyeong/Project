@@ -1,5 +1,5 @@
 import useModalStore from "@/_stores/client/modalStore";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { v4 } from "uuid";
 import useAuthStore from "@/_stores/client/authStore";
 import { useCustomMutation } from "@/_hooks/useFetch";
@@ -25,7 +25,7 @@ interface EditPostProps {
 }
 
 export default function EditPostModal({ setStep }: EditPostProps) {
-  const { selectedImage, closeModal } = useModalStore();
+  const { selectedImage, resetModalState } = useModalStore();
   const { userInfo } = useAuthStore();
   const [textSize, setTextSize] = useState(0);
   const [newFeedData, setFeedData] = useState<FeedProps>({
@@ -44,7 +44,7 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   const { mutate: createFeed } = useCustomMutation(FeedService.postFeed, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
-      closeModal();
+      resetModalState();
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
   });
@@ -53,15 +53,18 @@ export default function EditPostModal({ setStep }: EditPostProps) {
   };
   const handleNextClick = () => {
     const newFeed = { ...newFeedData, createdAt: new Date().toISOString() };
-    if (!isFeedProps(newFeed)) return alert(FEED_ERROR.ADD);
+    if (!isFeedProps(newFeed)) return window.alert(FEED_ERROR.ADD);
     createFeed({ ...newFeedData, createdAt: new Date().toISOString() });
   };
 
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (textSize > INPUT_SIZE.FEED_CONTENT) return;
-    setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
-    setTextSize(e.target.value.length);
-  };
+  const handleTextChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      if (textSize > INPUT_SIZE.FEED_CONTENT) return;
+      setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
+      setTextSize(e.target.value.length);
+    },
+    [textSize],
+  );
   return (
     <>
       <ModalStyle.Header>

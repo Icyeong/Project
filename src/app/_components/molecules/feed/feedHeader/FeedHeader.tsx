@@ -11,6 +11,8 @@ import { MODAL } from "@/_constant/modal";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useCallback } from "react";
 import { FeedProps } from "@/_types/feed";
+import { useRouter } from "next/navigation";
+import { ROUTE } from "@/_constant/route";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
@@ -21,25 +23,30 @@ interface FeedHeaderProps extends FeedProps {
 
 export default function FeedHeader(feed: FeedHeaderProps) {
   const { userName, userImg, createdAt, following, size } = feed;
-  const { setModal, openModal } = useModalStore();
+  const { setModal, resetModalState } = useModalStore();
   const { setSelectedFeed } = useFeedStore();
   const { userInfo } = useAuthStore();
+  const router = useRouter();
 
   const isMyFeed = () => {
     return userName === userInfo.userName;
   };
 
+  const handleUserClick = () => {
+    resetModalState();
+    router.push(ROUTE.USER(userName));
+  };
+
   const handleOptionClick = useCallback(() => {
     setSelectedFeed(feed);
     setModal(MODAL.FEED_OPTION);
-    openModal();
-  }, [setSelectedFeed, setModal, openModal, feed]);
+  }, [setSelectedFeed, setModal, feed]);
 
   return (
     <Header.Container $size={size === "S" ? 48 : 70}>
       <Avatar size={size === "S" ? 34 : 42} img={isMyFeed() ? userInfo.userImg : userImg} />
       <Header.Box>
-        <Header.Username>{userName}</Header.Username>
+        <Header.Username onClick={handleUserClick}>{userName}</Header.Username>
         <Header.TimeStamp>{dayjs(createdAt).fromNow(true)}</Header.TimeStamp>
 
         {!isMyFeed() && !following && <Header.Follow>팔로우</Header.Follow>}
