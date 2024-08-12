@@ -70,7 +70,7 @@ export default function UserComment({ userComment, setUser }: UserCommentProps) 
               onClick={handleShowCommentClick}
               fontSize="12px"
               color="#737373"
-              value={isOpened ? BUTTON_TEXT.HIDE_COMMENT : `--- 답글보기(${comments.length}개)`}
+              value={isOpened ? BUTTON_TEXT.HIDE_COMMENT : BUTTON_TEXT.SHOW_COMMENT(comments.length)}
             />
             {isOpened &&
               comments.map((comment, idx) => <UserComment key={idx} userComment={comment} setUser={setUser} />)}
