@@ -10,10 +10,6 @@
     "mock": "npx tsx watch ./src/mocks/http.ts"
   },
   "dependencies": {
-    "@emotion/babel-plugin": "^11.11.0",
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
     "@faker-js/faker": "^8.4.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
