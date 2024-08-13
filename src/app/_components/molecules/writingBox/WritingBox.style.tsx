@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const Box = {
@@ -27,6 +28,6 @@ export const Box = {
     font-size: 12px;
     color: #c7c7c7c7;
     padding: 10px 16px;
-    border-bottom: 1px solid rgb(219, 219, 219);
+    border-bottom: 1px solid ${COLOR.common.border.light};
   `,
 };

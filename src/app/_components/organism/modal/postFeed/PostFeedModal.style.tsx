@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const Upload = {
@@ -38,7 +39,7 @@ export const Preview = {
     width: 100%;
     display: flex;
     justify-content: center;
-    border-right: 1px solid rgb(219, 219, 219);
+    border-right: 1px solid ${COLOR.common.border.light};
     max-width: 1100px;
     min-width: 35vw;
     overflow: hidden;
@@ -65,7 +66,7 @@ export const Write = {
     width: 100%;
     display: flex;
     justify-content: center;
-    border-right: 1px solid rgb(219, 219, 219);
+    border-right: 1px solid ${COLOR.common.border.light};
     max-width: 1100px;
     min-width: 35vw;
     overflow: hidden;

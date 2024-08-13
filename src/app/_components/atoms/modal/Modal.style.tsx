@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const ModalStyle = {
@@ -45,7 +46,7 @@ export const ModalStyle = {
     font-size: 16px;
     font-weight: 600;
     padding: 10px 0;
-    border-bottom: 1px solid rgb(219, 219, 219);
+    border-bottom: 1px solid ${COLOR.common.border.light};
   `,
   Body: styled.div`
     display: flex;

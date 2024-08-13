@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const GnbStyle = {
@@ -13,7 +14,7 @@ export const GnbStyle = {
   `,
   NavContainer: styled.div`
     max-width: 335px;
-    border-right: 1px solid #dedede;
+    border-right: 1px solid ${COLOR.common.border.light};
     background-color: white;
     padding: 8px 12px 20px;
     display: flex;
