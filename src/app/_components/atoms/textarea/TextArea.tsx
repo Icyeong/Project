@@ -34,3 +34,4 @@ export const TextArea = forwardRef<FocusHandle, TextAreaProps>((props, ref) => {
 
   return <Textarea ref={textAreaRef} rows={1} {...props} />;
 });
+TextArea.displayName = "TextArea";
