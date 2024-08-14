@@ -4,7 +4,7 @@ import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
 const getFeedsList = async (page: number, size: number, userId?: string) => {
   try {
-    const res = await fetch(`/api/feeds?page=${page}&size=${size}&userId=${userId}`);
+    const res = await fetch(`${BASE_DOMAIN}/feeds?page=${page}?&size=${size}?&userId=${userId}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -14,7 +14,7 @@ const getFeedsList = async (page: number, size: number, userId?: string) => {
 
 const getFeedDetail = async (feedId: string) => {
   try {
-    const res = await fetch(`/api/feed?feedId=${feedId}`);
+    const res = await fetch(`${BASE_DOMAIN}/feed?feedId=${feedId}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -24,7 +24,7 @@ const getFeedDetail = async (feedId: string) => {
 
 const postFeed = async (fetchData: FeedProps) => {
   try {
-    const res = await fetch(`/api/feed`, getFetchOptions("POST", true, fetchData));
+    const res = await fetch(`${BASE_DOMAIN}/feed`, getFetchOptions("POST", true, fetchData));
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -34,7 +34,7 @@ const postFeed = async (fetchData: FeedProps) => {
 
 const editFeed = async (fetchData: FeedProps) => {
   try {
-    const res = await fetch(`/api/feed`, getFetchOptions("PATCH", true, fetchData));
+    const res = await fetch(`${BASE_DOMAIN}/feed`, getFetchOptions("PATCH", true, fetchData));
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -44,7 +44,7 @@ const editFeed = async (fetchData: FeedProps) => {
 
 const deleteFeed = async (feedId: string) => {
   try {
-    const res = await fetch(`/api/feed?id=${feedId}`, getFetchOptions("DELETE", true, null));
+    const res = await fetch(`${BASE_DOMAIN}/feed?id=${feedId}`, getFetchOptions("DELETE", true, null));
     const data = await res.json();
     return data;
   } catch (error: unknown) {
@@ -63,7 +63,7 @@ const addComment = async ({
 }) => {
   try {
     const res = await fetch(
-      `/api/feed/${feedId}/comment?id=${commentId || "0"}`,
+      `${BASE_DOMAIN}/feed/${feedId}/comment?id=${commentId || "0"}`,
       getFetchOptions("POST", true, fetchData),
     );
     const data = await res.json();
@@ -75,7 +75,7 @@ const addComment = async ({
 
 const getSearchedResults = async (keyword: string) => {
   try {
-    const res = await fetch(`/api/search?keyword=${keyword}`);
+    const res = await fetch(`${BASE_DOMAIN}/search?keyword=${keyword}`);
     const data = await res.json();
     return data;
   } catch (error: unknown) {
