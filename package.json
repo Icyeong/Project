@@ -1,10 +1,10 @@
 {
-  "name": "toss_banking",
+  "name": "instagram",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npx tsx watch ./src/mocks/http.ts\" \"next dev\"",
-    "build": "concurrently \"next build\" \"npx tsx watch ./src/mocks/http.ts\"",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "mock": "npx tsx watch ./src/mocks/http.ts"
@@ -36,8 +36,7 @@
     "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0",
-    "zustand": "^4.5.2",
-    "msw": "^2.3.5"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",
@@ -49,6 +48,7 @@
     "@types/uuid": "^9.0.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "msw": "^2.3.5",
     "prettier": "3.2.5",
     "typescript": "^5"
   }
