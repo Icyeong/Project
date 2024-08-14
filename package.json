@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "concurrently \"npx tsx watch ./src/mocks/http.ts\" \"next dev\"",
+    "build": "concurrently \"next build\" \"npx tsx watch ./src/mocks/http.ts\"",
     "start": "next start",
     "lint": "next lint",
     "mock": "npx tsx watch ./src/mocks/http.ts"
@@ -22,6 +22,7 @@
     "@tanstack/react-virtual": "^3.8.1",
     "@types/lodash": "^4.17.6",
     "classnames": "^2.5.1",
+    "concurrently": "^8.2.2",
     "cookies-next": "^4.2.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",
@@ -35,7 +36,8 @@
     "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "msw": "^2.3.5"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",
@@ -47,7 +49,6 @@
     "@types/uuid": "^9.0.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
-    "msw": "^2.3.1",
     "prettier": "3.2.5",
     "typescript": "^5"
   }
