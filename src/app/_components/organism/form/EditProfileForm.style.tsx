@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const EditForm = {
@@ -9,7 +10,7 @@ export const EditForm = {
     textarea,
     input {
       padding: 16px;
-      border: 1px solid #e3e3e3;
+      border: 1px solid ${COLOR.common.border.light};
       border-radius: 15px;
       font-weight: 600;
       background-color: white;

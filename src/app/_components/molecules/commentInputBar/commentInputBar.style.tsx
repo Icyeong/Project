@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const Input = {
@@ -25,7 +26,7 @@ export const Input = {
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
     button {
       margin-left: 0;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid ${COLOR.common.border.light};
       height: 50px;
     }
 

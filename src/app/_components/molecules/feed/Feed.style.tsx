@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const FeedStyle = {
@@ -5,7 +6,7 @@ export const FeedStyle = {
     display: flex;
     flex-direction: column;
     padding: 15px 0 10px;
-    border-bottom: 1px solid #737373;
+    border-bottom: 1px solid ${COLOR.common.border.light};
   `,
   ContentBox: styled.div`
     display: flex;

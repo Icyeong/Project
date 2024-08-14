@@ -6,6 +6,7 @@ import { useCustomQuery } from "@/_hooks/useFetch";
 import { QUERY_KEYS } from "@/_stores/server/queryKeys";
 import { FeedService } from "@/_services/feed_service";
 import NotFound from "@/not-found";
+import Spinner from "@/_components/atoms/spinner/Spinner";
 
 export default function FeedDetailBox() {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ export default function FeedDetailBox() {
     FeedService.getFeedDetail(feedId),
   );
 
+  if (isLoading) return <Spinner />;
   if (!feed) return <NotFound />;
 
   return (

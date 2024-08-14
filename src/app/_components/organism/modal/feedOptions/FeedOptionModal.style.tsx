@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const Options = {
@@ -8,7 +9,7 @@ export const Options = {
     justify-content: center;
     align-items: center;
     padding: 4px 8px;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid ${COLOR.common.border.light};
     font-size: 14px;
   `,
 };

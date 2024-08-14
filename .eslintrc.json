@@ -1,9 +1,7 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["react-hooks", "@emotion"],
+  "plugins": ["react-hooks"],
   "rules": {
-    "react-hooks/exhaustive-deps": "off",
-    "@emotion/jsx-import": "error",
-    "@emotion/pkg-renaming": "error"
+    "react-hooks/exhaustive-deps": "off"
   }
 }
