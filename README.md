@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 인스타그램 클론 프로젝트
 
-## Getting Started
+## Overview
 
-First, run the development server:
+**프로젝트 기간**: 2024.05.15 ~ 2024.08.30
+
+이 프로젝트는 **Next.js**와 **TypeScript**를 활용해 인스타그램의 주요 기능을 클론 코딩한 것입니다. 프론트엔드와 백엔드를 통합한 서버리스 애플리케이션으로 **Vercel**에 배포되었습니다. 이 프로젝트의 주요 목표는 최신 웹 기술을 활용하여 사용자 경험을 최적화하고, 웹 개발의 최신 기술 스택을 깊이 이해하기 위해서 개발하였습니다.
+
+- **배포 링크**: [Instagram Clone](https://instagram-git-api-icyeongs-projects.vercel.app)
+<br>
+
+## Features
+
+### 1. 피드 CRUD 기능
+- 사용자가 피드를 생성(Create), 읽기(Read), 수정(Update), 삭제(Delete)할 수 있는 기능을 구현했습니다.
+- **Tanstack-Query**를 사용하여 서버 데이터를 효율적으로 관리하고, 커스텀 훅을 통해 데이터 페칭과 캐싱을 최적화했습니다.
+- 페이지 간 즉각적인 상태 관리를 가능하게 하여 어플리케이션의 반응성을 크게 개선했습니다.
+
+### 2. 무한 스크롤 및 성능 최적화
+- **가상화된 피드 렌더링**: 대규모 피드 데이터를 효율적으로 처리하기 위해 `@tanstack/react-virtual` 라이브러리를 사용하여 무한 스크롤 기능을 구현했습니다. 가상돔을 활용해 화면에 필요한 요소들만 렌더링함으로써 성능을 향상시켰습니다.
+- **동적 피드 크기 조정**: `ResizeObserver` 를 활용하여 피드 항목의 크기가 동적으로 변할 때 이를 감지하고, 레이아웃을 즉시 업데이트하도록 했습니다. 이를 통해 사용자가 페이지에서 스크롤할 때 레이아웃이 깨지지 않고 자연스럽게 유지됩니다.
+- **지연된 데이터 페칭**: `lodash/debounce`를 활용하여 스크롤 이벤트에 따라 피드 데이터를 지연된 방식으로 페칭합니다. 이로 인해 불필요한 서버 요청을 최소화하며 성능을 개선하였으며, 사용자 경험을 향상시켰습니다.
+- **유연한 레이아웃 관리**: `useVirtualizer`를 활용하여 피드 목록의 레이아웃을 관리하고, 각 피드 항목의 크기 변화를 실시간으로 반영합니다. 이를 통해 스크롤 위치나 피드 데이터의 동적 변경 사항이 즉시 UI에 반영되어 부드럽고 매끄러운 스크롤 경험을 제공하였습니다.
+
+### 3. 태그 및 대댓글 기능
+
+#### 태그 기능
+- **키보드 네비게이션**: 댓글 입력 시 `@` 문자를 입력하면 태그 가능한 사용자 목록이 자동으로 표시됩니다. 목록 내에서 `TAB` 키와 화살표 키를 이용해 사용자를 쉽게 선택할 수 있도록 하였고. 사용자는 `ENTER` 키를 눌러 선택된 사용자명을 댓글에 태그할 수 있으며, 선택된 사용자는 자동으로 댓글에 추가할 수 있도록 하여 사용자 편리성을 향상시켰습니다.
+
+#### 대댓글 기능
+- **대댓글 작성**: 댓글에 대한 대댓글을 작성할 수 있는 기능을 제공합니다. 대댓글은 특정 댓글에 대한 직접적인 댓글이 가능합니다.
+
+### 4. 검색 기능
+- 사용자와 게시물을 효율적으로 검색할 수 있는 기능을 구현했습니다. 검색어에 따른 실시간 필터링을 통해 사용자가 원하는 정보를 빠르게 찾을 수 있도록 했습니다.
+
+### 5. 다크모드/라이트모드
+- 사용자 환경에 맞춘 다크모드와 라이트모드를 제공합니다. **Styled-components**를 사용해 CSS-in-JS 방식으로 테마 전환을 즉각적이고 쉽게 구현했습니다.
+<br>
+
+## Tech Stack
+
+### 프론트엔드
+- **Next.js**
+- **TypeScript**
+- **Tanstack-Query**
+- **Zustand**
+- **Styled-components**
+
+### 배포
+- 프로젝트 초기에는 **msw**(Mock Service Worker)를 사용해 프론트엔드 개발 중 서버와의 통신을 간단히 테스트했습니다.
+- 실제 배포를 위해 **Next.js**의 `pages/api` 기능을 사용하여 서버리스 방식으로 백엔드를 구현 후 **Vercel**에 성공적으로 배포했습니다.
+<br>
+
+## Installation
 
 ```bash
+# 레포지토리를 클론합니다.
+git clone https://github.com/Icyeong/Project.git
+
+# 필요한 패키지를 설치합니다.
+npm install
+
+# 개발 서버를 실행합니다.
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<br>
