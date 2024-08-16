@@ -16,25 +16,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const path = url?.split("?")[0] || "";
 
-  if (url?.startsWith("/api/myinfo")) {
-    return myInfoHandler(expressReq, expressRes);
-  } else if (url?.startsWith("/api/feeds")) {
-    return feedsHandler(expressReq, expressRes);
-  } else if (path.startsWith("/api/feed")) {
-    if (path.includes("/comment")) {
-      return commentHandler(expressReq, expressRes);
-    } else {
-      return feedHandler(expressReq, expressRes);
-    }
-  } else if (url?.startsWith("/api/search")) {
-    return searchHandler(expressReq, expressRes);
-  } else if (url?.startsWith("/api/stories")) {
-    return storiesHandler(expressReq, expressRes);
-  } else if (url?.startsWith("/api/following")) {
-    return followingHandler(expressReq, expressRes);
-  } else {
-    res.status(404).json({ message: "Not Found" });
+  if (url?.startsWith("/api/myinfo")) return myInfoHandler(expressReq, expressRes);
+
+  if (url?.startsWith("/api/feeds")) return feedsHandler(expressReq, expressRes);
+  if (path.startsWith("/api/feed")) {
+    if (path.includes("/comment")) return commentHandler(expressReq, expressRes);
+    return feedHandler(expressReq, expressRes);
   }
+  if (url?.startsWith("/api/search")) return searchHandler(expressReq, expressRes);
+  if (url?.startsWith("/api/stories")) return storiesHandler(expressReq, expressRes);
+  if (url?.startsWith("/api/following")) return followingHandler(expressReq, expressRes);
+  return res.status(404).json({ message: "Not Found" });
 }
 
 export const config = {
