@@ -46,7 +46,7 @@ export default function UploadModal({ setStep }: UploadModalProps) {
           <BaseButton
             type="submit"
             color="white"
-            $bgColor="#0095F6"
+            $bgColor="#0095F6 !important"
             radius={8}
             value="컴퓨터에서 선택"
             onClick={handleSelectClick}

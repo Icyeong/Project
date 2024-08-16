@@ -47,7 +47,7 @@ export default function EditFeedModal() {
         <Write.Header>
           <BaseButton onClick={handleCancelClick} />
           정보 수정
-          <BaseButton value="완료" color="#0095F6" onClick={handleFinishClick} />
+          <BaseButton value="완료" color="#0095F6 !important" onClick={handleFinishClick} />
         </Write.Header>
       </ModalStyle.Header>
       <ModalStyle.Body>

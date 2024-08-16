@@ -10,7 +10,7 @@ export const Comment = {
     flex-direction: column;
     margin-left: 15px;
     span {
-      color: #0095f6;
+      color: #0095f6 !important;
       display: contents;
       cursor: pointer;
     }
