@@ -10,12 +10,13 @@ import Spinner from "@/_components/atoms/spinner/Spinner";
 
 export default function FeedDetailBox() {
   const pathname = usePathname();
-  const feedId = pathname.split("/")[2];
+
+  const feedId = pathname ? pathname.split("/")[2] : "";
   const { data: feed, isLoading } = useCustomQuery([...QUERY_KEYS.FEED.DETAIL.queryKey, feedId], () =>
     FeedService.getFeedDetail(feedId),
   );
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner loading={isLoading} />;
   if (!feed) return <NotFound />;
 
   return (
