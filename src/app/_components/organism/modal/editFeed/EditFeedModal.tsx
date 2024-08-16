@@ -17,29 +17,30 @@ import { ChangeEvent, useState } from "react";
 export default function EditFeedModal() {
   const { selectedFeed } = useFeedStore();
   const { closeModal } = useModalStore();
-  if (!selectedFeed) return null;
-
-  const [textSize, setTextSize] = useState(selectedFeed.text.length);
-  const [newFeedData, setFeedData] = useState<FeedProps>(selectedFeed);
-
-  const handleCancelClick = () => {
-    closeModal();
-  };
-  const handleFinishClick = () => {
-    mutateEditFeed(newFeedData);
-  };
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (textSize > INPUT_SIZE.FEED_CONTENT) return;
-    setFeedData((prevData: FeedProps) => ({ ...prevData, text: e.target.value }));
-    setTextSize(e.target.value.length);
-  };
-
+  const [textSize, setTextSize] = useState(selectedFeed?.text.length || 0);
+  const [newFeedData, setFeedData] = useState<FeedProps | null>(selectedFeed || null);
   const { mutate: mutateEditFeed } = useCustomMutation(FeedService.editFeed, {
     onSuccess: () => {
       queryClient.invalidateQueries(QUERY_KEYS.FEED.LIST.queryKey as InvalidateQueryFilters);
       closeModal();
     },
   });
+  if (!selectedFeed) return null;
+
+  const handleCancelClick = () => {
+    closeModal();
+  };
+  const handleFinishClick = () => {
+    if (newFeedData) {
+      mutateEditFeed(newFeedData);
+    }
+  };
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (textSize > INPUT_SIZE.FEED_CONTENT) return;
+    setFeedData((prevData) => (prevData ? { ...prevData, text: e.target.value } : null));
+    setTextSize(e.target.value.length);
+  };
+
   return (
     <>
       <ModalStyle.Header>
@@ -54,7 +55,7 @@ export default function EditFeedModal() {
           <Write.ImgBox>
             {selectedFeed.content && <Image src={selectedFeed.content} width={300} height={400} alt="preview" />}
           </Write.ImgBox>
-          <WritingBox text={newFeedData.text} textSize={INPUT_SIZE.FEED_CONTENT} onChange={handleTextChange}>
+          <WritingBox text={newFeedData?.text || ""} textSize={INPUT_SIZE.FEED_CONTENT} onChange={handleTextChange}>
             hello~
           </WritingBox>
         </Write.Flex>

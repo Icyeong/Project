@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const Search = {
@@ -5,7 +6,7 @@ export const Search = {
     display: flex;
     flex-direction: column;
     padding: 20px 14px;
-    border-bottom: 1px solid var(--border-light-gray);
+    border-bottom: 1px solid ${COLOR.common.border.light};
   `,
   Title: styled.p`
     font-size: 24px;

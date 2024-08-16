@@ -1,3 +1,4 @@
+import { COLOR } from "@/_styles/color";
 import styled from "styled-components";
 
 export const BasicInput = styled.input`
@@ -13,7 +14,7 @@ export const BasicInput = styled.input`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: var(--system-16-font-size);
-  border: 1px solid var(--border-light-gray);
+  border: 1px solid ${COLOR.common.border.light};
   border-radius: 2px;
   background: rgb(var(--light-gray-background));
 

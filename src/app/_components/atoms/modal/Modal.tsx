@@ -57,11 +57,16 @@ export default function Modal() {
   if (modalRoot)
     return createPortal(
       <>
-        {modals.map((modal) => {
+        {modals.map((modal, idx) => {
           const currentModal = getModal(modal);
 
           return (
-            <ModalStyle.Bg className={classNames({ isOpen: isOpen })} role="button" onClick={handleCloseCLick}>
+            <ModalStyle.Bg
+              key={idx}
+              className={classNames({ isOpen: isOpen })}
+              role="button"
+              onClick={handleCloseCLick}
+            >
               <ModalStyle.Card role="button" onClick={handleCardClick}>
                 <ModalStyle.CloseBtn role="button" onClick={handleCloseCLick}>
                   <FontAwesomeIcon icon={faClose} />

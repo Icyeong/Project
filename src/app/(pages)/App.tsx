@@ -1,7 +1,7 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Modal, { getModal } from "@components/atoms/modal/Modal";
+import Modal from "@components/atoms/modal/Modal";
 import useModalStore from "@/_stores/client/modalStore";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,7 @@ export default function App({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isOpen, modalName } = useModalStore();
+  const { isOpen } = useModalStore();
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function App({
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {isOpen && <Modal>{getModal(modalName)}</Modal>}
+      {isOpen && <Modal />}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
