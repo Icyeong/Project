@@ -1,6 +1,5 @@
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser, isMyInfoDetailProps, myInfoDetail, myinfoDetailProps } from "@/_dummyData/userDummy";
-// import { http, HttpResponse } from "msw";
 import { FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 import { Request, Response } from "express";
@@ -14,10 +13,9 @@ export const myInfoHandler = (req: Request, res: Response) => {
   if (req.method === "GET") {
     res.json(serverMyData);
   } else if (req.method === "PATCH") {
-    req.body.then((fetchData: any) => {
-      serverMyData = fetchData;
-      res.json(serverMyData);
-    });
+    const fetchData = req.body;
+    serverMyData = fetchData;
+    res.json(serverMyData);
   } else {
     res.status(405).json({ error: "Method not allowed" });
   }
@@ -57,23 +55,21 @@ export const feedHandler = (req: Request, res: Response) => {
 
     res.json(filtered);
   } else if (req.method === "POST") {
-    req.body.then((feedData: any) => {
-      if (isFeedProps(feedData)) {
-        serverFeedsData.unshift(feedData);
-      } else {
-        res.json({ error: "Invalid data format" });
-      }
-    });
+    const feedData = req.body;
+    if (isFeedProps(feedData)) {
+      serverFeedsData.unshift(feedData);
+    } else {
+      res.json({ error: "Invalid data format" });
+    }
   } else if (req.method === "PATCH") {
-    req.body.then((feedData: any) => {
-      if (isFeedProps(feedData)) {
-        const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedData.feedId);
-        serverFeedsData[idx] = feedData;
-        res.json(serverFeedsData);
-      } else {
-        res.json({ error: "Invalid data format" });
-      }
-    });
+    const feedData = req.body;
+    if (isFeedProps(feedData)) {
+      const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedData.feedId);
+      serverFeedsData[idx] = feedData;
+      res.json(serverFeedsData);
+    } else {
+      res.json({ error: "Invalid data format" });
+    }
   } else if (req.method === "DELETE") {
     const url = new URL(req.url || "", `${protocol}://${req.headers.host}`);
     const feedId = url.searchParams.get("id");
@@ -89,23 +85,28 @@ export const commentHandler = (req: Request, res: Response) => {
   if (req.method === "POST") {
     const url = new URL(req.url || "", `${protocol}://${req.headers.host}`);
     const commentId = url.searchParams.get("id") || "0";
-    const feedId = url.pathname.split("/")[2];
+    const feedId = url.pathname.split("/")[3];
 
-    req.body.then((commentData: any) => {
-      const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
-      if (isCommentInfoProps(commentData)) {
-        if (commentId !== "0") {
-          const commentIdx = serverFeedsData[idx].comments.findIndex((comment) => comment.commentId === commentId);
-          serverFeedsData[idx].comments[commentIdx].comments.unshift(commentData);
-        } else {
-          serverFeedsData[idx].comments.unshift(commentData);
-        }
+    console.log("commentId handler : ", commentId);
+    console.log("feedId handler : ", feedId);
 
-        res.json(commentData);
+    const commentData = req.body;
+
+    console.log("commentData : ", commentData);
+    const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
+    if (isCommentInfoProps(commentData)) {
+      const commentIdx = serverFeedsData[idx].comments.findIndex((comment) => comment.commentId === commentId);
+      console.log("commentIdx : ", commentIdx);
+      if (commentIdx > -1) {
+        serverFeedsData[idx].comments[commentIdx].comments.unshift(commentData);
       } else {
-        res.json({ error: "Invalid data format" });
+        serverFeedsData[idx].comments.unshift(commentData);
       }
-    });
+
+      res.json(commentData);
+    } else {
+      res.json({ error: "Invalid data format" });
+    }
   }
 };
 
