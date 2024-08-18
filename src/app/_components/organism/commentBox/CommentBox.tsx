@@ -21,7 +21,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
     userImg,
     userId,
     userName,
-    commentId: v4(),
+    commentId: null,
     comment: text,
     createdAt,
     taggedUsers: [],
@@ -39,7 +39,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
         <FeedHeader {...headerProps} />
       </FeedComment.Header>
       <ScrollBox>
-        <UserComment userComment={myComment} />
+        <UserComment setUser={setUser} userComment={myComment} />
         {sortedComments.map((comment) => (
           <UserComment key={v4()} setUser={setUser} userComment={comment} />
         ))}

@@ -58,7 +58,7 @@ const addComment = async ({
   fetchData,
 }: {
   feedId: string;
-  commentId?: string;
+  commentId: string | null;
   fetchData: CommentInfoProps;
 }) => {
   try {
