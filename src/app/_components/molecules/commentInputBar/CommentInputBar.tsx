@@ -28,7 +28,7 @@ interface CommentInputBarProps {
 }
 
 export interface CommentToProps extends UserProps {
-  commentId: string | null;
+  commentId: string;
 }
 
 export default function CommentInputBar({ feedId, ver, commentTo, setUser }: CommentInputBarProps) {

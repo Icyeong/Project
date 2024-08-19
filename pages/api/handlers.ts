@@ -1,6 +1,6 @@
 import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedDummy";
 import { createUser, isMyInfoDetailProps, myInfoDetail, myinfoDetailProps } from "@/_dummyData/userDummy";
-import { FeedProps } from "@/_types/feed";
+import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
 import { Request, Response } from "express";
 
@@ -86,23 +86,27 @@ export const commentHandler = (req: Request, res: Response) => {
     const url = new URL(req.url || "", `${protocol}://${req.headers.host}`);
     const commentId = url.searchParams.get("id") || "0";
     const feedId = url.pathname.split("/")[3];
-
-    console.log("commentId handler : ", commentId);
-    console.log("feedId handler : ", feedId);
-
     const commentData = req.body;
 
-    console.log("commentData : ", commentData);
     const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
+    const feed = serverFeedsData[idx].comments;
     if (isCommentInfoProps(commentData)) {
-      const commentIdx = serverFeedsData[idx].comments.findIndex((comment) => comment.commentId === commentId);
-      console.log("commentIdx : ", commentIdx);
-      if (commentIdx > -1) {
-        serverFeedsData[idx].comments[commentIdx].comments.unshift(commentData);
-      } else {
-        serverFeedsData[idx].comments.unshift(commentData);
-      }
+      const addRecursively = (commentsArr: CommentInfoProps["comments"]) => {
+        for (let i = 0; i < commentsArr.length; i++) {
+          const commentIdx = commentsArr[i].commentId === commentId;
+          if (commentIdx) {
+            commentsArr[i].comments.unshift(commentData);
+            return true;
+          }
 
+          if (addRecursively(commentsArr[i].comments)) return true;
+        }
+        return false;
+      };
+
+      if (!addRecursively(feed)) {
+        feed.unshift(commentData);
+      }
       res.json(commentData);
     } else {
       res.json({ error: "Invalid data format" });
