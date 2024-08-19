@@ -80,7 +80,7 @@ export default function EditProfileForm() {
           onClick={handleSubmitClick}
           value={BUTTON_TEXT.SUBMIT}
           $bgColor="#0095f6 !important"
-          color="white"
+          color="white !important"
           isActive={isActive}
           disabled={!isActive}
         />
