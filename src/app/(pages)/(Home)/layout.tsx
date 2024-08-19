@@ -10,7 +10,7 @@ export default function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const showGnb = !noGnbPages.some((page) => pathname.startsWith(page));
   return (
     <HomeLayoutStyle.Layout>

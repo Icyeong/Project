@@ -12,8 +12,9 @@ import { useMemo } from "react";
 
 export default function MypageTemplate() {
   const { userInfo } = useAuthStore();
-  const pathname = usePathname().split("/")[1];
-  const curUser = decodeURIComponent(pathname);
+  const pathname = usePathname();
+  const user = pathname ? pathname.split("/")[1] : "";
+  const curUser = decodeURIComponent(user);
   const isMypage = curUser === userInfo.userName;
 
   const { fetchNextPage, data, isLoading } = useInfiniteQuery({

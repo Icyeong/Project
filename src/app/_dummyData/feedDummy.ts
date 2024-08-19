@@ -67,8 +67,8 @@ export const isCommentInfoProps = (data: any): data is CommentInfoProps => {
     typeof data.userImg === "string" &&
     Array.isArray(data.taggedUsers) &&
     data.taggedUsers.every((user: UserProps) => isUserProps(user)) &&
-    (data.comments === undefined || // comments is optional
-      (Array.isArray(data.comments) && data.comments.every((comment: any) => isCommentInfoProps(comment))))
+    Array.isArray(data.comments) &&
+    data.comments.every((comment: any) => isCommentInfoProps(comment))
   );
 };
 

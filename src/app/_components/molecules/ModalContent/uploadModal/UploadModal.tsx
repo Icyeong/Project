@@ -45,8 +45,8 @@ export default function UploadModal({ setStep }: UploadModalProps) {
           <Upload.Input ref={fileInputRef} type="file" onChange={handleFileChange} />
           <BaseButton
             type="submit"
-            color="white"
-            $bgColor="#0095F6"
+            color="white !important"
+            $bgColor="#0095F6 !important"
             radius={8}
             value="컴퓨터에서 선택"
             onClick={handleSelectClick}

@@ -20,6 +20,7 @@ import SearchContent from "../SearchContent/SearchContent";
 import useFeedStore from "@/_stores/client/feedStore";
 import { useOutsideClick } from "@/_hooks/useOutsideClick";
 import { ROUTE } from "@/_constant/route";
+import useGlobalStore from "@/_stores/client/globalStore";
 
 function Gnb() {
   const [gnbShape, setGnbShape] = useState<GnbShapeType>(GNB_SHAPE.ALL);
@@ -28,6 +29,7 @@ function Gnb() {
   const { resetFeedState } = useFeedStore();
   const { resetModalState } = useModalStore();
   const { closeModal, setModal } = useModalStore();
+  const { toggleMode } = useGlobalStore();
 
   const gnbRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -49,7 +51,9 @@ function Gnb() {
     setModal(MODAL.TEST);
   }, [setModal]);
 
-  const handleModeChangeClick = useCallback(() => {}, []);
+  const handleModeChangeClick = useCallback(() => {
+    toggleMode();
+  }, []);
   const handleTestClick = useCallback(() => {
     router.replace("/p/hello");
     setModal(MODAL.FEED);

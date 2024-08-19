@@ -26,6 +26,7 @@ export const ModalStyle = {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    background: transparent !important;
     svg {
       font-size: 25px;
       color: white;

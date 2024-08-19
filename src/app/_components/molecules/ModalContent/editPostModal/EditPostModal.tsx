@@ -71,7 +71,7 @@ export default function EditPostModal({ setStep }: EditPostProps) {
         <Write.Header>
           <IconButton awesomeIcon={faArrowLeft} color="gray" onClick={handleBackClick} />
           새 게시물 만들기
-          <BaseButton value="공유하기" color="#0095F6" onClick={handleNextClick} />
+          <BaseButton value="공유하기" color="#0095F6 !important" onClick={handleNextClick} />
         </Write.Header>
       </ModalStyle.Header>
       <ModalStyle.Body>

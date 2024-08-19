@@ -29,7 +29,7 @@ export const LoginWrapper = styled.div`
     a {
       font-size: 14px;
       font-weight: 600;
-      color: #0095f6;
+      color: #0095f6 !important;
       margin: 0;
     }
   }

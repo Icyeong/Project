@@ -22,7 +22,7 @@ export const Header = {
     margin-right: 7px;
   `,
   Follow: styled.button`
-    color: #0095f6;
+    color: #0095f6 !important;
     font-weight: 600;
     margin-right: 7px;
   `,

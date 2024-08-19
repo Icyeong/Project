@@ -19,8 +19,9 @@ interface MyInfoBoxProps {
 export default function MyInfoBox({ postCount }: MyInfoBoxProps) {
   const { userInfo } = useAuthStore();
   const { userId, userImg, userName } = userInfo;
-  const pathname = usePathname().split("/")[1];
-  const curUser = decodeURIComponent(pathname);
+  const pathname = usePathname();
+  const user = pathname ? pathname.split("/")[1] : "";
+  const curUser = decodeURIComponent(user);
   const isMypage = curUser === userName;
 
   const { data: infoDetail } = useCustomQuery<myinfoDetailProps, Error>(

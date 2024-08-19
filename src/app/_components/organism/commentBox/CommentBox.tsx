@@ -16,12 +16,13 @@ interface CommentBoxProps {
 
 export default function CommentBox({ feed }: CommentBoxProps) {
   const { feedId, userId, userImg, userName, text, likes, comments, createdAt } = feed;
+  const [commentIsOpened, setCommentIsOpened] = useState<Record<string, boolean>>({});
   const headerProps = { ...feed, size: "M" };
   const myComment = {
     userImg,
     userId,
     userName,
-    commentId: v4(),
+    commentId: "",
     comment: text,
     createdAt,
     taggedUsers: [],
@@ -33,15 +34,30 @@ export default function CommentBox({ feed }: CommentBoxProps) {
     setCommentTo(userInfo);
   };
 
+  const setCommentOpen = (openId: string) => {
+    setCommentIsOpened((prev) => ({ ...prev, [openId]: !prev[openId] }));
+  };
+
   return (
     <FeedComment.Container>
       <FeedComment.Header>
         <FeedHeader {...headerProps} />
       </FeedComment.Header>
       <ScrollBox>
-        <UserComment userComment={myComment} />
+        <UserComment
+          setUser={setUser}
+          userComment={myComment}
+          commentIsOpened={commentIsOpened}
+          setCommentOpen={setCommentOpen}
+        />
         {sortedComments.map((comment) => (
-          <UserComment key={v4()} setUser={setUser} userComment={comment} />
+          <UserComment
+            key={v4()}
+            setUser={setUser}
+            commentIsOpened={commentIsOpened}
+            setCommentOpen={setCommentOpen}
+            userComment={comment}
+          />
         ))}
       </ScrollBox>
       <FeedComment.InfoBox>

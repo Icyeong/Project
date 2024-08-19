@@ -45,7 +45,7 @@ export const NotFoundStyle = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100%;
   button {
     margin-top: 20px;
   }
@@ -67,6 +67,7 @@ export const HomeLayoutStyle = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
   `,
   SideSection: styled.section`
     display: flex;

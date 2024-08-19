@@ -1,4 +1,3 @@
-import { BASE_DOMAIN } from "@/_env/env";
 import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { getErrorHandler, getFetchOptions } from "@/_utils/utils";
 
@@ -58,7 +57,7 @@ const addComment = async ({
   fetchData,
 }: {
   feedId: string;
-  commentId?: string;
+  commentId: string;
   fetchData: CommentInfoProps;
 }) => {
   try {

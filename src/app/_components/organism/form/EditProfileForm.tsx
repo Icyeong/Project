@@ -79,8 +79,8 @@ export default function EditProfileForm() {
         <BaseButton
           onClick={handleSubmitClick}
           value={BUTTON_TEXT.SUBMIT}
-          $bgColor="#0095f6"
-          color="white"
+          $bgColor="#0095f6 !important"
+          color="white !important"
           isActive={isActive}
           disabled={!isActive}
         />

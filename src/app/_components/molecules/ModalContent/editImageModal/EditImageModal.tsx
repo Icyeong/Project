@@ -29,7 +29,7 @@ export default function EditImageModal({ setStep }: EditImageProps) {
         <Preview.Header>
           <IconButton awesomeIcon={faArrowLeft} color="gray" onClick={handleBackClick} />
           미리보기
-          <BaseButton value="다음" color="#0095F6" onClick={handleNextClick} />
+          <BaseButton value="다음" color="#0095F6 !important" onClick={handleNextClick} />
         </Preview.Header>
       </ModalStyle.Header>
       <ModalStyle.Body>

@@ -24,7 +24,7 @@ export default function RecommendedUserBar({ user }: RecommendedUsersProps) {
           isActive={true}
           value={user ? "팔로우" : "전환"}
           fontSize="12px"
-          color="#0095F6"
+          color="#0095F6 !important"
           onClick={handleFollowClick}
         />
       </Bar.User>
