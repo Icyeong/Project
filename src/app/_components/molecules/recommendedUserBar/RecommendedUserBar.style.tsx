@@ -25,7 +25,7 @@ export const Bar = {
     font-size: 12px;
     color: #737373;
     line-height: 16px;
-    span {
+    button {
       font-size: 14px;
       font-weight: 600;
       color: black;
