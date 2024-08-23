@@ -2,6 +2,7 @@ import { createFeeds, isCommentInfoProps, isFeedProps } from "@/_dummyData/feedD
 import { createUser, isMyInfoDetailProps, myInfoDetail, myinfoDetailProps } from "@/_dummyData/userDummy";
 import { CommentInfoProps, FeedProps } from "@/_types/feed";
 import { UserProps } from "@/_types/user";
+import { error } from "console";
 import { Request, Response } from "express";
 
 let serverFeedsData: FeedProps[] = createFeeds(300);
@@ -84,11 +85,13 @@ export const commentHandler = (req: Request, res: Response) => {
   const protocol = req.headers["x-forwarded-proto"] || "http";
   if (req.method === "POST") {
     const url = new URL(req.url || "", `${protocol}://${req.headers.host}`);
-    const commentId = url.searchParams.get("id") || "0";
+    const commentId = url.searchParams.get("id") || "";
     const feedId = url.pathname.split("/")[3];
     const commentData = req.body;
 
     const idx = serverFeedsData.findIndex((feed) => feed.feedId === feedId);
+
+    if (idx === -1) return res.json({ error: "Feed does not exist" });
     const feed = serverFeedsData[idx].comments;
     if (isCommentInfoProps(commentData)) {
       const addRecursively = (commentsArr: CommentInfoProps["comments"]) => {
