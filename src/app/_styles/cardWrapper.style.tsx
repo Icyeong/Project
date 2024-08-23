@@ -8,4 +8,8 @@ export const CardWarpper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;

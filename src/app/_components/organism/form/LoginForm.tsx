@@ -46,6 +46,7 @@ export default function LoginForm() {
       />
       <BaseButton
         value="로그인"
+        color="white !important"
         onClick={handleLoginClick}
         isActive={isActive}
         blueButton={true}

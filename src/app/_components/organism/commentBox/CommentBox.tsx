@@ -34,7 +34,7 @@ export default function CommentBox({ feed }: CommentBoxProps) {
     setCommentTo(userInfo);
   };
 
-  const setCommentOpen = (openId: string) => {
+  const handleCommentOpen = (openId: string) => {
     setCommentIsOpened((prev) => ({ ...prev, [openId]: !prev[openId] }));
   };
 
@@ -48,14 +48,14 @@ export default function CommentBox({ feed }: CommentBoxProps) {
           setUser={setUser}
           userComment={myComment}
           commentIsOpened={commentIsOpened}
-          setCommentOpen={setCommentOpen}
+          setCommentOpen={handleCommentOpen}
         />
         {sortedComments.map((comment) => (
           <UserComment
             key={v4()}
             setUser={setUser}
             commentIsOpened={commentIsOpened}
-            setCommentOpen={setCommentOpen}
+            setCommentOpen={handleCommentOpen}
             userComment={comment}
           />
         ))}

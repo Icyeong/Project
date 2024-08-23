@@ -20,7 +20,7 @@ interface UserCommentProps {
 
 export default function UserComment({ userComment, commentIsOpened, setUser, setCommentOpen }: UserCommentProps) {
   const { userId, userImg, userName, commentId, comment, comments, createdAt, taggedUsers } = userComment;
-  const curOpenId = `${commentId}-${userId}`;
+  const curOpenId = commentId;
 
   const textBoxRef = useRef<HTMLDivElement>(null);
   const router = useRouter();

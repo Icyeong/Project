@@ -47,10 +47,6 @@ function Gnb() {
     setGnbShape((prev) => (prev === GNB_SHAPE.ALL ? GNB_SHAPE.ICON_WITH_BOX : GNB_SHAPE.ALL));
   }, [gnbShape]);
 
-  const handleTestModalClick = useCallback(() => {
-    setModal(MODAL.TEST);
-  }, [setModal]);
-
   const handleModeChangeClick = useCallback(() => {
     toggleMode();
   }, []);
@@ -118,7 +114,6 @@ function Gnb() {
         <GnbStyle.Bottom>
           <NavButton name="모드 전환" icon={faCircleHalfStroke} onClick={handleModeChangeClick} />
           <NavButton name="로그아웃" icon={faArrowRightFromBracket} onClick={handleLogOutClick} />
-          <NavButton name="테스트" icon={faT} onClick={handleTestClick} />
         </GnbStyle.Bottom>
         <GnbContentBox gnbShape={gnbShape}>{getGnbContent()}</GnbContentBox>
       </GnbStyle.NavContainer>
