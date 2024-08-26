@@ -3,6 +3,7 @@ import withPlaiceholder from "@plaiceholder/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["avatars.githubusercontent.com", "cloudflare-ipfs.com", "loremflickr.com"],
     remotePatterns: [
       {
         protocol: "https",
