@@ -6,7 +6,7 @@
 
 이 프로젝트는 **Next.js**와 **TypeScript**를 활용해 인스타그램의 주요 기능을 클론 코딩한 것입니다. 프론트엔드와 백엔드를 통합한 서버리스 애플리케이션으로 **Vercel**에 배포되었습니다. 이 프로젝트의 주요 목표는 최신 웹 기술을 활용하여 사용자 경험을 최적화하고, 웹 개발의 최신 기술 스택을 깊이 이해하기 위해서 개발하였습니다.
 
-- **배포 링크**: [Instagram Clone](https://instagram-git-api-icyeongs-projects.vercel.app)
+- **배포 링크**: [Instagram Clone](https://instagram-five-theta.vercel.app)
 <br>
 
 ## Features
